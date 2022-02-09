@@ -1,5 +1,6 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { RouteComponentProps } from 'react-router-dom';
 
 import {
   Container,
@@ -15,7 +16,11 @@ import { createCategoryAction } from '../../../store/slices/categories';
 import Spinner from '../../atoms/spinner';
 import { RootState } from '../../../store';
 
-function AddCategoryPage(): JSX.Element {
+interface Props {
+  history: RouteComponentProps['history']
+}
+
+function AddCategoryPage({ history }: Props): JSX.Element {
   const dispatch = useDispatch();
   const [newCategory, setNewCategory] = useState('');
 
@@ -43,6 +48,12 @@ function AddCategoryPage(): JSX.Element {
     }
     return null;
   }, [error]);
+
+  const { userAuth } = useSelector((state: RootState) => state.auth);
+
+  useEffect(() => {
+    if (!userAuth) history.push('/');
+  }, [history, userAuth]);
 
   return (
     <SingleColumnLayout>

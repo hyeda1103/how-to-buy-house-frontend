@@ -27,15 +27,14 @@ function Header({ toggleTheme }: Props) {
                 { userAuth.name }
                 님, 반갑습니다
               </NavItem>
-              <NavItem to="/create">생성</NavItem>
-              <NavItem to="/post">포스트</NavItem>
+              <NavItem to="/create">글쓰기</NavItem>
+              <NavItem to="/post">모든 포스트</NavItem>
               {userAuth.isAdmin && (
                 <>
                   <NavItem to="/add-category">카테고리 더하기</NavItem>
                   <NavItem to="/category-list">카테고리 리스트</NavItem>
                 </>
               )}
-              <NavItem to="/post">포스트</NavItem>
               <NavItemWithNoLink onClick={() => dispatch(logoutAction())}>로그아웃</NavItemWithNoLink>
             </>
           ) : (
