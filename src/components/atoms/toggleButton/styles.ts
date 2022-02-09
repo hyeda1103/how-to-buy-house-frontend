@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { FaSun, FaMoon } from 'react-icons/fa';
-import { lightTheme } from '../../theme';
+
+import { lightTheme } from '../../../theme';
 
 export const ToggleContainer = styled.button`
   position: relative;

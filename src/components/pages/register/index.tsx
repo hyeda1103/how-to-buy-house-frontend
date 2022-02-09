@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { RouteComponentProps, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -11,14 +11,13 @@ import {
   StyledInput,
   GuideWrapper,
 } from './styles';
-import Layout from '../../components/Layout';
-import { Button } from '../../components/Button';
+import { RootState } from '../../../store';
+import { registerAction } from '../../../store/slices/users';
+import Spinner from '../../atoms/spinner';
+import { Button } from '../../atoms/basicButton';
+import SingleColumnLayout from '../../templates/singleColumnLayout/index';
 
-import { RootState } from '../../store';
-import { registerAction } from '../../store/slices/users';
-import Spinner from '../../components/atoms/spinner';
-
-function RegisterPage({ history, location }: RouteComponentProps) {
+function RegisterPage({ history }: RouteComponentProps) {
   const dispatch = useDispatch();
 
   const [formValues, setFormValues] = useState({
@@ -42,7 +41,7 @@ function RegisterPage({ history, location }: RouteComponentProps) {
   };
 
   const {
-    loading, error,
+    loading, error, registered,
   } = useSelector((state: RootState) => state.auth);
 
   const buttonContent = useMemo(() => {
@@ -59,8 +58,12 @@ function RegisterPage({ history, location }: RouteComponentProps) {
     return null;
   }, [error]);
 
+  useEffect(() => {
+    if (registered) history.push('/profile');
+  }, [registered]);
+
   return (
-    <Layout>
+    <SingleColumnLayout>
       <Container>
         <Title>
           <Text>
@@ -131,7 +134,7 @@ function RegisterPage({ history, location }: RouteComponentProps) {
           <Link to="/login">로그인</Link>
         </GuideWrapper>
       </Container>
-    </Layout>
+    </SingleColumnLayout>
   );
 }
 

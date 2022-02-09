@@ -5,12 +5,12 @@ import { ThemeProvider } from 'styled-components';
 // Common
 import GlobalStyle from './globalStyles';
 import { lightTheme, darkTheme } from './theme';
-import Header from './components/Header';
+import Header from './components/organisms/header';
 
 // Pages
-import HomePage from './pages/Home';
-import RegisterPage from './pages/Register';
-import LoginPage from './pages/Login/index';
+import HomePage from './components/pages/home';
+import RegisterPage from './components/pages/register';
+import LoginPage from './components/pages/login';
 
 function App(): JSX.Element {
   const [theme, setTheme] = useState(lightTheme);

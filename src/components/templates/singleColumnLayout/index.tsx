@@ -5,7 +5,7 @@ interface IProps {
   children: JSX.Element
 }
 
-function Layout({ children }: IProps) {
+function SingleColumnLayout({ children }: IProps) {
   return (
     <Container>
       <Inner>
@@ -15,4 +15,4 @@ function Layout({ children }: IProps) {
   );
 }
 
-export default Layout;
+export default SingleColumnLayout;

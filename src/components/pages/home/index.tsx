@@ -1,12 +1,12 @@
 import React from 'react';
 
-import Layout from '../../components/Layout';
+import SingleColumnLayout from '../../templates/singleColumnLayout';
 
 function HomePage(): JSX.Element {
   return (
-    <Layout>
+    <SingleColumnLayout>
       <h1>Home</h1>
-    </Layout>
+    </SingleColumnLayout>
   );
 }
 

@@ -3,13 +3,13 @@ import React from 'react';
 import {
   Container, Inner, Logo, NavList, NavItem, NavItemWithNoLink,
 } from './styles';
-import Toggle from '../Toggle';
+import Toggle from '../../atoms/toggleButton';
 
-interface IProps {
+interface Props {
   toggleTheme: () => void
 }
 
-function Header({ toggleTheme }: IProps) {
+function Header({ toggleTheme }: Props) {
   return (
     <Container>
       <Inner>
