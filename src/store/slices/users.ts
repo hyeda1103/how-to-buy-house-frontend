@@ -31,7 +31,7 @@ export const registerAction = createAsyncThunk(
       if (!(error as AxiosError).response) {
         throw error;
       }
-      return rejectWithValue((error as AxiosError)?.response?.data.reason);
+      return rejectWithValue((error as AxiosError)?.response?.data);
     }
   },
 );
@@ -41,32 +41,33 @@ interface UserState {
   loading: boolean;
   userAuth: 'register' | 'login'
   registered: T.User
-  appErr?: string
-  serverErr?: any
+  error?: string
 }
+
+// get user from local storage and place into store
+const userLoginFromStorage = localStorage.getItem('userInfo')
+  ? JSON.parse(`${localStorage.getItem('userInfo')}`)
+  : null;
 
 const usersSlice = createSlice({
   name: 'users',
   initialState: {
-    userAuth: 'login',
+    userAuth: userLoginFromStorage,
   } as UserState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(registerAction.pending, (state, action) => {
       state.loading = true;
-      state.appErr = undefined;
-      state.serverErr = undefined;
+      state.error = undefined;
     });
     builder.addCase(registerAction.fulfilled, (state, action) => {
       state.loading = false;
       state.registered = action.payload;
-      state.appErr = undefined;
-      state.serverErr = undefined;
+      state.error = undefined;
     });
     builder.addCase(registerAction.rejected, (state, action) => {
       state.loading = false;
-      state.appErr = (action.payload as any);
-      state.serverErr = action.payload;
+      state.error = (action.payload as any).error;
     });
   },
 });

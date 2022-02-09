@@ -13,8 +13,9 @@ import {
 } from './styles';
 import Layout from '../../components/Layout';
 import { Button } from '../../components/Button';
-import { registerAction } from './slices';
+
 import { RootState } from '../../store';
+import { registerAction } from '../../store/slices/users';
 import Spinner from '../../components/atoms/spinner';
 
 function RegisterPage({ history, location }: RouteComponentProps) {
@@ -41,10 +42,8 @@ function RegisterPage({ history, location }: RouteComponentProps) {
   };
 
   const {
-    loading, appErr, serverErr,
+    loading, error,
   } = useSelector((state: RootState) => state.auth);
-
-  console.log(appErr, serverErr);
 
   const buttonContent = useMemo(() => {
     if (loading) {
@@ -52,6 +51,13 @@ function RegisterPage({ history, location }: RouteComponentProps) {
     }
     return '회원가입';
   }, [loading]);
+
+  const errorMessage = useMemo(() => {
+    if (error) {
+      return error;
+    }
+    return null;
+  }, [error]);
 
   return (
     <Layout>
@@ -61,13 +67,7 @@ function RegisterPage({ history, location }: RouteComponentProps) {
             회원가입
           </Text>
         </Title>
-        {appErr || serverErr ? (
-          <div>
-            {serverErr}
-            {' '}
-            {appErr}
-          </div>
-        ) : null}
+        {errorMessage && errorMessage}
         <StyledForm onSubmit={submitHandler}>
           <StyledLabel htmlFor="name">
             <Text>
