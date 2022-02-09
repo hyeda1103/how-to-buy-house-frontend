@@ -11,6 +11,7 @@ import Header from './components/organisms/header';
 import HomePage from './components/pages/home';
 import RegisterPage from './components/pages/register';
 import LoginPage from './components/pages/login';
+import AddCategoryPage from './components/pages/addCategory';
 
 function App(): JSX.Element {
   const [theme, setTheme] = useState(lightTheme);
@@ -32,6 +33,7 @@ function App(): JSX.Element {
           <Route exact path="/" component={HomePage} />
           <Route exact path="/register" component={RegisterPage} />
           <Route exact path="/login" component={LoginPage} />
+          <Route exact path="/add-category" component={AddCategoryPage} />
         </Switch>
       </ThemeProvider>
     </Router>
