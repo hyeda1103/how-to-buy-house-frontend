@@ -103,7 +103,7 @@ function LoginPage({ history }: RouteComponentProps) {
         <GuideWrapper>
           새로 왔나요?
           {' '}
-          <Link to="/login">회원가입</Link>
+          <Link to="/register">회원가입</Link>
         </GuideWrapper>
       </Container>
     </SingleColumnLayout>
