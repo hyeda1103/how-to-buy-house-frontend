@@ -39,4 +39,6 @@ export const NavItem = styled(Link)`
 
 export const NavItemWithNoLink = styled.span`
   ${Item}
+  font-size: 14px;
+  cursor: pointer;
 `;

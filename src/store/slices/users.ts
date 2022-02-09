@@ -67,6 +67,21 @@ export const loginAction = createAsyncThunk(
   },
 );
 
+export const logoutAction = createAsyncThunk(
+  'user/logout',
+  async (payload, { rejectWithValue, getState, dispatch }) => {
+    try {
+      localStorage.removeItem('userInfo');
+      return null;
+    } catch (error) {
+      if (!(error as AxiosError).response) {
+        throw error;
+      }
+      return rejectWithValue((error as AxiosError)?.response?.data);
+    }
+  },
+);
+
 // slices
 interface UserState {
   loading: boolean;
@@ -113,7 +128,20 @@ const usersSlice = createSlice({
     });
     builder.addCase(loginAction.rejected, (state, action) => {
       state.loading = false;
-      state.error = (action.payload as any).error;
+      state.error = (action.payload as any).error || (action.payload as any).message;
+    });
+    // logout
+    builder.addCase(logoutAction.pending, (state, action) => {
+      state.loading = false;
+    });
+    builder.addCase(logoutAction.fulfilled, (state, action) => {
+      state.userAuth = undefined;
+      state.loading = false;
+      state.error = undefined;
+    });
+    builder.addCase(logoutAction.rejected, (state, action) => {
+      state.loading = false;
+      state.error = (action.payload as any).error || (action.payload as any).message;
     });
   },
 });
