@@ -14,6 +14,7 @@ import LoginPage from './components/pages/login';
 import AddCategoryPage from './components/pages/addCategory';
 import CategoryListPage from './components/pages/categoryList';
 import UpdateCategoryPage from './components/pages/updateCategory';
+import ProfilePage from './components/pages/profile/index';
 
 function App(): JSX.Element {
   const [theme, setTheme] = useState(lightTheme);
@@ -33,6 +34,7 @@ function App(): JSX.Element {
         <Header toggleTheme={updateTheme} />
         <Switch>
           <Route exact path="/" component={HomePage} />
+          <Route exact path="/profile" component={ProfilePage} />
           <Route exact path="/register" component={RegisterPage} />
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/add-category" component={AddCategoryPage} />

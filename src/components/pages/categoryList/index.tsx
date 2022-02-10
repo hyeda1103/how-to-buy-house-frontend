@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 
 import { RootState } from '../../../store';
 import { deleteCategoriesAction, fetchCategoriesAction } from '../../../store/slices/categories';
@@ -15,16 +15,27 @@ import {
   ProfileImage,
 } from './styles';
 
-function CategoryListPage(): JSX.Element {
+interface Props {
+  history: RouteComponentProps['history']
+}
+
+function CategoryListPage({ history }: Props): JSX.Element {
   const dispatch = useDispatch();
 
   const category = useSelector((state: RootState) => state.category);
   const {
     loading, error, categoryList, isDeleted,
   } = category;
+
   useEffect(() => {
     dispatch(fetchCategoriesAction());
   }, [dispatch, isDeleted]);
+
+  const { userAuth } = useSelector((state: RootState) => state.auth);
+
+  useEffect(() => {
+    if (!userAuth) history.push('/');
+  }, [history, userAuth]);
 
   return (
     <SingleColumnLayout>
