@@ -86,7 +86,7 @@ export const logoutAction = createAsyncThunk(
 interface UserState {
   loading: boolean;
   userAuth: any
-  registered: T.User
+  registered: T.UserRegister
   error?: string
 }
 

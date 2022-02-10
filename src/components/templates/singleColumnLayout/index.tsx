@@ -1,11 +1,11 @@
 import React from 'react';
 import { Container, Inner } from './styles';
 
-interface IProps {
-  children: JSX.Element
+interface Props {
+  children: React.ReactChild | JSX.Element[] | JSX.Element
 }
 
-function SingleColumnLayout({ children }: IProps) {
+function SingleColumnLayout({ children }: Props) {
   return (
     <Container>
       <Inner>

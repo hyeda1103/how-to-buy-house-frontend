@@ -1,3 +1,3 @@
-import { User } from './users';
+import { UserRegister } from './users';
 
-export type { User };
+export type { UserRegister };
