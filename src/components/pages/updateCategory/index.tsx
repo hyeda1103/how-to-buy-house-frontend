@@ -12,34 +12,48 @@ import {
 } from './styles';
 import SingleColumnLayout from '../../templates/singleColumnLayout';
 import { Button } from '../../atoms/basicButton';
-import { createCategoryAction } from '../../../store/slices/categories';
+import { fetchCategoryAction, updateCategoriesAction, deleteCategoriesAction } from '../../../store/slices/categories';
 import Spinner from '../../atoms/spinner';
 import { RootState } from '../../../store';
+import * as T from '../../../types';
 
 interface Props {
   history: RouteComponentProps['history']
+  match: {
+    params: {
+      id: string
+    }
+  }
 }
 
-function AddCategoryPage({ history }: Props): JSX.Element {
+function UpdateCategoryPage({ history, match }: Props): JSX.Element {
+  const { id } = match.params;
+  const {
+    loading, error, category, isEdited,
+  } = useSelector((state: RootState) => state.category);
   const dispatch = useDispatch();
-  const [newCategory, setNewCategory] = useState('');
+  const [newCategory, setNewCategory] = useState<T.Category['title']>('');
+
+  useEffect(() => {
+    dispatch(fetchCategoryAction(id));
+  }, [dispatch, id, category.title]);
+
+  useEffect(() => {
+    if (category.title) setNewCategory(category.title);
+  }, [category.title]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => setNewCategory(e.target.value);
 
   const submitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    dispatch(createCategoryAction({ title: newCategory }));
+    if (newCategory) dispatch(updateCategoriesAction({ _id: id, title: newCategory }));
   };
-
-  const {
-    loading, error, category, isCreated,
-  } = useSelector((state: RootState) => state.category);
 
   const buttonContent = useMemo(() => {
     if (loading) {
       return <Spinner />;
     }
-    return '추가';
+    return '업데이트';
   }, [loading]);
 
   const errorMessage = useMemo(() => {
@@ -55,14 +69,14 @@ function AddCategoryPage({ history }: Props): JSX.Element {
     if (!userAuth) history.push('/');
   }, [history, userAuth]);
 
-  if (isCreated) history.push('/category-list');
+  if (isEdited) history.push('/category-list');
 
   return (
     <SingleColumnLayout>
       <Container>
         <Title>
           <Text>
-            카테고리 더하기
+            카테고리 업데이트
           </Text>
         </Title>
         {errorMessage && errorMessage}
@@ -86,4 +100,4 @@ function AddCategoryPage({ history }: Props): JSX.Element {
   );
 }
 
-export default AddCategoryPage;
+export default UpdateCategoryPage;

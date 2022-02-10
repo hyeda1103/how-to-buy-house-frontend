@@ -8,7 +8,7 @@ export const Dashboard = styled.div`
 
 export const DashboardHeader = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   width: 100%;
   gap: 1rem;
   padding: 1rem 0;
@@ -45,7 +45,7 @@ export const ProfileImage = styled.img`
 
 export const Row = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   width: 100%;
   gap: 1rem;
 `;

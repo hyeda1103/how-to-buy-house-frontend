@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { RootState } from '../../../store';
-import { fetchCategoriesAction } from '../../../store/slices/categories';
+import { deleteCategoriesAction, fetchCategoriesAction } from '../../../store/slices/categories';
 import SingleColumnLayout from '../../templates/singleColumnLayout';
 import dateFormatter from '../../../utils/dateFormatter';
 import {
@@ -16,12 +17,14 @@ import {
 
 function CategoryListPage(): JSX.Element {
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchCategoriesAction());
-  }, [dispatch]);
 
   const category = useSelector((state: RootState) => state.category);
-  const { loading, error, categoryList } = category;
+  const {
+    loading, error, categoryList, isDeleted,
+  } = category;
+  useEffect(() => {
+    dispatch(fetchCategoriesAction());
+  }, [dispatch, isDeleted]);
 
   return (
     <SingleColumnLayout>
@@ -39,6 +42,9 @@ function CategoryListPage(): JSX.Element {
           <div>
             편집
           </div>
+          <div>
+            삭제
+          </div>
         </DashboardHeader>
         <DashboardBody>
           {categoryList && categoryList.map((categoryItem) => (
@@ -53,8 +59,13 @@ function CategoryListPage(): JSX.Element {
               <div>{categoryItem.title}</div>
               <div>{dateFormatter(categoryItem.createdAt)}</div>
               <div>
-                <button type="button">
+                <Link to={`/update-category/${categoryItem._id}`}>
                   편집
+                </Link>
+              </div>
+              <div>
+                <button type="button" onClick={() => dispatch(deleteCategoriesAction(categoryItem._id))}>
+                  삭제
                 </button>
               </div>
             </Row>

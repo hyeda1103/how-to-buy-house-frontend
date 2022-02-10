@@ -13,6 +13,7 @@ import RegisterPage from './components/pages/register';
 import LoginPage from './components/pages/login';
 import AddCategoryPage from './components/pages/addCategory';
 import CategoryListPage from './components/pages/categoryList';
+import UpdateCategoryPage from './components/pages/updateCategory';
 
 function App(): JSX.Element {
   const [theme, setTheme] = useState(lightTheme);
@@ -35,6 +36,7 @@ function App(): JSX.Element {
           <Route exact path="/register" component={RegisterPage} />
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/add-category" component={AddCategoryPage} />
+          <Route exact path="/update-category/:id" component={UpdateCategoryPage} />
           <Route exact path="/category-list" component={CategoryListPage} />
         </Switch>
       </ThemeProvider>
