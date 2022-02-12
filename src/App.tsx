@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
+// Routes
+import PrivateRoute from './routes/privateRoute';
+
 // Common
 import GlobalStyle from './globalStyles';
 import { lightTheme, darkTheme } from './theme';
@@ -34,10 +37,10 @@ function App(): JSX.Element {
         <Header toggleTheme={updateTheme} />
         <Switch>
           <Route exact path="/" component={HomePage} />
-          <Route exact path="/profile" component={ProfilePage} />
+          <PrivateRoute exact path="/profile" component={ProfilePage} />
           <Route exact path="/register" component={RegisterPage} />
           <Route exact path="/login" component={LoginPage} />
-          <Route exact path="/add-category" component={AddCategoryPage} />
+          <PrivateRoute exact path="/add-category" component={AddCategoryPage} />
           <Route exact path="/update-category/:id" component={UpdateCategoryPage} />
           <Route exact path="/category-list" component={CategoryListPage} />
         </Switch>
