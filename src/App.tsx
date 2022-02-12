@@ -4,6 +4,7 @@ import { ThemeProvider } from 'styled-components';
 
 // Routes
 import PrivateRoute from './routes/privateRoute';
+import AdminRoute from './routes/adminRoute';
 
 // Common
 import GlobalStyle from './globalStyles';
@@ -40,9 +41,9 @@ function App(): JSX.Element {
           <PrivateRoute exact path="/profile" component={ProfilePage} />
           <Route exact path="/register" component={RegisterPage} />
           <Route exact path="/login" component={LoginPage} />
-          <PrivateRoute exact path="/add-category" component={AddCategoryPage} />
-          <Route exact path="/update-category/:id" component={UpdateCategoryPage} />
-          <Route exact path="/category-list" component={CategoryListPage} />
+          <AdminRoute exact path="/add-category" component={AddCategoryPage} />
+          <AdminRoute exact path="/update-category/:id" component={UpdateCategoryPage} />
+          <AdminRoute exact path="/category-list" component={CategoryListPage} />
         </Switch>
       </ThemeProvider>
     </Router>
