@@ -27,7 +27,7 @@ function Header({ toggleTheme }: Props) {
                 { userAuth.name }
                 님, 반갑습니다
               </NavItem>
-              <NavItem to="/create">글쓰기</NavItem>
+              <NavItem to="/create-post">글쓰기</NavItem>
               <NavItem to="/post">모든 포스트</NavItem>
               {userAuth.isAdmin && (
                 <>

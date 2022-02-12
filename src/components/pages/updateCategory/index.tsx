@@ -36,11 +36,11 @@ function UpdateCategoryPage({ history, match }: Props): JSX.Element {
 
   useEffect(() => {
     dispatch(fetchCategoryAction(id));
-  }, [dispatch, id, category.title]);
+  }, [dispatch, id]);
 
   useEffect(() => {
-    if (category.title) setNewCategory(category.title);
-  }, [category.title]);
+    if (category) setNewCategory(category?.title);
+  }, [category]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => setNewCategory(e.target.value);
 
@@ -62,12 +62,6 @@ function UpdateCategoryPage({ history, match }: Props): JSX.Element {
     }
     return null;
   }, [error]);
-
-  const { userAuth } = useSelector((state: RootState) => state.auth);
-
-  useEffect(() => {
-    if (!userAuth) history.push('/');
-  }, [history, userAuth]);
 
   if (isEdited) history.push('/category-list');
 

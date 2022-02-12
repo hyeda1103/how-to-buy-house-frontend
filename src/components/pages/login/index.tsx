@@ -57,7 +57,7 @@ function LoginPage({ history }: RouteComponentProps) {
   }, [error]);
 
   useEffect(() => {
-    if (userAuth) history.push('/profile');
+    if (userAuth) history.push('/');
   }, [userAuth]);
 
   return (

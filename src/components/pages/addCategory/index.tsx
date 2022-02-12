@@ -49,12 +49,6 @@ function AddCategoryPage({ history }: Props): JSX.Element {
     return null;
   }, [error]);
 
-  const { userAuth } = useSelector((state: RootState) => state.auth);
-
-  useEffect(() => {
-    if (!userAuth) history.push('/');
-  }, [history, userAuth]);
-
   if (isCreated) history.push('/category-list');
 
   return (

@@ -54,10 +54,6 @@ function ProfilePage({ history }: RouteComponentProps) {
   }, [error]);
 
   useEffect(() => {
-    if (userAuth) history.push('/profile');
-  }, [userAuth]);
-
-  useEffect(() => {
     if (userAuth) {
       setFormValues({
         name: userAuth.name,

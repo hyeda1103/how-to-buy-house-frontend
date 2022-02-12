@@ -19,6 +19,7 @@ import AddCategoryPage from './components/pages/addCategory';
 import CategoryListPage from './components/pages/categoryList';
 import UpdateCategoryPage from './components/pages/updateCategory';
 import ProfilePage from './components/pages/profile/index';
+import CreatePostPage from './components/pages/createPost/index';
 
 function App(): JSX.Element {
   const [theme, setTheme] = useState(lightTheme);
@@ -44,6 +45,7 @@ function App(): JSX.Element {
           <AdminRoute exact path="/add-category" component={AddCategoryPage} />
           <AdminRoute exact path="/update-category/:id" component={UpdateCategoryPage} />
           <AdminRoute exact path="/category-list" component={CategoryListPage} />
+          <AdminRoute exact path="/create-post" component={CreatePostPage} />
         </Switch>
       </ThemeProvider>
     </Router>
