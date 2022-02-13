@@ -18,8 +18,8 @@ import LoginPage from './components/pages/login';
 import AddCategoryPage from './components/pages/addCategory';
 import CategoryListPage from './components/pages/categoryList';
 import UpdateCategoryPage from './components/pages/updateCategory';
-import ProfilePage from './components/pages/profile/index';
-import CreatePostPage from './components/pages/createPost/index';
+import ProfilePage from './components/pages/profile';
+import CreatePostPage from './components/pages/createPost';
 
 function App(): JSX.Element {
   const [theme, setTheme] = useState(lightTheme);
