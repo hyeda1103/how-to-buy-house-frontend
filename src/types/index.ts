@@ -1,5 +1,7 @@
-import { UserRegister } from './users';
+import { UserRegister, User } from './users';
 import { Category } from './category';
-import { Post } from './post';
+import { Post, PostCreate } from './post';
 
-export type { UserRegister, Category, Post };
+export type {
+  UserRegister, User, Category, Post, PostCreate,
+};

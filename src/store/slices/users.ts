@@ -85,7 +85,7 @@ export const logoutAction = createAsyncThunk(
 // slices
 interface UserState {
   loading: boolean;
-  userAuth: any
+  userAuth?: T.User;
   registered: T.UserRegister
   error?: string
 }

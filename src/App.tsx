@@ -13,13 +13,15 @@ import Header from './components/organisms/header';
 
 // Pages
 import HomePage from './components/pages/home';
+import ProfilePage from './components/pages/profile';
 import RegisterPage from './components/pages/register';
 import LoginPage from './components/pages/login';
 import AddCategoryPage from './components/pages/addCategory';
 import CategoryListPage from './components/pages/categoryList';
 import UpdateCategoryPage from './components/pages/updateCategory';
-import ProfilePage from './components/pages/profile';
 import CreatePostPage from './components/pages/createPost';
+import PostListPage from './components/pages/postList';
+import PostDetailsPage from './components/pages/postDetails';
 
 function App(): JSX.Element {
   const [theme, setTheme] = useState(lightTheme);
@@ -42,6 +44,8 @@ function App(): JSX.Element {
           <PrivateRoute exact path="/profile" component={ProfilePage} />
           <Route exact path="/register" component={RegisterPage} />
           <Route exact path="/login" component={LoginPage} />
+          <Route exact path="/posts" component={PostListPage} />
+          <Route exact path="/posts/:id" component={PostDetailsPage} />
           <AdminRoute exact path="/add-category" component={AddCategoryPage} />
           <AdminRoute exact path="/update-category/:id" component={UpdateCategoryPage} />
           <AdminRoute exact path="/category-list" component={CategoryListPage} />

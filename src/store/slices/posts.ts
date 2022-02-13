@@ -13,7 +13,7 @@ const resetPostDelete = createAction('post/delete');
 // Create
 export const createPostAction = createAsyncThunk(
   'post/created',
-  async (post: T.Post, { rejectWithValue, getState, dispatch }) => {
+  async (post: T.PostCreate, { rejectWithValue, getState, dispatch }) => {
     // get user token
     const user = (getState() as any)?.auth;
     const { userAuth } = user;
@@ -108,7 +108,7 @@ export const deletePostAction = createAsyncThunk(
 // fetch all posts
 export const fetchPostsAction = createAsyncThunk(
   'post/list',
-  async (category, { rejectWithValue, getState, dispatch }) => {
+  async (category: T.Category['title'], { rejectWithValue, getState, dispatch }) => {
     try {
       const { data } = await axios.get(
         `${process.env.REACT_APP_BASE_URL}/api/posts?category=${category}`,
@@ -123,7 +123,7 @@ export const fetchPostsAction = createAsyncThunk(
 // fetch Post details
 export const fetchPostDetailsAction = createAsyncThunk(
   'post/detail',
-  async (id, { rejectWithValue, getState, dispatch }) => {
+  async (id: T.Post['id'], { rejectWithValue, getState, dispatch }) => {
     try {
       const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/posts/${id}`);
       return data;
@@ -137,7 +137,7 @@ export const fetchPostDetailsAction = createAsyncThunk(
 // Add Likes to post
 export const toggleAddLikesToPost = createAsyncThunk(
   'post/like',
-  async (postId, { rejectWithValue, getState, dispatch }) => {
+  async (postId: T.Post['id'], { rejectWithValue, getState, dispatch }) => {
     // get user token
     const user = (getState() as any)?.auth;
     const { userAuth } = user;
@@ -165,7 +165,7 @@ export const toggleAddLikesToPost = createAsyncThunk(
 // Add DisLikes to post
 export const toggleAddDisLikesToPost = createAsyncThunk(
   'post/dislike',
-  async (postId, { rejectWithValue, getState, dispatch }) => {
+  async (postId: T.Post['id'], { rejectWithValue, getState, dispatch }) => {
     // get user token
     const user = (getState() as any)?.auth;
     const { userAuth } = user;
@@ -198,7 +198,7 @@ interface PostState {
   isUpdated: boolean;
   postUpdated: boolean;
   isDeleted: boolean;
-  postLists: Array<T.Post>;
+  postList: Array<T.Post>;
   postDetails: T.Post;
   likes: Array<string>;
   dislikes: Array<string>;
@@ -269,7 +269,7 @@ const postSlice = createSlice({
       state.loading = true;
     });
     builder.addCase(fetchPostsAction.fulfilled, (state, action) => {
-      state.postLists = action?.payload;
+      state.postList = action?.payload;
       state.loading = false;
       state.error = undefined;
     });

@@ -28,7 +28,7 @@ function Header({ toggleTheme }: Props) {
                 님, 반갑습니다
               </NavItem>
               <NavItem to="/create-post">글쓰기</NavItem>
-              <NavItem to="/post">모든 포스트</NavItem>
+              <NavItem to="/posts">모든 포스트</NavItem>
               {userAuth.isAdmin && (
                 <>
                   <NavItem to="/add-category">카테고리 더하기</NavItem>
