@@ -79,7 +79,7 @@ export const updatePostAction = createAsyncThunk(
 // Delete
 export const deletePostAction = createAsyncThunk(
   'post/delete',
-  async (postId, { rejectWithValue, getState, dispatch }) => {
+  async (postId: T.Post['id'], { rejectWithValue, getState, dispatch }) => {
     // get user token
     const user = (getState() as any)?.auth;
     const { userAuth } = user;

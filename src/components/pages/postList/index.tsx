@@ -112,7 +112,7 @@ function PostListPage(): JSX.Element {
                 </Link>
                 {/* User Avatar */}
                 <Link
-                  to={`/profile/${post?.user?.id}`}
+                  to={`/profile/${post?.user?._id}`}
                 >
                   <AuthorInfoWrapper>
                     <ProfilePhoto
