@@ -22,6 +22,7 @@ import UpdateCategoryPage from './components/pages/updateCategory';
 import CreatePostPage from './components/pages/createPost';
 import PostListPage from './components/pages/postList';
 import PostDetailsPage from './components/pages/postDetails';
+import UpdatePostPage from './components/pages/updatePost';
 
 function App(): JSX.Element {
   const [theme, setTheme] = useState(lightTheme);
@@ -46,6 +47,7 @@ function App(): JSX.Element {
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/posts" component={PostListPage} />
           <Route exact path="/posts/:id" component={PostDetailsPage} />
+          <AdminRoute exact path="/update-post/:id" component={UpdatePostPage} />
           <AdminRoute exact path="/add-category" component={AddCategoryPage} />
           <AdminRoute exact path="/update-category/:id" component={UpdateCategoryPage} />
           <AdminRoute exact path="/category-list" component={CategoryListPage} />

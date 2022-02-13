@@ -12,7 +12,7 @@ import {
 } from './styles';
 import SingleColumnLayout from '../../templates/singleColumnLayout';
 import { Button } from '../../atoms/basicButton';
-import { fetchCategoryAction, updateCategoriesAction, deleteCategoriesAction } from '../../../store/slices/categories';
+import { fetchCategoryAction, updateCategoriesAction, deleteCategoriesAction } from '../../../store/slices/category';
 import Spinner from '../../atoms/spinner';
 import { RootState } from '../../../store';
 import * as T from '../../../types';

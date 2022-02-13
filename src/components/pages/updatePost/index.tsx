@@ -8,7 +8,7 @@ import { DropEvent, FileRejection } from 'react-dropzone';
 
 import { RouteComponentProps } from 'react-router-dom';
 import { RootState } from '../../../store';
-import { createPostAction } from '../../../store/slices/post';
+import { fetchPostDetailsAction, updatePostAction } from '../../../store/slices/post';
 import { Button } from '../../atoms/basicButton';
 import SingleColumnLayout from '../../templates/singleColumnLayout';
 import Spinner from '../../atoms/spinner';
@@ -85,84 +85,100 @@ interface Form {
 
 interface Props {
   history: RouteComponentProps['history']
+  match: {
+    params: {
+      id: string
+    }
+  }
 }
 
-function CreatePostPage({ history }: Props) {
+function UpdatePostPage({ history, match }: Props) {
+  const { id } = match.params;
   const dispatch = useDispatch();
 
-  const [formValues, setFormValues] = useState<Form>({
-    title: '',
-    category: '',
-    description: '',
-    image: undefined,
-  });
-  const [options, setOptions] = useState<Array<Option>>();
+  useEffect(() => {
+    dispatch(fetchPostDetailsAction(id));
+  }, [dispatch, id]);
 
   const {
-    title, description, image,
-  } = formValues;
+    postDetails, loading, error, isUpdated,
+  } = useSelector((state: RootState) => state.post);
+  if (isUpdated) history.push('/posts');
+
+  const [formValues, setFormValues] = useState({
+    title: '',
+    description: '',
+  });
+  const [category, setCategory] = useState();
+  const [image, setImage] = useState<Blob | undefined>();
 
   useEffect(() => {
     dispatch(fetchCategoriesAction());
-  }, []);
+  }, [dispatch]);
 
-  const { isCreated, loading: loadingPost, error: errorPost } = useSelector((state: RootState) => state.post);
-  if (isCreated) history.push('/posts');
-
+  const [options, setOptions] = useState<Array<Option>>();
   const { categoryList, loading: loadingCategoryList, error: errorCategoryList } = useSelector((state: RootState) => state.category);
-  const placeholder = useMemo(() => {
-    if (loadingCategoryList) {
-      return '로딩 중...';
-    }
-    return '카테고리를 선택하세요';
-  }, [loadingCategoryList]);
-
   useEffect(() => {
-    const selectOptions = categoryList?.map((category) => ({
-      value: category._id,
-      label: category.title,
+    const selectOptions = categoryList?.map((categoryItem) => ({
+      value: categoryItem._id,
+      label: categoryItem.title,
     }));
     setOptions(selectOptions);
   }, [categoryList]);
+
+  useEffect(() => {
+    setFormValues({
+      title: postDetails?.title || '',
+      description: postDetails?.description || '',
+    });
+  }, [postDetails]);
+
+  const {
+    title, description,
+  } = formValues;
 
   const handleChange = (keyName: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormValues({ ...formValues, [keyName]: e.target.value });
   };
 
   const handleFileDrop
-    : (acceptedFiles: Blob[], fileRejections: FileRejection[], event: DropEvent) => void | undefined = (acceptedFiles) => setFormValues({ ...formValues, image: acceptedFiles[0] });
+    : (acceptedFiles: Blob[], fileRejections: FileRejection[], event: DropEvent) => void | undefined = (acceptedFiles) => setImage(acceptedFiles[0]);
 
   const submitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    dispatch(createPostAction(formValues));
+    const data = {
+      ...formValues,
+      _id: id,
+      category: category || postDetails?.category,
+      image: image || postDetails?.image,
+    };
+    console.log(data);
+    dispatch(updatePostAction(data));
   };
 
   const buttonContent = useMemo(() => {
-    if (loadingPost) {
+    if (loading) {
       return <Spinner />;
     }
-    return '포스트';
-  }, [loadingPost]);
+    return '업데이트';
+  }, [loading]);
 
   const errorMessage = useMemo(() => {
-    if (errorPost) {
-      return errorPost;
+    if (error) {
+      return error;
     }
     return null;
-  }, [errorPost]);
+  }, [error]);
 
   // selector props
-  const handleSelectChange = (e: any) => setFormValues({
-    ...formValues,
-    category: e.label,
-  });
+  const handleSelectChange = (e: any) => setCategory(e.label);
 
   return (
     <SingleColumnLayout>
       <Container>
         <Title>
           <Text>
-            새로운 포스트
+            포스트 업데이트
           </Text>
         </Title>
         {errorMessage && errorMessage}
@@ -224,4 +240,4 @@ function CreatePostPage({ history }: Props) {
   );
 }
 
-export default CreatePostPage;
+export default UpdatePostPage;

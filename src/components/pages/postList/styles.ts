@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { IoThumbsUp, IoThumbsDown, IoEye } from 'react-icons/io5';
 
 export const Grid = styled.div`
@@ -48,9 +48,17 @@ export const StatItem = styled.div`
   gap: 0.5rem;
 `;
 
-export const ThumbsUpIcon = styled(IoThumbsUp)``;
+const Icon = css`
+  cursor: pointer;
+`;
 
-export const ThumbsDownIcon = styled(IoThumbsDown)``;
+export const ThumbsUpIcon = styled(IoThumbsUp)`
+  ${Icon}
+`;
+
+export const ThumbsDownIcon = styled(IoThumbsDown)`
+  ${Icon}
+`;
 
 export const EyeIcon = styled(IoEye)``;
 

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 
 import { RootState } from '../../../store';
-import { deleteCategoriesAction, fetchCategoriesAction } from '../../../store/slices/categories';
+import { deleteCategoriesAction, fetchCategoriesAction } from '../../../store/slices/category';
 import SingleColumnLayout from '../../templates/singleColumnLayout';
 import dateFormatter from '../../../utils/dateFormatter';
 import {

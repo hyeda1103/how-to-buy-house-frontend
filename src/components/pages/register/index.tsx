@@ -12,7 +12,7 @@ import {
   GuideWrapper,
 } from './styles';
 import { RootState } from '../../../store';
-import { registerAction } from '../../../store/slices/users';
+import { registerAction } from '../../../store/slices/user';
 import Spinner from '../../atoms/spinner';
 import { Button } from '../../atoms/basicButton';
 import SingleColumnLayout from '../../templates/singleColumnLayout/index';

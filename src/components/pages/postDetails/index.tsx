@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import SingleColumnLayout from '../../templates/singleColumnLayout';
 import { RootState } from '../../../store';
-import { fetchPostDetailsAction, deletePostAction } from '../../../store/slices/posts';
+import { fetchPostDetailsAction, deletePostAction } from '../../../store/slices/post';
 
 interface Props {
   match: {
@@ -27,7 +27,6 @@ function PostDetailsPage({ match, history }: Props): JSX.Element {
     userAuth,
   } = useSelector((state: RootState) => state.auth);
   const isCreatedBy = useMemo(() => postDetails?.user?._id === userAuth?._id, [postDetails, userAuth]);
-  console.log(postDetails.user, userAuth);
 
   useEffect(() => {
     dispatch(fetchPostDetailsAction(id));
@@ -40,14 +39,14 @@ function PostDetailsPage({ match, history }: Props): JSX.Element {
         <p>{postDetails.description}</p>
           {isCreatedBy ? (
             <p>
-              <Link to={`/update-post/${postDetails?.id}`}>
+              <Link to={`/update-post/${postDetails?._id}`}>
                 편집
               </Link>
               <button
                 type="button"
                 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
                 /* eslint-disable jsx-a11y/click-events-have-key-events */
-                onClick={() => dispatch(deletePostAction(postDetails?.id))}
+                onClick={() => dispatch(deletePostAction(postDetails?._id))}
               >
                 삭제
               </button>

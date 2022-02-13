@@ -1,6 +1,7 @@
 import { User } from './users';
 
 export interface PostCreate {
+  _id?: string
   title: string
   description: string
   category: string
@@ -8,7 +9,7 @@ export interface PostCreate {
 }
 
 export interface Post {
-  id?: string
+  _id?: string
   title: string
   description: string
   category: string

@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { RootState } from '../../../store';
-import { fetchCategoriesAction } from '../../../store/slices/categories';
-import { fetchPostsAction, toggleAddLikesToPost, toggleAddDisLikesToPost } from '../../../store/slices/posts';
+import { fetchCategoriesAction } from '../../../store/slices/category';
+import { fetchPostsAction, toggleAddLikesToPost, toggleAddDisLikesToPost } from '../../../store/slices/post';
 import SingleColumnLayout from '../../templates/singleColumnLayout';
 import DateFormatter from '../../../utils/dateFormatter';
 import {
@@ -69,7 +69,7 @@ function PostListPage(): JSX.Element {
         </SubGrid>
         <MainGrid>
           {postList && postList.map((post) => (
-            <Card key={post?.id}>
+            <Card key={post?._id}>
               {/* Post image */}
               <Thumbnail
                 src={post?.image}
@@ -82,14 +82,14 @@ function PostListPage(): JSX.Element {
                   <StatItem>
                     {/* Togle like  */}
                     <ThumbsUpIcon
-                      onClick={() => dispatch(toggleAddLikesToPost(post?.id))}
+                      onClick={() => dispatch(toggleAddLikesToPost(post?._id))}
                     />
                     {post?.likes?.length}
                   </StatItem>
                   {/* Dislike */}
                   <StatItem>
                     <ThumbsDownIcon
-                      onClick={() => dispatch(toggleAddDisLikesToPost(post?.id))}
+                      onClick={() => dispatch(toggleAddDisLikesToPost(post?._id))}
                     />
                     {post?.dislikes?.length}
                   </StatItem>
@@ -99,7 +99,7 @@ function PostListPage(): JSX.Element {
                     {post?.viewCounts}
                   </StatItem>
                 </StatsWrapper>
-                <Link to={`/posts/${post?.id}`}>
+                <Link to={`/posts/${post?._id}`}>
                   <PostDetails>
                     <Title>
                       {post?.title}

@@ -49,7 +49,7 @@ export const createPostAction = createAsyncThunk(
 // Update
 export const updatePostAction = createAsyncThunk(
   'post/updated',
-  async (post: T.Post, { rejectWithValue, getState, dispatch }) => {
+  async (post: T.PostCreate, { rejectWithValue, getState, dispatch }) => {
     // get user token
     const user = (getState() as any)?.auth;
     const { userAuth } = user;
@@ -62,7 +62,7 @@ export const updatePostAction = createAsyncThunk(
     try {
       // http call
       const { data } = await axios.put(
-        `${process.env.REACT_APP_BASE_URL}/api/posts/${post?.id}`,
+        `${process.env.REACT_APP_BASE_URL}/api/posts/${post?._id}`,
         post,
         config,
       );
@@ -79,7 +79,7 @@ export const updatePostAction = createAsyncThunk(
 // Delete
 export const deletePostAction = createAsyncThunk(
   'post/delete',
-  async (postId: T.Post['id'], { rejectWithValue, getState, dispatch }) => {
+  async (postId: T.Post['_id'], { rejectWithValue, getState, dispatch }) => {
     // get user token
     const user = (getState() as any)?.auth;
     const { userAuth } = user;
@@ -123,7 +123,7 @@ export const fetchPostsAction = createAsyncThunk(
 // fetch Post details
 export const fetchPostDetailsAction = createAsyncThunk(
   'post/detail',
-  async (id: T.Post['id'], { rejectWithValue, getState, dispatch }) => {
+  async (id: T.Post['_id'], { rejectWithValue, getState, dispatch }) => {
     try {
       const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/posts/${id}`);
       return data;
@@ -137,7 +137,7 @@ export const fetchPostDetailsAction = createAsyncThunk(
 // Add Likes to post
 export const toggleAddLikesToPost = createAsyncThunk(
   'post/like',
-  async (postId: T.Post['id'], { rejectWithValue, getState, dispatch }) => {
+  async (postId: T.Post['_id'], { rejectWithValue, getState, dispatch }) => {
     // get user token
     const user = (getState() as any)?.auth;
     const { userAuth } = user;
@@ -165,7 +165,7 @@ export const toggleAddLikesToPost = createAsyncThunk(
 // Add DisLikes to post
 export const toggleAddDisLikesToPost = createAsyncThunk(
   'post/dislike',
-  async (postId: T.Post['id'], { rejectWithValue, getState, dispatch }) => {
+  async (postId: T.Post['_id'], { rejectWithValue, getState, dispatch }) => {
     // get user token
     const user = (getState() as any)?.auth;
     const { userAuth } = user;

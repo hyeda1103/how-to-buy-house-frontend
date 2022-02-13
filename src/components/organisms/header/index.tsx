@@ -6,7 +6,7 @@ import {
 } from './styles';
 import Toggle from '../../atoms/toggleButton';
 import { RootState } from '../../../store';
-import { logoutAction } from '../../../store/slices/users';
+import { logoutAction } from '../../../store/slices/user';
 
 interface Props {
   toggleTheme: () => void
