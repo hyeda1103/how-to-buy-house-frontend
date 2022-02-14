@@ -200,8 +200,8 @@ interface PostState {
   isDeleted: boolean;
   postList: Array<T.Post>;
   postDetails: T.Post;
-  likes: Array<string>;
-  disLikes: Array<string>;
+  likes: Array<T.User>;
+  disLikes: Array<T.User>;
 }
 
 // slice
