@@ -5,6 +5,18 @@ import { useSelector, useDispatch } from 'react-redux';
 import SingleColumnLayout from '../../templates/singleColumnLayout';
 import { RootState } from '../../../store';
 import { fetchPostDetailsAction, deletePostAction } from '../../../store/slices/post';
+import {
+  Container,
+  EditWrapper,
+  EditIcon,
+  DeleteIcon,
+  Title,
+  AuthorInfo,
+  AuthorName,
+  AuthorEmail,
+  ProfilePhoto,
+  Description,
+} from './styles';
 
 interface Props {
   match: {
@@ -31,28 +43,34 @@ function PostDetailsPage({ match, history }: Props): JSX.Element {
   useEffect(() => {
     dispatch(fetchPostDetailsAction(id));
   }, [id, dispatch]);
+
+  const handleDelete = () => dispatch(deletePostAction(postDetails?._id));
   return (
     <SingleColumnLayout>
       {postDetails && (
-      <section>
-        <h2>{postDetails.title}</h2>
-        <p>{postDetails.description}</p>
-          {isCreatedBy ? (
-            <p>
-              <Link to={`/update-post/${postDetails?._id}`}>
-                편집
-              </Link>
-              <button
-                type="button"
-                /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-                /* eslint-disable jsx-a11y/click-events-have-key-events */
-                onClick={() => dispatch(deletePostAction(postDetails?._id))}
-              >
-                삭제
-              </button>
-            </p>
-          ) : null}
-      </section>
+        <Container>
+            {isCreatedBy ? (
+              <EditWrapper>
+                <Link to={`/update-post/${postDetails?._id}`}>
+                  <EditIcon />
+                </Link>
+                <DeleteIcon onClick={handleDelete} />
+              </EditWrapper>
+            ) : null}
+          <Title>{postDetails.title}</Title>
+          <AuthorInfo>
+            <ProfilePhoto src={postDetails.user.profilePhoto} alt={postDetails.user.name} />
+            <div>
+              <AuthorName>
+                {postDetails.user.name}
+              </AuthorName>
+              <AuthorEmail>
+                {postDetails.user.email}
+              </AuthorEmail>
+            </div>
+          </AuthorInfo>
+          <Description>{postDetails.description}</Description>
+        </Container>
       )}
     </SingleColumnLayout>
   );
