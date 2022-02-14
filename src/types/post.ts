@@ -15,7 +15,7 @@ export interface Post {
   category: string
   image: any
   likes: string[]
-  dislikes: string[]
+  disLikes: string[]
   viewCounts: number
   isLiked: boolean
   isDisLiked: boolean

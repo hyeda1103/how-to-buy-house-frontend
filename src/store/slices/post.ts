@@ -162,7 +162,7 @@ export const toggleAddLikesToPost = createAsyncThunk(
   },
 );
 
-// Add DisLikes to post
+// Add disLikes to post
 export const toggleAddDisLikesToPost = createAsyncThunk(
   'post/dislike',
   async (postId: T.Post['_id'], { rejectWithValue, getState, dispatch }) => {
@@ -201,7 +201,7 @@ interface PostState {
   postList: Array<T.Post>;
   postDetails: T.Post;
   likes: Array<string>;
-  dislikes: Array<string>;
+  disLikes: Array<string>;
 }
 
 // slice
@@ -304,12 +304,12 @@ const postSlice = createSlice({
       state.loading = false;
       state.error = (action.payload as any).error || action?.error?.message;
     });
-    // DisLikes
+    // disLikes
     builder.addCase(toggleAddDisLikesToPost.pending, (state, action) => {
       state.loading = true;
     });
     builder.addCase(toggleAddDisLikesToPost.fulfilled, (state, action) => {
-      state.dislikes = action?.payload;
+      state.disLikes = action?.payload;
       state.loading = false;
       state.error = undefined;
     });

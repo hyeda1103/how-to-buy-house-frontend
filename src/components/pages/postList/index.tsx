@@ -33,11 +33,11 @@ import {
 function PostListPage(): JSX.Element {
   const dispatch = useDispatch();
   const {
-    postList, loading, error, likes, dislikes,
+    postList, loading, error, likes, disLikes,
   } = useSelector((state: RootState) => state.post);
   useEffect(() => {
     dispatch(fetchPostsAction(''));
-  }, [dispatch, likes, dislikes]);
+  }, [dispatch, likes, disLikes]);
   const { categoryList, loading: loadingCategory, error: errorCategory } = useSelector((state: RootState) => state.category);
   useEffect(() => {
     dispatch(fetchCategoriesAction());
@@ -76,7 +76,7 @@ function PostListPage(): JSX.Element {
                 alt={post?.title}
               />
               <InfoWrapper>
-                {/* Likes, views dislikes */}
+                {/* Likes, views disLikes */}
                 <StatsWrapper>
                   {/* Likes */}
                   <StatItem>
@@ -91,7 +91,7 @@ function PostListPage(): JSX.Element {
                     <ThumbsDownIcon
                       onClick={() => dispatch(toggleAddDisLikesToPost(post?._id))}
                     />
-                    {post?.dislikes?.length}
+                    {post?.disLikes?.length}
                   </StatItem>
                   {/* Views */}
                   <StatItem>
