@@ -3,6 +3,7 @@ import { RouteComponentProps, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import SingleColumnLayout from '../../templates/singleColumnLayout';
+import AddComment from '../../organisms/commentBox';
 import { RootState } from '../../../store';
 import { fetchPostDetailsAction, deletePostAction } from '../../../store/slices/post';
 import {
@@ -17,6 +18,7 @@ import {
   ProfilePhoto,
   Description,
 } from './styles';
+import CommentList from '../../organisms/commentList';
 
 interface Props {
   match: {
@@ -42,36 +44,38 @@ function PostDetailsPage({ match, history }: Props): JSX.Element {
 
   useEffect(() => {
     dispatch(fetchPostDetailsAction(id));
-  }, [id, dispatch]);
+  }, [id, dispatch, postDetails?.comments]);
 
   const handleDelete = () => dispatch(deletePostAction(postDetails?._id));
   return (
     <SingleColumnLayout>
       {postDetails && (
-        <Container>
-            {isCreatedBy ? (
-              <EditWrapper>
-                <Link to={`/update-post/${postDetails?._id}`}>
-                  <EditIcon />
-                </Link>
-                <DeleteIcon onClick={handleDelete} />
-              </EditWrapper>
-            ) : null}
-          <Title>{postDetails.title}</Title>
-          <AuthorInfo>
-            <ProfilePhoto src={postDetails.user.profilePhoto} alt={postDetails.user.name} />
-            <div>
-              <AuthorName>
-                {postDetails.user.name}
-              </AuthorName>
-              <AuthorEmail>
-                {postDetails.user.email}
-              </AuthorEmail>
-            </div>
-          </AuthorInfo>
-          <Description>{postDetails.description}</Description>
-        </Container>
+      <Container>
+        {isCreatedBy ? (
+          <EditWrapper>
+            <Link to={`/update-post/${postDetails?._id}`}>
+              <EditIcon />
+            </Link>
+            <DeleteIcon onClick={handleDelete} />
+          </EditWrapper>
+        ) : null}
+        <Title>{postDetails.title}</Title>
+        <AuthorInfo>
+          <ProfilePhoto src={postDetails.user?.profilePhoto} alt={postDetails.user?.name} />
+          <div>
+            <AuthorName>
+              {postDetails.user?.name}
+            </AuthorName>
+            <AuthorEmail>
+              {postDetails.user?.email}
+            </AuthorEmail>
+          </div>
+        </AuthorInfo>
+        <Description>{postDetails.description}</Description>
+      </Container>
       )}
+      <AddComment postId={id} disable={!!userAuth} />
+      <CommentList comments={postDetails?.comments} />
     </SingleColumnLayout>
   );
 }

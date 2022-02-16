@@ -1,3 +1,4 @@
+import { Comment } from './comment';
 import { User } from './users';
 
 export interface PostCreate {
@@ -20,6 +21,7 @@ export interface Post {
   isLiked: boolean
   isDisLiked: boolean
   user: User
+  comments: Array<Comment>
   createdAt: string
   updatedAt: string
 }

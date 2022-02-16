@@ -49,7 +49,7 @@ export const createPostAction = createAsyncThunk(
 // Update
 export const updatePostAction = createAsyncThunk(
   'post/updated',
-  async (post: T.PostCreate, { rejectWithValue, getState, dispatch }) => {
+  async (post: Partial<T.Post>, { rejectWithValue, getState, dispatch }) => {
     // get user token
     const user = (getState() as any)?.auth;
     const { userAuth } = user;

@@ -8,7 +8,7 @@ const resetCommentAction = createAction('comment/reset');
 // create
 export const createCommentAction = createAsyncThunk(
   'comment/create',
-  async (comment: T.CreateComment, { rejectWithValue, getState, dispatch }) => {
+  async (comment: T.CommentCreate, { rejectWithValue, getState, dispatch }) => {
     // get user token
     const user = ((getState() as any) as any)?.auth;
     const { userAuth } = user;
@@ -40,7 +40,7 @@ export const createCommentAction = createAsyncThunk(
 // delete
 export const deleteCommentAction = createAsyncThunk(
   'comment/delete',
-  async (commentId: T.Comment['id'], { rejectWithValue, getState, dispatch }) => {
+  async (commentId: T.Comment['_id'], { rejectWithValue, getState, dispatch }) => {
     // get user token
     const user = (getState() as any)?.users;
     const { userAuth } = user;
@@ -80,7 +80,7 @@ export const updateCommentAction = createAsyncThunk(
     // http call
     try {
       const { data } = await axios.put(
-        `${process.env.REACT_APP_BASE_URL}/api/comments/${comment?.id}`,
+        `${process.env.REACT_APP_BASE_URL}/api/comments/${comment?._id}`,
         { description: comment?.description },
         config,
       );
@@ -99,7 +99,7 @@ export const updateCommentAction = createAsyncThunk(
 // fetch comment details
 export const fetchCommentAction = createAsyncThunk(
   'comment/fetch-details',
-  async (id: T.Comment['id'], { rejectWithValue, getState, dispatch }) => {
+  async (id: T.Comment['_id'], { rejectWithValue, getState, dispatch }) => {
     // get user token
     const user = (getState() as any)?.users;
     const { userAuth } = user;

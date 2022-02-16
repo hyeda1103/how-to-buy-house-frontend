@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Inner } from './styles';
 
 interface Props {
-  children: React.ReactChild | JSX.Element[] | JSX.Element
+  children: React.ReactChild | JSX.Element[] | JSX.Element | null
 }
 
 function SingleColumnLayout({ children }: Props) {

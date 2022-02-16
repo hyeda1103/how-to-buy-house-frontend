@@ -27,10 +27,10 @@ function Header({ toggleTheme }: Props) {
                 { userAuth.name }
                 님, 반갑습니다
               </NavItem>
-              <NavItem to="/create-post">글쓰기</NavItem>
               <NavItem to="/posts">모든 포스트</NavItem>
               {userAuth.isAdmin && (
                 <>
+                  <NavItem to="/create-post">글쓰기</NavItem>
                   <NavItem to="/add-category">카테고리 더하기</NavItem>
                   <NavItem to="/category-list">카테고리 리스트</NavItem>
                 </>
@@ -41,6 +41,7 @@ function Header({ toggleTheme }: Props) {
             <>
               <NavItem to="/register">회원가입</NavItem>
               <NavItem to="/login">로그인</NavItem>
+              <NavItem to="/posts">모든 포스트</NavItem>
             </>
           )}
           <NavItemWithNoLink>
