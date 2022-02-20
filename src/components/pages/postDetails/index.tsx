@@ -42,10 +42,10 @@ function PostDetailsPage({ match, history }: Props): JSX.Element {
   } = useSelector((state: RootState) => state.auth);
   const isCreatedBy = useMemo(() => postDetails?.user?._id === userAuth?._id, [postDetails, userAuth]);
 
-  const { commentCreated } = useSelector((state: RootState) => state.comment);
+  const { commentCreated, commentDeleted } = useSelector((state: RootState) => state.comment);
   useEffect(() => {
     dispatch(fetchPostDetailsAction(id));
-  }, [id, dispatch, commentCreated]);
+  }, [id, dispatch, commentCreated, commentDeleted]);
 
   const handleDelete = () => dispatch(deletePostAction(postDetails?._id));
   return (

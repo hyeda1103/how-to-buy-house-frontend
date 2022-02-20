@@ -10,8 +10,9 @@ export const createCommentAction = createAsyncThunk(
   'comment/create',
   async (comment: T.CommentCreate, { rejectWithValue, getState, dispatch }) => {
     // get user token
-    const user = ((getState() as any) as any)?.auth;
+    const user = (getState() as any)?.auth;
     const { userAuth } = user;
+
     const config = {
       headers: {
         Authorization: `Bearer ${userAuth?.token}`,
@@ -42,8 +43,9 @@ export const deleteCommentAction = createAsyncThunk(
   'comment/delete',
   async (commentId: T.Comment['_id'], { rejectWithValue, getState, dispatch }) => {
     // get user token
-    const user = (getState() as any)?.users;
+    const user = (getState() as any)?.auth;
     const { userAuth } = user;
+
     const config = {
       headers: {
         Authorization: `Bearer ${userAuth?.token}`,
@@ -70,8 +72,9 @@ export const updateCommentAction = createAsyncThunk(
   'comment/update',
   async (comment: T.Comment, { rejectWithValue, getState, dispatch }) => {
     // get user token
-    const user = (getState() as any)?.users;
+    const user = (getState() as any)?.auth;
     const { userAuth } = user;
+
     const config = {
       headers: {
         Authorization: `Bearer ${userAuth?.token}`,
@@ -101,8 +104,9 @@ export const fetchCommentAction = createAsyncThunk(
   'comment/fetch-details',
   async (id: T.Comment['_id'], { rejectWithValue, getState, dispatch }) => {
     // get user token
-    const user = (getState() as any)?.users;
+    const user = (getState() as any)?.auth;
     const { userAuth } = user;
+
     const config = {
       headers: {
         Authorization: `Bearer ${userAuth?.token}`,
