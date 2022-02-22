@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import {
@@ -7,6 +7,7 @@ import {
 import Toggle from '../../atoms/toggleButton';
 import { RootState } from '../../../store';
 import { logoutAction } from '../../../store/slices/user';
+import * as T from '../../../types';
 
 interface Props {
   toggleTheme: () => void
@@ -24,11 +25,11 @@ function Header({ toggleTheme }: Props) {
           {userAuth ? (
             <>
               <NavItem to={`/profile/${userAuth?._id}`}>
-                { userAuth.name }
+                {userAuth?.name}
                 님, 반갑습니다
               </NavItem>
               <NavItem to="/posts">모든 포스트</NavItem>
-              {userAuth.isAdmin && (
+              {userAuth?.isAdmin && (
                 <>
                   <NavItem to="/create-post">글쓰기</NavItem>
                   <NavItem to="/add-category">카테고리 더하기</NavItem>

@@ -179,7 +179,7 @@ export const updateUserAction = createAsyncThunk(
     // http call
     try {
       const { data } = await axios.put(
-        `${process.env.REACT_APP_BASE_URL}/api/users`,
+        `${process.env.REACT_APP_BASE_URL}/api/users/${userAuth._id}`,
         {
           name: userInfo?.name,
           email: userInfo?.email,
@@ -236,8 +236,17 @@ export const updatePasswordAction = createAsyncThunk(
 export const fetchUserDetailsAction = createAsyncThunk(
   'user/detail',
   async (id: T.User['_id'], { rejectWithValue, getState, dispatch }) => {
+    // get user token
+    const user = (getState() as any)?.auth;
+    const { userAuth } = user;
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userAuth?.token}`,
+      },
+    };
     try {
-      const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/users/${id}`);
+      const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/users/${id}`, config);
       return data;
     } catch (error) {
       if (!(error as AxiosError).response) throw error;
@@ -339,7 +348,7 @@ export const logoutAction = createAsyncThunk(
 );
 
 interface UserProfile {
-  image: T.User['profilePhoto']
+  image: any
 }
 
 // Upload Profile Photo
@@ -363,7 +372,7 @@ export const uploadProfilePhototAction = createAsyncThunk(
       formData.append('image', userImg?.image);
 
       const { data } = await axios.put(
-        `${process.env.REACT_APP_BASE_URL}/api/users/profilephoto-upload`,
+        `${process.env.REACT_APP_BASE_URL}/api/users/profile-photo`,
         formData,
         config,
       );

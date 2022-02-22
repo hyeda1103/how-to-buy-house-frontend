@@ -75,14 +75,6 @@ const customStyles: StylesConfig<Option, false> = {
     height: '44px',
   }),
 };
-
-interface Form {
-  title: string
-  category: string
-  description: string
-  image: Blob | undefined
-}
-
 interface Props {
   history: RouteComponentProps['history']
   match: {

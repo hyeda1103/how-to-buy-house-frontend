@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
-import { useSelector } from 'react-redux';
 
 // Routes
 import PrivateRoute from './routes/privateRoute';
@@ -15,6 +14,8 @@ import Header from './components/organisms/header';
 // Pages
 import HomePage from './components/pages/home';
 import ProfilePage from './components/pages/profile';
+import UpdateProfilePage from './components/pages/updateProfile';
+import UploadProfilePhotoPage from './components/pages/uploadProfilePhoto';
 import RegisterPage from './components/pages/register';
 import LoginPage from './components/pages/login';
 import AddCategoryPage from './components/pages/addCategory';
@@ -24,7 +25,6 @@ import CreatePostPage from './components/pages/createPost';
 import PostListPage from './components/pages/postList';
 import PostDetailsPage from './components/pages/postDetails';
 import UpdatePostPage from './components/pages/updatePost';
-import { RootState } from './store';
 
 function App(): JSX.Element {
   const [theme, setTheme] = useState(lightTheme);
@@ -37,7 +37,6 @@ function App(): JSX.Element {
       localStorage.setItem('theme', 'lightTheme');
     }
   };
-  const { userAuth } = useSelector((state: RootState) => state.auth);
   return (
     <Router>
       <ThemeProvider theme={theme}>
@@ -46,6 +45,16 @@ function App(): JSX.Element {
         <Switch>
           <Route exact path="/" component={HomePage} />
           <PrivateRoute exact path="/profile/:id" component={ProfilePage} />
+          <PrivateRoute
+            exact
+            path="/upload-profile-photo"
+            component={UploadProfilePhotoPage}
+          />
+          <PrivateRoute
+            exact
+            path="/update-profile/:id"
+            component={UpdateProfilePage}
+          />
           <Route exact path="/register" component={RegisterPage} />
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/posts" component={PostListPage} />

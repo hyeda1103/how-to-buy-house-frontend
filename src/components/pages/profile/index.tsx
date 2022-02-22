@@ -113,7 +113,6 @@ export default function Profile({ match }: Props) {
                         {/* Who view my profile */}
                         <div>
                           <div>
-                            {/* {profile?.viewedBy?.length}{" "} */}
                             <span>
                               Number of viewers
                               {' '}
@@ -199,7 +198,7 @@ export default function Profile({ match }: Props) {
                       <h1>No Viewer</h1>
                     ) : (
                       profile?.viewedBy?.map((user: T.User) => (
-                        <li>
+                        <li key={user._id}>
                           <div>
                             <img
                               src={user?.profilePhoto}
@@ -228,7 +227,7 @@ export default function Profile({ match }: Props) {
                     <h2>No Post Found</h2>
                   ) : (
                     profile?.posts?.map((post: T.Post) => (
-                      <div>
+                      <div key={post._id}>
                         <div>
                           <img
                             src={post?.image}
