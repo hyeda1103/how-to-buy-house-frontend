@@ -23,7 +23,7 @@ function Header({ toggleTheme }: Props) {
         <NavList>
           {userAuth ? (
             <>
-              <NavItem to="/profile">
+              <NavItem to={`/profile/${userAuth?._id}`}>
                 { userAuth.name }
                 님, 반갑습니다
               </NavItem>

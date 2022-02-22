@@ -15,6 +15,7 @@ export interface User {
   active: boolean
   createdAt: string
   updatedAt: string
+  token?: string
 }
 
 export interface UserRegister {

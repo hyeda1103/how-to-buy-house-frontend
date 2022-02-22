@@ -1,110 +1,267 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { RouteComponentProps, Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
-  Container,
-  StyledLabel,
-  StyledForm,
-  Title,
-  Text,
-  StyledInput,
-} from './styles';
+  userProfileAction,
+  followUserAction,
+  unfollowUserAction,
+} from '../../../store/slices/user';
 import { RootState } from '../../../store';
-import Spinner from '../../atoms/spinner';
-import { Button } from '../../atoms/basicButton';
+import DateFormatter from '../../../utils/dateFormatter';
+import * as T from '../../../types';
 import SingleColumnLayout from '../../templates/singleColumnLayout/index';
 
-function ProfilePage({ history }: RouteComponentProps) {
+interface Props {
+  match: {
+    params: {
+      id: string
+    }
+  }
+}
+
+export default function Profile({ match }: Props) {
+  const { id } = match.params;
   const dispatch = useDispatch();
 
-  const [formValues, setFormValues] = useState({
-    name: '',
-    email: '',
-  });
+  const history = useHistory();
 
   const {
-    name, email,
-  } = formValues;
-
-  const handleChange = (keyName: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormValues({ ...formValues, [keyName]: e.target.value });
-  };
-
-  const submitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
-  };
-
-  const {
-    loading, error, userAuth,
+    profile,
+    profileLoading,
+    profileError,
+    followed,
+    unFollowed,
+    userAuth,
   } = useSelector((state: RootState) => state.auth);
 
-  const buttonContent = useMemo(() => {
-    if (loading) {
-      return <Spinner />;
-    }
-    return '업데이트';
-  }, [loading]);
-
-  const errorMessage = useMemo(() => {
-    if (error) {
-      return error;
-    }
-    return null;
-  }, [error]);
-
+  // fetch user profile
   useEffect(() => {
-    if (userAuth) {
-      setFormValues({
-        name: userAuth.name,
-        email: userAuth.email,
-      });
-    }
-  }, [userAuth]);
+    dispatch(userProfileAction(id));
+  }, [id, dispatch, followed, unFollowed]);
+
+  // send mail handle click
+  const sendMailNavigate = () => {
+    history.push({
+      pathname: '/send-mail',
+      state: {
+        email: profile?.email,
+        id: profile?._id,
+      },
+    });
+  };
+
+  // isLogin
+
+  const isLoginUser = userAuth?._id === profile?._id;
 
   return (
     <SingleColumnLayout>
-      <Container>
-        <Title>
-          <Text>
-            회원정보
-          </Text>
-        </Title>
-        {errorMessage && errorMessage}
-        <StyledForm onSubmit={submitHandler}>
-          <StyledLabel htmlFor="name">
-            <Text>
-              이름
-            </Text>
-            <StyledInput
-              type="name"
-              id="name"
-              placeholder="이름"
-              value={name}
-              autoComplete="off"
-              onChange={handleChange('name')}
-            />
-          </StyledLabel>
-          <StyledLabel htmlFor="email">
-            <Text>
-              이메일
-            </Text>
-            <StyledInput
-              type="email"
-              id="email"
-              placeholder="이메일 주소"
-              value={email}
-              autoComplete="off"
-              onChange={handleChange('email')}
-            />
-          </StyledLabel>
-          <Button type="submit">
-            {buttonContent}
-          </Button>
-        </StyledForm>
-      </Container>
+      {/* Static sidebar for desktop */}
+      <div>
+        <div>
+          <main>
+            <article>
+              {/* Profile header */}
+              <div>
+                <div>
+                  <div>
+                    <div>
+                      <img
+                        src={profile?.profilePhoto}
+                        alt={profile?.firstName}
+                      />
+                    </div>
+                    <div>
+                      <div>
+                        <h1>
+                          {profile?.name}
+                          <span>
+                            {profile?.accountType}
+                          </span>
+                          {/* Display if verified or not */}
+                          {profile?.isAccountVerified ? (
+                            <span>
+                              Account Verified
+                            </span>
+                          ) : (
+                            <span>
+                              Unverified Account
+                            </span>
+                          )}
+                        </h1>
+                        <p>
+                          Date Joined:
+                          {' '}
+
+                          <DateFormatter date={profile?.createdAt} />
+                          {' '}
+                        </p>
+                        <p>
+                          {profile?.posts?.length}
+                          {' '}
+                          posts
+                          {' '}
+                          {profile?.followers?.length}
+                          {' '}
+                          followers
+                          {' '}
+                          {profile?.following?.length}
+                          {' '}
+                          following
+                        </p>
+                        {/* Who view my profile */}
+                        <div>
+                          <div>
+                            {/* {profile?.viewedBy?.length}{" "} */}
+                            <span>
+                              Number of viewers
+                              {' '}
+                              {profile?.viewedBy?.length}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* is login user */}
+                        {/* Upload profile photo */}
+                        {isLoginUser && (
+                        <Link
+                          to="/upload-profile-photo"
+                        >
+                          <span>Upload Photo</span>
+                        </Link>
+                        )}
+                      </div>
+
+                      <div>
+                        {/* // Hide follow button from the same */}
+                        {!isLoginUser && (
+                        <div>
+                          {profile?.isFollowing ? (
+                            <button
+                              type="button"
+                              onClick={() => dispatch(unfollowUserAction(id))}
+                            >
+                              Unfollow
+                            </button>
+                          ) : (
+                            <button
+                              onClick={() => dispatch(followUserAction(id))}
+                              type="button"
+                            >
+                              <span>Follow </span>
+                              <span>
+                                {profile?.followers?.length}
+                              </span>
+                            </button>
+                          )}
+
+                        </div>
+                        )}
+                        {/* Update Profile */}
+
+                        {isLoginUser && (
+                        <Link
+                          to={`/update-profile/${profile?._id}`}
+                        >
+                          <span>Update Profile</span>
+                        </Link>
+                        )}
+                        {/* Send Mail */}
+                        <button
+                          type="button"
+                          onClick={sendMailNavigate}
+                        >
+                          Send Message
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <h1>
+                      {profile?.name}
+                    </h1>
+                  </div>
+                </div>
+              </div>
+              {/* Tabs */}
+              <div>
+                <div>
+                  <h1>
+                    Who viewed my profile :
+                    {' '}
+                    {profile?.viewedBy?.length}
+                  </h1>
+
+                  {/* Who view my post */}
+                  <ul>
+                    {profile?.viewedBy?.length <= 0 ? (
+                      <h1>No Viewer</h1>
+                    ) : (
+                      profile?.viewedBy?.map((user: T.User) => (
+                        <li>
+                          <div>
+                            <img
+                              src={user?.profilePhoto}
+                              alt={user?.name}
+                            />
+                            <div>
+                              <h3>
+                                {user?.name}
+                              </h3>
+                            </div>
+                          </div>
+                        </li>
+                      ))
+                    )}
+                  </ul>
+                </div>
+                {/* All my Post */}
+                <div>
+                  <h1>
+                    My Post -
+                    {' '}
+                    {profile?.posts?.length}
+                  </h1>
+                  {/* Loop here */}
+                  {profile?.posts?.length <= 0 ? (
+                    <h2>No Post Found</h2>
+                  ) : (
+                    profile?.posts?.map((post: T.Post) => (
+                      <div>
+                        <div>
+                          <img
+                            src={post?.image}
+                            alt="poster"
+                          />
+                        </div>
+                        <div>
+                          <Link
+                            to={`/post/${post?._id}`}
+                          >
+                            <h3>
+                              {post?.title}
+                            </h3>
+                          </Link>
+                          <p>
+                            {post?.description}
+                          </p>
+
+                          <Link
+                            to={`/posts/${post?._id}`}
+                          >
+                            Read more
+                          </Link>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            </article>
+          </main>
+        </div>
+      </div>
     </SingleColumnLayout>
   );
 }
-
-export default ProfilePage;
