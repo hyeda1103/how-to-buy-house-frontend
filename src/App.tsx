@@ -19,6 +19,7 @@ import UpdateProfilePage from './components/pages/updateProfile';
 import UploadProfilePhotoPage from './components/pages/uploadProfilePhoto';
 import RegisterPage from './components/pages/register';
 import LoginPage from './components/pages/login';
+import UserListPage from './components/pages/userList';
 import AddCategoryPage from './components/pages/addCategory';
 import CategoryListPage from './components/pages/categoryList';
 import UpdateCategoryPage from './components/pages/updateCategory';
@@ -65,11 +66,12 @@ function App(): JSX.Element {
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/posts" component={PostListPage} />
           <Route exact path="/posts/:id" component={PostDetailsPage} />
-          <AdminRoute exact path="/update-post/:id" component={UpdatePostPage} />
+          <AdminRoute exact path="/users" component={UserListPage} />
           <AdminRoute exact path="/add-category" component={AddCategoryPage} />
           <AdminRoute exact path="/update-category/:id" component={UpdateCategoryPage} />
           <AdminRoute exact path="/category-list" component={CategoryListPage} />
           <AdminRoute exact path="/create-post" component={CreatePostPage} />
+          <AdminRoute exact path="/update-post/:id" component={UpdatePostPage} />
         </Switch>
       </ThemeProvider>
     </Router>

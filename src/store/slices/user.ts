@@ -258,7 +258,7 @@ export const fetchUserDetailsAction = createAsyncThunk(
 // fetch all users
 export const fetchUsersAction = createAsyncThunk(
   'user/list',
-  async (id: T.User['_id'], { rejectWithValue, getState, dispatch }) => {
+  async (id, { rejectWithValue, getState, dispatch }) => {
     // get user token
     const user = (getState() as any)?.auth;
     const { userAuth } = user;

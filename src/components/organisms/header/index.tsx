@@ -30,6 +30,7 @@ function Header({ toggleTheme }: Props) {
               <NavItem to="/posts">모든 포스트</NavItem>
               {userAuth?.isAdmin && (
                 <>
+                  <NavItem to="/users">사용자들</NavItem>
                   <NavItem to="/create-post">글쓰기</NavItem>
                   <NavItem to="/add-category">카테고리 더하기</NavItem>
                   <NavItem to="/category-list">카테고리 리스트</NavItem>
