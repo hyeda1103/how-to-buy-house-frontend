@@ -1,57 +1,83 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import { Link } from 'react-router-dom';
 
-export const Container = styled.div`
-  position: relative;
-  width: 100%;
+export const Container = styled.main`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-;`;
-
-export const StyledForm = styled.form`
-  width: 480px;
 `;
 
-export const Title = styled.h1`
-  font-size: 3rem;
-  font-weight: 700;
-  line-height: 65px;
-  letter-spacing: 1.6px;
-  text-align: center;
-  margin-bottom: 2rem;
+export const MainProfile = styled.div`
+  display: flex;
 `;
 
-export const StyledLabel = styled.label`
-  position: relative;
-  width: 100%;
-  border-radius: 3px;
+export const ProfileImage = styled.img`
+  margin-right: 1rem;
+  border-radius: 1rem;
   overflow: hidden;
+`;
+
+interface StyleProps {
+  isOneLine?: boolean
+}
+
+export const InfoLine = styled.div<StyleProps>`
   display: flex;
-  flex-direction: column;
-  margin: 1.5rem 0;
+  flex-direction: ${({ isOneLine }) => (isOneLine ? 'row' : 'column')};
+  align-items: ${({ isOneLine }) => (isOneLine ? 'center' : 'flex-start')};
+  & + & {
+    margin-top: 1rem;
+  }
 `;
 
-export const Text = styled.span`
-  margin: 0.75rem;
+export const Name = styled.h3`
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-right: 1rem;
 `;
 
-export const StyledInput = styled.input`
-  width: 100%;
-  padding: 0.75rem 1.25rem;
-  font-size: 16px;
-  background-color: ${({ theme }) => theme.palette.common.main};
-  border-radius: ${({ theme }) => theme.borderRadius};
-  border: ${({ theme }) => `1px solid ${theme.palette.common.contrastText}`};
-  transition: all 0.15s ease;
+export const VerificationBadge = styled.button`
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.25rem;
+  border: 1px solid ${({ theme }) => theme.palette.common.contrastText};
 `;
 
-export const ErrorWrapper = styled.p`
-  text-align: center;
-  color: ${({ theme }) => theme.palette.fail.contrastText};
+export const ListOfViewers = styled.ul`
 `;
 
-export const GuideWrapper = styled.div`
-  width: 480px;
-  text-align: right;
+export const ViewerProfile = styled.li`
+  float: left;
+  & + & {
+    margin-left: 0.5rem;
+  }
+`;
+
+export const ViewProfileWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 0.5rem;
+`;
+
+export const ViewerProfileImage = styled.img`
+  width: 2rem;
+  height: 2rem;
+  overflow: hidden;
+  border-radius: 4px;
+  margin-right: 0.25rem;
+`;
+
+export const UploadButton = styled(Link)`
+  font-size: 1rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.25rem;
+  border: 1px solid ${({ theme }) => theme.palette.common.contrastText};
+
+  & + & {
+    margin-left: 0.5rem;
+  }
+`;
+
+export const PostGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
 `;
