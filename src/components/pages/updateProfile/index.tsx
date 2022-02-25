@@ -10,11 +10,11 @@ import {
   Text,
   StyledInput,
 } from './styles';
-import { RootState } from '../../../store';
-import { fetchUserDetailsAction, updateUserAction } from '../../../store/slices/user';
-import Spinner from '../../atoms/spinner';
-import { Button } from '../../atoms/basicButton';
-import SingleColumnLayout from '../../templates/singleColumnLayout/index';
+import { RootState } from '^/store';
+import { fetchUserDetailsAction, updateUserAction } from '^/store/slices/user';
+import Spinner from '^/components/atoms/spinner';
+import { Button } from '^/components/atoms/basicButton';
+import SingleColumnLayout from '^/components/templates/singleColumnLayout/index';
 
 interface Props {
   history: RouteComponentProps['history']

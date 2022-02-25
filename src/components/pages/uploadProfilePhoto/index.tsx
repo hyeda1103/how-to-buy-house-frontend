@@ -5,11 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { DropEvent, FileRejection } from 'react-dropzone';
 
 import { RouteComponentProps } from 'react-router-dom';
-import { RootState } from '../../../store';
-import { createPostAction } from '../../../store/slices/post';
-import { Button } from '../../atoms/basicButton';
-import SingleColumnLayout from '../../templates/singleColumnLayout';
-import Spinner from '../../atoms/spinner';
+import { RootState } from '^/store';
+import { Button } from '^/components/atoms/basicButton';
+import SingleColumnLayout from '^/components/templates/singleColumnLayout';
+import Spinner from '^/components/atoms/spinner';
 import {
   Container,
   StyledLabel,
@@ -17,14 +16,8 @@ import {
   Title,
   Text,
 } from './styles';
-import { fetchCategoriesAction } from '../../../store/slices/category';
-import { uploadProfilePhototAction } from '../../../store/slices/user';
-import FileZone from '../../atoms/fileZone';
-
-interface Option {
-  value: string
-  label: string
-}
+import { uploadProfilePhototAction } from '^/store/slices/user';
+import FileZone from '^/components/atoms/fileZone';
 
 interface Form {
   image: Blob | undefined

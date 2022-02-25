@@ -2,10 +2,11 @@ import React, { useEffect, useMemo } from 'react';
 import { RouteComponentProps, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
-import SingleColumnLayout from '../../templates/singleColumnLayout';
-import AddComment from '../../organisms/commentBox';
-import { RootState } from '../../../store';
-import { fetchPostDetailsAction, deletePostAction } from '../../../store/slices/post';
+import SingleColumnLayout from '^/components/templates/singleColumnLayout';
+import CommentList from '^/components/organisms/commentList';
+import AddComment from '^/components/organisms/commentBox';
+import { RootState } from '^/store';
+import { fetchPostDetailsAction, deletePostAction } from '^/store/slices/post';
 import {
   Container,
   EditWrapper,
@@ -18,7 +19,6 @@ import {
   ProfilePhoto,
   Description,
 } from './styles';
-import CommentList from '../../organisms/commentList';
 
 interface Props {
   match: {

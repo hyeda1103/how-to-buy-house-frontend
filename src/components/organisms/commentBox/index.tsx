@@ -1,9 +1,9 @@
 import React, { useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../store';
 
-import { createCommentAction } from '../../../store/slices/comment';
-import * as T from '../../../types';
+import { RootState } from '^/store';
+import { createCommentAction } from '^/store/slices/comment';
+import * as T from '^/types';
 import {
   Container,
   StyledLabel,
@@ -12,7 +12,7 @@ import {
   StyledInput,
   SubmitButton,
 } from './styles';
-import Spinner from '../../atoms/spinner';
+import Spinner from '^/components/atoms/spinner';
 
 interface Props {
   postId: T.Post['_id']
