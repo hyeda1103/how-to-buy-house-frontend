@@ -10,12 +10,12 @@ import {
   Text,
   StyledInput,
 } from './styles';
-import SingleColumnLayout from '../../templates/singleColumnLayout';
-import { Button } from '../../atoms/basicButton';
-import { fetchCategoryAction, updateCategoriesAction, deleteCategoriesAction } from '../../../store/slices/category';
-import Spinner from '../../atoms/spinner';
-import { RootState } from '../../../store';
-import * as T from '../../../types';
+import SingleColumnLayout from '^/components/templates/singleColumnLayout';
+import { Button } from '^/components/atoms/basicButton';
+import { fetchCategoryAction, updateCategoriesAction } from '^/store/slices/category';
+import Spinner from '^/components/atoms/spinner';
+import { RootState } from '^/store';
+import * as T from '^/types';
 
 interface Props {
   history: RouteComponentProps['history']

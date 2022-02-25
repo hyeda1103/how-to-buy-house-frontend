@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Route, Redirect, RouteProps } from 'react-router-dom';
 
-import { RootState } from '../../store';
+import { RootState } from '^/store';
 
 function AdminRoute({ ...routeProps }: RouteProps) {
   const {

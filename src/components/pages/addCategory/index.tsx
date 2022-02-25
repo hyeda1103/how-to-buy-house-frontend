@@ -2,6 +2,11 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 
+import { RootState } from '^/store';
+import { createCategoryAction } from '^/store/slices/category';
+import SingleColumnLayout from '^/components/templates/singleColumnLayout';
+import { Button } from '^/components/atoms/basicButton';
+import Spinner from '^/components/atoms/spinner';
 import {
   Container,
   StyledLabel,
@@ -10,11 +15,6 @@ import {
   Text,
   StyledInput,
 } from './styles';
-import SingleColumnLayout from '../../templates/singleColumnLayout';
-import { Button } from '../../atoms/basicButton';
-import { createCategoryAction } from '../../../store/slices/category';
-import Spinner from '../../atoms/spinner';
-import { RootState } from '../../../store';
 
 interface Props {
   history: RouteComponentProps['history']
