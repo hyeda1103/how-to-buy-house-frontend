@@ -14,6 +14,7 @@ import Header from './components/organisms/header';
 // Pages
 import HomePage from './components/pages/home';
 import ProfilePage from './components/pages/profile';
+import AccountVerifiedPage from './components/pages/accountVerified';
 import UpdateProfilePage from './components/pages/updateProfile';
 import UploadProfilePhotoPage from './components/pages/uploadProfilePhoto';
 import RegisterPage from './components/pages/register';
@@ -49,6 +50,11 @@ function App(): JSX.Element {
             exact
             path="/upload-profile-photo"
             component={UploadProfilePhotoPage}
+          />
+          <PrivateRoute
+            exact
+            path="/verify-account/:token"
+            component={AccountVerifiedPage}
           />
           <PrivateRoute
             exact
