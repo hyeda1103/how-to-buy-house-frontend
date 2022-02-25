@@ -13,14 +13,14 @@ function UserListPage() {
   } = useSelector((state: RootState) => state.auth);
   useEffect(() => {
     dispatch(fetchUsersAction());
-  }, [dispatch]);
+  }, [dispatch, block, unblock]);
   return (
     <SingleColumnLayout>
       {usersList?.length <= 0 ? (
         <h3>No User Found</h3>
       ) : (
         usersList?.map((user) => (
-          <UserListItem user={user} />
+          <UserListItem key={user._id} user={user} />
         ))
       )}
     </SingleColumnLayout>
