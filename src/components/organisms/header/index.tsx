@@ -4,10 +4,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   Container, Inner, Logo, NavList, NavItem, NavItemWithNoLink,
 } from './styles';
-import Toggle from '../../atoms/toggleButton';
-import { RootState } from '../../../store';
-import { logoutAction } from '../../../store/slices/user';
-import * as T from '../../../types';
+import Toggle from '^/components/atoms/toggleButton';
+import { RootState } from '^/store';
+import { logoutAction } from '^/store/slices/user';
 
 interface Props {
   toggleTheme: () => void

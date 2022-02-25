@@ -6,11 +6,11 @@ import {
   userProfileAction,
   followUserAction,
   unfollowUserAction,
-} from '../../../store/slices/user';
-import { RootState } from '../../../store';
-import DateFormatter from '../../../utils/dateFormatter';
-import * as T from '../../../types';
-import SingleColumnLayout from '../../templates/singleColumnLayout/index';
+} from '^/store/slices/user';
+import { RootState } from '^/store';
+import DateFormatter from '^/utils/dateFormatter';
+import * as T from '^/types';
+import SingleColumnLayout from '^/components/templates/singleColumnLayout';
 
 interface Props {
   match: {

@@ -11,11 +11,11 @@ import {
   StyledInput,
   GuideWrapper,
 } from './styles';
-import { RootState } from '../../../store';
-import { loginAction } from '../../../store/slices/user';
-import Spinner from '../../atoms/spinner';
-import { Button } from '../../atoms/basicButton';
-import SingleColumnLayout from '../../templates/singleColumnLayout/index';
+import { RootState } from '^/store';
+import { loginAction } from '^/store/slices/user';
+import Spinner from '^/components/atoms/spinner';
+import { Button } from '^/components/atoms/basicButton';
+import SingleColumnLayout from '^/components/templates/singleColumnLayout/index';
 
 function LoginPage({ history }: RouteComponentProps) {
   const dispatch = useDispatch();
@@ -101,9 +101,18 @@ function LoginPage({ history }: RouteComponentProps) {
           </Button>
         </StyledForm>
         <GuideWrapper>
-          새로 왔나요?
-          {' '}
-          <Link to="/register">회원가입</Link>
+          <div>
+            새로 왔나요?
+            {' '}
+            <Link to="/register">회원가입</Link>
+          </div>
+          <div>
+            <Link
+              to="/password-reset-token"
+            >
+              비밀번호를 잊어버렸어요?
+            </Link>
+          </div>
         </GuideWrapper>
       </Container>
     </SingleColumnLayout>

@@ -1,11 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Moment from 'react-moment';
 import { useDispatch, useSelector } from 'react-redux';
 
-import * as T from '../../../types';
-import { RootState } from '../../../store';
-import { deleteCommentAction } from '../../../store/slices/comment';
+import * as T from '^/types';
+import { RootState } from '^/store';
+import { deleteCommentAction } from '^/store/slices/comment';
 import {
   Container,
   NumOfComments,

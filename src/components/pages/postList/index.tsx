@@ -2,11 +2,11 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { RootState } from '../../../store';
-import { fetchCategoriesAction } from '../../../store/slices/category';
-import { fetchPostsAction, toggleAddLikesToPost, toggleAddDisLikesToPost } from '../../../store/slices/post';
-import SingleColumnLayout from '../../templates/singleColumnLayout';
-import DateFormatter from '../../../utils/dateFormatter';
+import { RootState } from '^/store';
+import { fetchCategoriesAction } from '^/store/slices/category';
+import { fetchPostsAction, toggleAddLikesToPost, toggleAddDisLikesToPost } from '^/store/slices/post';
+import SingleColumnLayout from '^/components/templates/singleColumnLayout';
+import DateFormatter from '^/utils/dateFormatter';
 import {
   Grid,
   MainGrid,

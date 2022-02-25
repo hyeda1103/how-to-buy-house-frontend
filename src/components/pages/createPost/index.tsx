@@ -7,12 +7,14 @@ import { DefaultTheme } from 'styled-components';
 import { DropEvent, FileRejection } from 'react-dropzone';
 
 import { RouteComponentProps } from 'react-router-dom';
-import { RootState } from '../../../store';
-import { createPostAction } from '../../../store/slices/post';
-import { Button } from '../../atoms/basicButton';
-import SingleColumnLayout from '../../templates/singleColumnLayout';
-import Spinner from '../../atoms/spinner';
-import Dropdown from '../../atoms/dropDown';
+import { RootState } from '^/store';
+import { createPostAction } from '^/store/slices/post';
+import FileZone from '^/components/atoms/fileZone';
+import { Button } from '^/components/atoms/basicButton';
+import SingleColumnLayout from '^/components/templates/singleColumnLayout';
+import Spinner from '^/components/atoms/spinner';
+import Dropdown from '^/components/atoms/dropDown';
+import { fetchCategoriesAction } from '^/store/slices/category';
 import {
   Container,
   StyledLabel,
@@ -22,8 +24,6 @@ import {
   StyledInput,
   StyledTextArea,
 } from './styles';
-import { fetchCategoriesAction } from '../../../store/slices/category';
-import FileZone from '../../atoms/fileZone';
 
 interface Option {
   value: string

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SingleColumnLayout from '../../templates/singleColumnLayout';
+import SingleColumnLayout from '^/components/templates/singleColumnLayout';
 
 function HomePage(): JSX.Element {
   return (
