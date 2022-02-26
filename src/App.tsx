@@ -19,6 +19,8 @@ import UpdateProfilePage from './components/pages/updateProfile';
 import UploadProfilePhotoPage from './components/pages/uploadProfilePhoto';
 import RegisterPage from './components/pages/register';
 import LoginPage from './components/pages/login';
+import PasswordResetTokenPage from './components/pages/passwordResetToken/index';
+import ResetPasswordPage from './components/pages/resetPassword';
 import AddCategoryPage from './components/pages/addCategory';
 import CategoryListPage from './components/pages/categoryList';
 import UpdateCategoryPage from './components/pages/updateCategory';
@@ -63,6 +65,8 @@ function App(): JSX.Element {
           />
           <Route exact path="/register" component={RegisterPage} />
           <Route exact path="/login" component={LoginPage} />
+          <Route exact path="/password-reset-token" component={PasswordResetTokenPage} />
+          <Route exact path="/reset-password/:token" component={ResetPasswordPage} />
           <Route exact path="/posts" component={PostListPage} />
           <Route exact path="/posts/:id" component={PostDetailsPage} />
           <AdminRoute exact path="/update-post/:id" component={UpdatePostPage} />

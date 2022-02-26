@@ -396,7 +396,7 @@ export const passwordResetTokenAction = createAsyncThunk(
     // http call
     try {
       const { data } = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/api/users/forget-password-token`,
+        `${process.env.REACT_APP_BASE_URL}/api/users/generate-forgot-password-token`,
         { email },
         config,
       );
@@ -413,7 +413,7 @@ export const passwordResetTokenAction = createAsyncThunk(
 // Password reset
 export const passwordResetAction = createAsyncThunk(
   'password/reset',
-  async (user: Partial<T.User>, { rejectWithValue, getState, dispatch }) => {
+  async (newPassword: { password: string, token: string }, { rejectWithValue, getState, dispatch }) => {
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -423,7 +423,7 @@ export const passwordResetAction = createAsyncThunk(
     try {
       const { data } = await axios.put(
         `${process.env.REACT_APP_BASE_URL}/api/users/reset-password`,
-        { password: user?.password, token: user?.token },
+        newPassword,
         config,
       );
       return data;
