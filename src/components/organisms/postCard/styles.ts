@@ -94,7 +94,7 @@ export const PostedDate = styled.time`
   margin-bottom: 0.5rem;
 `;
 
-export const Description = styled.p`
+export const Description = styled.div`
   margin-bottom: 1rem;
 `;
 

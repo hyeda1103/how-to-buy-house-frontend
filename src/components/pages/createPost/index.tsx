@@ -5,6 +5,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { StylesConfig } from 'react-select';
 import { DefaultTheme } from 'styled-components';
 import { DropEvent, FileRejection } from 'react-dropzone';
+import { EditorState, ContentState, convertToRaw } from 'draft-js';
+import htmlToDraft from 'html-to-draftjs';
+import draftToHtml from 'draftjs-to-html';
+import { Editor } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 import { RouteComponentProps } from 'react-router-dom';
 import { RootState } from '^/store';
@@ -79,7 +84,6 @@ const customStyles: StylesConfig<Option, false> = {
 interface Form {
   title: string
   category: string
-  description: string
   image: Blob | undefined
 }
 
@@ -93,13 +97,14 @@ function CreatePostPage({ history }: Props) {
   const [formValues, setFormValues] = useState<Form>({
     title: '',
     category: '',
-    description: '',
     image: undefined,
   });
   const [options, setOptions] = useState<Array<Option>>();
+  const [content, setContent] = useState<string>('');
+  const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
 
   const {
-    title, description, image,
+    title, image,
   } = formValues;
 
   useEffect(() => {
@@ -110,12 +115,6 @@ function CreatePostPage({ history }: Props) {
   if (isCreated) history.push('/posts');
 
   const { categoryList, loading: loadingCategoryList, error: errorCategoryList } = useSelector((state: RootState) => state.category);
-  const placeholder = useMemo(() => {
-    if (loadingCategoryList) {
-      return '로딩 중...';
-    }
-    return '카테고리를 선택하세요';
-  }, [loadingCategoryList]);
 
   useEffect(() => {
     const selectOptions = categoryList?.map((category) => ({
@@ -134,7 +133,7 @@ function CreatePostPage({ history }: Props) {
 
   const submitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    dispatch(createPostAction(formValues));
+    dispatch(createPostAction({ ...formValues, description: content }));
   };
 
   const buttonContent = useMemo(() => {
@@ -197,12 +196,29 @@ function CreatePostPage({ history }: Props) {
             <Text>
               본문
             </Text>
-            <StyledTextArea
+            {/* <StyledTextArea
               id="description"
               placeholder="포스트 본문을 입력하세요"
               value={description}
               autoComplete="off"
               onChange={handleChange('description')}
+            /> */}
+            <Editor
+              editorState={editorState}
+              wrapperClassName="card"
+              editorClassName="card-body"
+              onEditorStateChange={(newState) => {
+                setEditorState(newState);
+                setContent(draftToHtml(convertToRaw(newState.getCurrentContent())));
+              }}
+              toolbar={{
+                options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign', 'history', 'embedded', 'emoji', 'image'],
+                inline: { inDropdown: true },
+                list: { inDropdown: true },
+                textAlign: { inDropdown: true },
+                link: { inDropdown: true },
+                history: { inDropdown: true },
+              }}
             />
           </StyledLabel>
           <StyledLabel htmlFor="image">

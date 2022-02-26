@@ -67,7 +67,7 @@ function PostCard({ post }: Props) {
             <PostedDate>
               <DateFormatter date={post?.createdAt} />
             </PostedDate>
-            <Description>{post?.description}</Description>
+            <Description dangerouslySetInnerHTML={{ __html: post?.description }} />
           </PostDetails>
         </Link>
         {/* User Avatar */}
