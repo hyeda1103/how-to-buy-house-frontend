@@ -1,12 +1,12 @@
 import React, {
-  useState, useEffect, useMemo, useCallback,
+  useState, useEffect, useMemo, useRef, ChangeEvent,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { StylesConfig } from 'react-select';
 import { DefaultTheme } from 'styled-components';
 import { DropEvent, FileRejection } from 'react-dropzone';
 
-import { RouteComponentProps } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { RootState } from '^/store';
 import { fetchPostDetailsAction, updatePostAction } from '^/store/slices/post';
 import { Button } from '^/components/atoms/basicButton';
@@ -20,10 +20,10 @@ import {
   Title,
   Text,
   StyledInput,
-  StyledTextArea,
 } from './styles';
 import { fetchCategoriesAction } from '../../../store/slices/category';
 import FileZone from '../../atoms/fileZone';
+import TextEditor from '^/components/organisms/textEditor';
 
 interface Option {
   value: string
@@ -76,7 +76,6 @@ const customStyles: StylesConfig<Option, false> = {
   }),
 };
 interface Props {
-  history: RouteComponentProps['history']
   match: {
     params: {
       id: string
@@ -84,7 +83,7 @@ interface Props {
   }
 }
 
-function UpdatePostPage({ history, match }: Props) {
+function UpdatePostPage({ match }: Props) {
   const { id } = match.params;
   const dispatch = useDispatch();
 
@@ -95,7 +94,6 @@ function UpdatePostPage({ history, match }: Props) {
   const {
     postDetails, loading, error, isUpdated,
   } = useSelector((state: RootState) => state.post);
-  if (isUpdated) history.push('/posts');
 
   const [formValues, setFormValues] = useState({
     title: '',
@@ -107,9 +105,9 @@ function UpdatePostPage({ history, match }: Props) {
   useEffect(() => {
     dispatch(fetchCategoriesAction());
   }, [dispatch]);
-
   const [options, setOptions] = useState<Array<Option>>();
   const { categoryList, loading: loadingCategoryList, error: errorCategoryList } = useSelector((state: RootState) => state.category);
+
   useEffect(() => {
     const selectOptions = categoryList?.map((categoryItem) => ({
       value: categoryItem._id,
@@ -129,7 +127,7 @@ function UpdatePostPage({ history, match }: Props) {
     title, description,
   } = formValues;
 
-  const handleChange = (keyName: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (keyName: string) => (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormValues({ ...formValues, [keyName]: e.target.value });
   };
 
@@ -144,7 +142,6 @@ function UpdatePostPage({ history, match }: Props) {
       category: category || postDetails?.category,
       image: image || postDetails?.image,
     };
-    console.log(data);
     dispatch(updatePostAction(data));
   };
 
@@ -164,6 +161,10 @@ function UpdatePostPage({ history, match }: Props) {
 
   // selector props
   const handleSelectChange = (e: any) => setCategory(e.label);
+
+  if (isUpdated) {
+    return <Redirect to="/posts" />;
+  }
 
   return (
     <SingleColumnLayout>
@@ -205,12 +206,10 @@ function UpdatePostPage({ history, match }: Props) {
             <Text>
               본문
             </Text>
-            <StyledTextArea
-              id="description"
-              placeholder="포스트 본문을 입력하세요"
+            <TextEditor
               value={description}
-              autoComplete="off"
-              onChange={handleChange('description')}
+              formValues={formValues}
+              setFormValues={setFormValues}
             />
           </StyledLabel>
           <StyledLabel htmlFor="image">

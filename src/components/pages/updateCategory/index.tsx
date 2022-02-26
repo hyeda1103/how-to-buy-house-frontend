@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, Redirect } from 'react-router-dom';
 
 import {
   Container,
@@ -18,7 +18,6 @@ import { RootState } from '^/store';
 import * as T from '^/types';
 
 interface Props {
-  history: RouteComponentProps['history']
   match: {
     params: {
       id: string
@@ -26,7 +25,7 @@ interface Props {
   }
 }
 
-function UpdateCategoryPage({ history, match }: Props): JSX.Element {
+function UpdateCategoryPage({ match }: Props): JSX.Element {
   const { id } = match.params;
   const {
     loading, error, category, isEdited,
@@ -63,7 +62,9 @@ function UpdateCategoryPage({ history, match }: Props): JSX.Element {
     return null;
   }, [error]);
 
-  if (isEdited) history.push('/category-list');
+  // if (isEdited) {
+  //   return <Redirect to="/category-list" />;
+  // }
 
   return (
     <SingleColumnLayout>

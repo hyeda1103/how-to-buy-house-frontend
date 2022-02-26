@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { RouteComponentProps, Link } from 'react-router-dom';
+import React, { useState, useMemo } from 'react';
+import { Link, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -17,7 +17,7 @@ import Spinner from '^/components/atoms/spinner';
 import { Button } from '^/components/atoms/basicButton';
 import SingleColumnLayout from '^/components/templates/singleColumnLayout/index';
 
-function RegisterPage({ history }: RouteComponentProps) {
+function RegisterPage() {
   const dispatch = useDispatch();
 
   const [formValues, setFormValues] = useState({
@@ -58,9 +58,9 @@ function RegisterPage({ history }: RouteComponentProps) {
     return null;
   }, [error]);
 
-  useEffect(() => {
-    if (registered) history.push('/profile');
-  }, [registered]);
+  if (registered) {
+    return <Redirect to="/profile" />;
+  }
 
   return (
     <SingleColumnLayout>

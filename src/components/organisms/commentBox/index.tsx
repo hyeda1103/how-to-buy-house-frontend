@@ -1,5 +1,7 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.bubble.css';
 
 import { RootState } from '^/store';
 import { createCommentAction } from '^/store/slices/comment';
@@ -9,7 +11,6 @@ import {
   StyledLabel,
   StyledForm,
   Text,
-  StyledInput,
   SubmitButton,
 } from './styles';
 import Spinner from '^/components/atoms/spinner';
@@ -21,6 +22,8 @@ interface Props {
 
 function AddComment({ postId, disable }: Props) {
   const dispatch = useDispatch();
+  const QuillRef = useRef<ReactQuill>();
+
   // select data from store
   const { loading, error } = useSelector((state: RootState) => state.comment);
   const [formValues, setFormValues] = useState({
@@ -29,10 +32,6 @@ function AddComment({ postId, disable }: Props) {
 
   const { description } = formValues;
 
-  const handleChange = (keyName: string) => (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setFormValues({ ...formValues, [keyName]: e.target.value });
-  };
-
   const submitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     const data = {
@@ -40,6 +39,10 @@ function AddComment({ postId, disable }: Props) {
       description: formValues.description,
     };
     dispatch(createCommentAction(data));
+    setFormValues({
+      ...formValues,
+      description: '',
+    });
   };
 
   const buttonContent = useMemo(() => {
@@ -56,12 +59,19 @@ function AddComment({ postId, disable }: Props) {
           <Text>
             새로운 댓글 작성하기
           </Text>
-          <StyledInput
-            id="description"
-            placeholder="댓글"
+          <ReactQuill
+            ref={(element) => {
+              if (element !== null) {
+                QuillRef.current = element;
+              }
+            }}
             value={description}
-            autoComplete="off"
-            onChange={handleChange('description')}
+            onChange={(content, delta, source, editor) => setFormValues({
+              ...formValues,
+              description: editor.getHTML(),
+            })}
+            theme="bubble"
+            placeholder="댓글을 입력해주세요."
           />
         </StyledLabel>
         <SubmitButton type="submit">

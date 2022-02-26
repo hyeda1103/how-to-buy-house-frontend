@@ -94,7 +94,15 @@ export const PostedDate = styled.time`
   margin-bottom: 0.5rem;
 `;
 
-export const Description = styled.p`
+export const Description = styled.div`
+  word-break: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  line-height: 1.5; /* fallback */
+  max-height: 1.5; /* fallback */
+  -webkit-line-clamp: 3; /* number of lines to show */
+  -webkit-box-orient: vertical;
   margin-bottom: 1rem;
 `;
 

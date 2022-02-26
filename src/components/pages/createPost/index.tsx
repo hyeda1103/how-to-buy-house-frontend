@@ -1,12 +1,12 @@
 import React, {
-  useState, useEffect, useMemo, useCallback,
+  useState, useEffect, useMemo, ChangeEvent, FormEventHandler,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { StylesConfig } from 'react-select';
 import { DefaultTheme } from 'styled-components';
 import { DropEvent, FileRejection } from 'react-dropzone';
+import { Redirect } from 'react-router-dom';
 
-import { RouteComponentProps } from 'react-router-dom';
 import { RootState } from '^/store';
 import { createPostAction } from '^/store/slices/post';
 import FileZone from '^/components/atoms/fileZone';
@@ -15,6 +15,7 @@ import SingleColumnLayout from '^/components/templates/singleColumnLayout';
 import Spinner from '^/components/atoms/spinner';
 import Dropdown from '^/components/atoms/dropDown';
 import { fetchCategoriesAction } from '^/store/slices/category';
+import TextEditor from '^/components/organisms/textEditor';
 import {
   Container,
   StyledLabel,
@@ -22,7 +23,6 @@ import {
   Title,
   Text,
   StyledInput,
-  StyledTextArea,
 } from './styles';
 
 interface Option {
@@ -83,11 +83,7 @@ interface Form {
   image: Blob | undefined
 }
 
-interface Props {
-  history: RouteComponentProps['history']
-}
-
-function CreatePostPage({ history }: Props) {
+function CreatePostPage() {
   const dispatch = useDispatch();
 
   const [formValues, setFormValues] = useState<Form>({
@@ -107,15 +103,8 @@ function CreatePostPage({ history }: Props) {
   }, []);
 
   const { isCreated, loading: loadingPost, error: errorPost } = useSelector((state: RootState) => state.post);
-  if (isCreated) history.push('/posts');
 
   const { categoryList, loading: loadingCategoryList, error: errorCategoryList } = useSelector((state: RootState) => state.category);
-  const placeholder = useMemo(() => {
-    if (loadingCategoryList) {
-      return '로딩 중...';
-    }
-    return '카테고리를 선택하세요';
-  }, [loadingCategoryList]);
 
   useEffect(() => {
     const selectOptions = categoryList?.map((category) => ({
@@ -125,14 +114,14 @@ function CreatePostPage({ history }: Props) {
     setOptions(selectOptions);
   }, [categoryList]);
 
-  const handleChange = (keyName: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (keyName: string) => (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormValues({ ...formValues, [keyName]: e.target.value });
   };
 
   const handleFileDrop
     : (acceptedFiles: Blob[], fileRejections: FileRejection[], event: DropEvent) => void | undefined = (acceptedFiles) => setFormValues({ ...formValues, image: acceptedFiles[0] });
 
-  const submitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
+  const submitHandler: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     dispatch(createPostAction(formValues));
   };
@@ -156,6 +145,10 @@ function CreatePostPage({ history }: Props) {
     ...formValues,
     category: e.label,
   });
+
+  if (isCreated) {
+    return <Redirect to="/posts" />;
+  }
 
   return (
     <SingleColumnLayout>
@@ -197,13 +190,7 @@ function CreatePostPage({ history }: Props) {
             <Text>
               본문
             </Text>
-            <StyledTextArea
-              id="description"
-              placeholder="포스트 본문을 입력하세요"
-              value={description}
-              autoComplete="off"
-              onChange={handleChange('description')}
-            />
+            <TextEditor value={description} formValues={formValues} setFormValues={setFormValues} />
           </StyledLabel>
           <StyledLabel htmlFor="image">
             <Text>

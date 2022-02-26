@@ -134,11 +134,11 @@ export default function Profile({ match }: Props) {
               </p>
             </InfoLine>
             <InfoLine>
-              <h1>
+              <p>
                 나의 프로필을 조회한 사람들:
                 {' '}
                 {profile?.viewedBy?.length}
-              </h1>
+              </p>
               {/* Who view my post */}
               <ListOfViewers>
                 {profile?.viewedBy?.length ? (
@@ -149,9 +149,9 @@ export default function Profile({ match }: Props) {
                           src={user?.profilePhoto}
                           alt={user?.name}
                         />
-                        <h3>
+                        <p>
                           {user?.name}
-                        </h3>
+                        </p>
                       </ViewProfileWrapper>
                     </ViewerProfile>
                   ))
@@ -204,11 +204,11 @@ export default function Profile({ match }: Props) {
         <div>
           {/* All my Post */}
           <div>
-            <h1>
-              My Post -
+            <h3>
               {' '}
               {profile?.posts?.length}
-            </h1>
+              개의 포스트 작성
+            </h3>
             {/* Loop here */}
             {profile?.posts?.length <= 0 ? (
               <h2>No Post Found</h2>
