@@ -69,9 +69,7 @@ export const AuthorEmail = styled.p`
   font-size: 1rem;
 `;
 
-export const Description = styled.p`
-  font-size: 1.25rem;
-  line-height: 1.5;
+export const Description = styled.div`
   margin-bottom: 2rem;
 `;
 

@@ -5,6 +5,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { StylesConfig } from 'react-select';
 import { DefaultTheme } from 'styled-components';
 import { DropEvent, FileRejection } from 'react-dropzone';
+import { EditorState, ContentState, convertToRaw } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 import { RouteComponentProps } from 'react-router-dom';
 import { RootState } from '^/store';
@@ -107,9 +112,10 @@ function UpdatePostPage({ history, match }: Props) {
   useEffect(() => {
     dispatch(fetchCategoriesAction());
   }, [dispatch]);
-
+  const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
   const [options, setOptions] = useState<Array<Option>>();
   const { categoryList, loading: loadingCategoryList, error: errorCategoryList } = useSelector((state: RootState) => state.category);
+
   useEffect(() => {
     const selectOptions = categoryList?.map((categoryItem) => ({
       value: categoryItem._id,
@@ -129,6 +135,15 @@ function UpdatePostPage({ history, match }: Props) {
     title, description,
   } = formValues;
 
+  useEffect(() => {
+    /** Convert html string to draft JS */
+    const contentBlock = htmlToDraft(description);
+    const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
+    const newEditorState = EditorState.createWithContent(contentState);
+
+    setEditorState(newEditorState);
+  }, [description]);
+
   const handleChange = (keyName: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormValues({ ...formValues, [keyName]: e.target.value });
   };
@@ -144,7 +159,6 @@ function UpdatePostPage({ history, match }: Props) {
       category: category || postDetails?.category,
       image: image || postDetails?.image,
     };
-    console.log(data);
     dispatch(updatePostAction(data));
   };
 
@@ -205,12 +219,22 @@ function UpdatePostPage({ history, match }: Props) {
             <Text>
               본문
             </Text>
-            <StyledTextArea
-              id="description"
-              placeholder="포스트 본문을 입력하세요"
-              value={description}
-              autoComplete="off"
-              onChange={handleChange('description')}
+            <Editor
+              editorState={editorState}
+              wrapperClassName="card"
+              editorClassName="card-body"
+              onEditorStateChange={(newState) => {
+                setEditorState(newState);
+                setFormValues({ ...formValues, description: draftToHtml(convertToRaw(newState.getCurrentContent())) });
+              }}
+              toolbar={{
+                options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign', 'history', 'embedded', 'emoji', 'image'],
+                inline: { inDropdown: true },
+                list: { inDropdown: true },
+                textAlign: { inDropdown: true },
+                link: { inDropdown: true },
+                history: { inDropdown: true },
+              }}
             />
           </StyledLabel>
           <StyledLabel htmlFor="image">

@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import { RouteComponentProps, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 import SingleColumnLayout from '^/components/templates/singleColumnLayout';
 import CommentList from '^/components/organisms/commentList';
@@ -72,7 +73,7 @@ function PostDetailsPage({ match, history }: Props): JSX.Element {
             </AuthorEmail>
           </div>
         </AuthorInfo>
-        <Description>{postDetails.description}</Description>
+        <Description dangerouslySetInnerHTML={{ __html: postDetails.description }} />
       </Container>
       )}
       <AddComment postId={id} disable={!!userAuth} />
