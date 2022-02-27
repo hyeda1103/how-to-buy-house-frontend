@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { RouteComponentProps, Link } from 'react-router-dom';
+import { RouteComponentProps, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -17,7 +17,6 @@ import { Button } from '^/components/atoms/basicButton';
 import SingleColumnLayout from '^/components/templates/singleColumnLayout/index';
 
 interface Props {
-  history: RouteComponentProps['history']
   match: {
     params: {
       id: string
@@ -25,7 +24,7 @@ interface Props {
   }
 }
 
-function UploadProfilePage({ history, match }: Props) {
+function UploadProfilePage({ match }: Props) {
   const { id } = match.params;
   const dispatch = useDispatch();
 
@@ -76,7 +75,9 @@ function UploadProfilePage({ history, match }: Props) {
     return null;
   }, [error]);
 
-  if (isUpdated) history.push(`/profile/${id}`);
+  if (isUpdated) {
+    return <Redirect to={`/profile/${id}`} />;
+  }
   return (
     <SingleColumnLayout>
       <Container>

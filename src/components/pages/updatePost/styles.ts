@@ -10,7 +10,7 @@ export const Container = styled.div`
 ;`;
 
 export const StyledForm = styled.form`
-  width: 480px;
+  width: 960px;
 `;
 
 export const Title = styled.h1`

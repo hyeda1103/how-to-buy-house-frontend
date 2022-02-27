@@ -29,7 +29,7 @@ export const InfoLine = styled.div<StyleProps>`
   }
 `;
 
-export const Name = styled.h3`
+export const Name = styled.p`
   font-size: 1.25rem;
   font-weight: 700;
   margin-right: 1rem;
@@ -46,6 +46,7 @@ export const ListOfViewers = styled.ul`
 
 export const ViewerProfile = styled.li`
   float: left;
+  list-style: none;
   & + & {
     margin-left: 0.5rem;
   }

@@ -1,17 +1,12 @@
 import React, {
-  useState, useEffect, useMemo, useCallback,
+  useState, useEffect, useMemo, ChangeEvent, FormEventHandler,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { StylesConfig } from 'react-select';
 import { DefaultTheme } from 'styled-components';
 import { DropEvent, FileRejection } from 'react-dropzone';
-import { EditorState, ContentState, convertToRaw } from 'draft-js';
-import htmlToDraft from 'html-to-draftjs';
-import draftToHtml from 'draftjs-to-html';
-import { Editor } from 'react-draft-wysiwyg';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { Redirect } from 'react-router-dom';
 
-import { RouteComponentProps } from 'react-router-dom';
 import { RootState } from '^/store';
 import { createPostAction } from '^/store/slices/post';
 import FileZone from '^/components/atoms/fileZone';
@@ -20,6 +15,7 @@ import SingleColumnLayout from '^/components/templates/singleColumnLayout';
 import Spinner from '^/components/atoms/spinner';
 import Dropdown from '^/components/atoms/dropDown';
 import { fetchCategoriesAction } from '^/store/slices/category';
+import TextEditor from '^/components/organisms/textEditor';
 import {
   Container,
   StyledLabel,
@@ -27,7 +23,6 @@ import {
   Title,
   Text,
   StyledInput,
-  StyledTextArea,
 } from './styles';
 
 interface Option {
@@ -84,27 +79,23 @@ const customStyles: StylesConfig<Option, false> = {
 interface Form {
   title: string
   category: string
+  description: string
   image: Blob | undefined
 }
 
-interface Props {
-  history: RouteComponentProps['history']
-}
-
-function CreatePostPage({ history }: Props) {
+function CreatePostPage() {
   const dispatch = useDispatch();
 
   const [formValues, setFormValues] = useState<Form>({
     title: '',
     category: '',
+    description: '',
     image: undefined,
   });
   const [options, setOptions] = useState<Array<Option>>();
-  const [content, setContent] = useState<string>('');
-  const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
 
   const {
-    title, image,
+    title, description, image,
   } = formValues;
 
   useEffect(() => {
@@ -112,7 +103,6 @@ function CreatePostPage({ history }: Props) {
   }, []);
 
   const { isCreated, loading: loadingPost, error: errorPost } = useSelector((state: RootState) => state.post);
-  if (isCreated) history.push('/posts');
 
   const { categoryList, loading: loadingCategoryList, error: errorCategoryList } = useSelector((state: RootState) => state.category);
 
@@ -124,16 +114,16 @@ function CreatePostPage({ history }: Props) {
     setOptions(selectOptions);
   }, [categoryList]);
 
-  const handleChange = (keyName: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (keyName: string) => (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormValues({ ...formValues, [keyName]: e.target.value });
   };
 
   const handleFileDrop
     : (acceptedFiles: Blob[], fileRejections: FileRejection[], event: DropEvent) => void | undefined = (acceptedFiles) => setFormValues({ ...formValues, image: acceptedFiles[0] });
 
-  const submitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
+  const submitHandler: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    dispatch(createPostAction({ ...formValues, description: content }));
+    dispatch(createPostAction(formValues));
   };
 
   const buttonContent = useMemo(() => {
@@ -155,6 +145,10 @@ function CreatePostPage({ history }: Props) {
     ...formValues,
     category: e.label,
   });
+
+  if (isCreated) {
+    return <Redirect to="/posts" />;
+  }
 
   return (
     <SingleColumnLayout>
@@ -196,30 +190,7 @@ function CreatePostPage({ history }: Props) {
             <Text>
               본문
             </Text>
-            {/* <StyledTextArea
-              id="description"
-              placeholder="포스트 본문을 입력하세요"
-              value={description}
-              autoComplete="off"
-              onChange={handleChange('description')}
-            /> */}
-            <Editor
-              editorState={editorState}
-              wrapperClassName="card"
-              editorClassName="card-body"
-              onEditorStateChange={(newState) => {
-                setEditorState(newState);
-                setContent(draftToHtml(convertToRaw(newState.getCurrentContent())));
-              }}
-              toolbar={{
-                options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign', 'history', 'embedded', 'emoji', 'image'],
-                inline: { inDropdown: true },
-                list: { inDropdown: true },
-                textAlign: { inDropdown: true },
-                link: { inDropdown: true },
-                history: { inDropdown: true },
-              }}
-            />
+            <TextEditor value={description} formValues={formValues} setFormValues={setFormValues} />
           </StyledLabel>
           <StyledLabel htmlFor="image">
             <Text>

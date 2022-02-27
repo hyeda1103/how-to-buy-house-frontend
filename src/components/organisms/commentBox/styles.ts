@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import ReactQuill from 'react-quill';
 
 export const Container = styled.div`
   position: relative;
@@ -17,16 +18,23 @@ export const StyledLabel = styled.label`
   position: relative;
   width: 100%;
   border-radius: 3px;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
+
+  .ql-editor {
+    height: 50px;
+  }
+
+  .ql-tooltip {
+    z-index: 99;
+  }
 `;
 
 export const Text = styled.span`
   margin: 0.75rem;
 `;
 
-export const StyledInput = styled.textarea`
+export const CommentEditor = styled(ReactQuill)`
   width: 100%;
   padding: 0.75rem 1.25rem;
   font-size: 16px;

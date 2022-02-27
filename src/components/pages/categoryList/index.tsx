@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, RouteComponentProps, Redirect } from 'react-router-dom';
 
 import { RootState } from '^/store';
 import { deleteCategoriesAction, fetchCategoriesAction } from '^/store/slices/category';
@@ -15,11 +15,7 @@ import {
   ProfileImage,
 } from './styles';
 
-interface Props {
-  history: RouteComponentProps['history']
-}
-
-function CategoryListPage({ history }: Props): JSX.Element {
+function CategoryListPage(): JSX.Element {
   const dispatch = useDispatch();
 
   const category = useSelector((state: RootState) => state.category);
@@ -33,9 +29,9 @@ function CategoryListPage({ history }: Props): JSX.Element {
 
   const { userAuth } = useSelector((state: RootState) => state.auth);
 
-  useEffect(() => {
-    if (!userAuth) history.push('/');
-  }, [history, userAuth]);
+  if (!userAuth) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <SingleColumnLayout>

@@ -355,7 +355,6 @@ interface UserProfile {
 export const uploadProfilePhototAction = createAsyncThunk(
   'user/profile-photo',
   async (userImg: UserProfile, { rejectWithValue, getState, dispatch }) => {
-    console.log(userImg);
     // get user token
     const user = (getState() as any)?.auth;
     const { userAuth } = user;
