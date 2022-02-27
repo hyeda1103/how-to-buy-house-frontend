@@ -1,6 +1,7 @@
-import React, { useRef } from 'react';
-import ReactQuill from 'react-quill';
+import React, { useRef, useMemo } from 'react';
+import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import QuillResize, { PlaceholderRegister } from 'quill-resize-module';
 
 interface Props {
   value: string
@@ -8,9 +9,21 @@ interface Props {
   setFormValues: (form: any) => void
 }
 
+Quill.register('modules/resize', QuillResize);
+
+PlaceholderRegister();
+
 function TextEditor({ value, formValues, setFormValues }: Props) {
   const QuillRef = useRef<ReactQuill>();
-  const modules = {
+
+  const handleImage = () => {
+    // image handling을 위한 프로세스 필요
+  };
+
+  const modules = useMemo(() => ({
+    resize: {
+      modules: ['Resize', 'DisplaySize'],
+    },
     toolbar: [
       // [{ 'font': [] }],
       [{ header: [1, 2, false] }],
@@ -20,7 +33,10 @@ function TextEditor({ value, formValues, setFormValues }: Props) {
       [{ align: [] }, { color: [] }, { background: [] }], // dropdown with defaults from theme
       ['clean'],
     ],
-  };
+    handlers: {
+      image: handleImage,
+    },
+  }), []);
   const formats = [
     // 'font',
     'header',
