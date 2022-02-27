@@ -47,7 +47,7 @@ export const StyledInput = styled.input`
 `;
 
 export const ErrorWrapper = styled.p`
-  text-align: center;
+  margin: 0.5rem 0.75rem;
   color: ${({ theme }) => theme.palette.fail.contrastText};
 `;
 

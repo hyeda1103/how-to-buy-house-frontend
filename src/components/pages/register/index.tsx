@@ -123,7 +123,6 @@ function RegisterPage() {
             회원가입
           </Text>
         </Title>
-        {serverError && serverError}
         <StyledForm onSubmit={handleSubmit} noValidate>
           <Input
             id="name"
