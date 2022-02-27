@@ -22,7 +22,7 @@ import LoginPage from './components/pages/login';
 import PasswordResetTokenPage from './components/pages/passwordResetToken/index';
 import ResetPasswordPage from './components/pages/resetPassword';
 import AddCategoryPage from './components/pages/addCategory';
-import CategoryListPage from './components/pages/categoryList';
+import CategoryListPage from './components/pages/categoryDashboard';
 import UpdateCategoryPage from './components/pages/updateCategory';
 import CreatePostPage from './components/pages/createPost';
 import PostListPage from './components/pages/postList';

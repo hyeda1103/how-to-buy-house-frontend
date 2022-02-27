@@ -97,20 +97,3 @@ export const PostedDate = styled.time`
 export const Description = styled.p`
   margin-bottom: 1rem;
 `;
-
-export const CategoryWrapper = styled.div`
-`;
-
-export const CategoryList = styled.ul`
-  list-style: none;
-`;
-
-export const CategoryItem = styled.li`
-  cursor: pointer;
-  padding: 6px 10px;
-  border: 1px solid ${({ theme }) => theme.palette.common.contrastText};
-
-  & + & {
-    margin-top: 1rem;
-  }
-`;
