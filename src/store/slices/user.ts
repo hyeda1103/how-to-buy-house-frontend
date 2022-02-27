@@ -623,7 +623,7 @@ const usersSlice = createSlice({
     });
     builder.addCase(loginAction.rejected, (state, action) => {
       state.loading = false;
-      state.error = (action.payload as any).error || (action.payload as any).message;
+      state.error = (action.payload as any).error;
     });
     // Profile
     builder.addCase(userProfileAction.pending, (state, action) => {
