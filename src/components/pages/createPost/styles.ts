@@ -46,18 +46,6 @@ export const StyledInput = styled.input`
   transition: all 0.15s ease;
 `;
 
-export const StyledTextArea = styled.textarea`
-  width: 100%;
-  padding: 0.75rem 1.25rem;
-  font-size: 16px;
-  background-color: ${({ theme }) => theme.palette.common.main};
-  border-radius: ${({ theme }) => theme.borderRadius};
-  border: ${({ theme }) => `1px solid ${theme.palette.common.contrastText}`};
-  transition: all 0.15s ease;
-  resize: none;
-  font-family: 'Noto Sans KR', sans-serif;
-`;
-
 export const ErrorWrapper = styled.p`
   text-align: center;
   color: ${({ theme }) => theme.palette.fail.contrastText};

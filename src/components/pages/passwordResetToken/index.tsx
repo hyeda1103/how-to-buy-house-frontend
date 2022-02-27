@@ -19,7 +19,6 @@ import { Button } from '^/components/atoms/basicButton';
 import SingleColumnLayout from '^/components/templates/singleColumnLayout/index';
 
 interface Props {
-  history: RouteComponentProps['history']
   match: {
     params: {
       id: string
@@ -27,7 +26,7 @@ interface Props {
   }
 }
 
-function PasswordResetTokenPage({ history, match }: Props) {
+function PasswordResetTokenPage({ match }: Props) {
   const { id } = match.params;
   const dispatch = useDispatch();
 

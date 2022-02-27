@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import Dompurify from 'dompurify';
 
 import * as T from '^/types';
 import { RootState } from '^/store';
@@ -60,9 +61,10 @@ function CommentList({ comments }: Props): JSX.Element {
                   </AuthorName>
                 </Link>
               </AuthorInfo>
-              <Description>
-                {comment?.description}
-              </Description>
+              <Description dangerouslySetInnerHTML={{
+                __html: Dompurify.sanitize(comment?.description),
+              }}
+              />
               <ReactMoment fromNow ago>
                 {comment?.createdAt}
               </ReactMoment>

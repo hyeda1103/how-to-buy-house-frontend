@@ -1,17 +1,12 @@
 import React, {
-  useState, useEffect, useMemo, useCallback,
+  useState, useEffect, useMemo, useRef, ChangeEvent,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { StylesConfig } from 'react-select';
 import { DefaultTheme } from 'styled-components';
 import { DropEvent, FileRejection } from 'react-dropzone';
-import { EditorState, ContentState, convertToRaw } from 'draft-js';
-import { Editor } from 'react-draft-wysiwyg';
-import draftToHtml from 'draftjs-to-html';
-import htmlToDraft from 'html-to-draftjs';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
-import { RouteComponentProps } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { RootState } from '^/store';
 import { fetchPostDetailsAction, updatePostAction } from '^/store/slices/post';
 import { Button } from '^/components/atoms/basicButton';
@@ -25,10 +20,10 @@ import {
   Title,
   Text,
   StyledInput,
-  StyledTextArea,
 } from './styles';
 import { fetchCategoriesAction } from '../../../store/slices/category';
 import FileZone from '../../atoms/fileZone';
+import TextEditor from '^/components/organisms/textEditor';
 
 interface Option {
   value: string
@@ -81,7 +76,6 @@ const customStyles: StylesConfig<Option, false> = {
   }),
 };
 interface Props {
-  history: RouteComponentProps['history']
   match: {
     params: {
       id: string
@@ -89,7 +83,7 @@ interface Props {
   }
 }
 
-function UpdatePostPage({ history, match }: Props) {
+function UpdatePostPage({ match }: Props) {
   const { id } = match.params;
   const dispatch = useDispatch();
 
@@ -100,7 +94,6 @@ function UpdatePostPage({ history, match }: Props) {
   const {
     postDetails, loading, error, isUpdated,
   } = useSelector((state: RootState) => state.post);
-  if (isUpdated) history.push('/posts');
 
   const [formValues, setFormValues] = useState({
     title: '',
@@ -112,7 +105,6 @@ function UpdatePostPage({ history, match }: Props) {
   useEffect(() => {
     dispatch(fetchCategoriesAction());
   }, [dispatch]);
-  const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
   const [options, setOptions] = useState<Array<Option>>();
   const { categoryList, loading: loadingCategoryList, error: errorCategoryList } = useSelector((state: RootState) => state.category);
 
@@ -135,16 +127,7 @@ function UpdatePostPage({ history, match }: Props) {
     title, description,
   } = formValues;
 
-  useEffect(() => {
-    /** Convert html string to draft JS */
-    const contentBlock = htmlToDraft(description);
-    const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
-    const newEditorState = EditorState.createWithContent(contentState);
-
-    setEditorState(newEditorState);
-  }, [description]);
-
-  const handleChange = (keyName: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (keyName: string) => (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormValues({ ...formValues, [keyName]: e.target.value });
   };
 
@@ -178,6 +161,10 @@ function UpdatePostPage({ history, match }: Props) {
 
   // selector props
   const handleSelectChange = (e: any) => setCategory(e.label);
+
+  if (isUpdated) {
+    return <Redirect to="/posts" />;
+  }
 
   return (
     <SingleColumnLayout>
@@ -219,22 +206,10 @@ function UpdatePostPage({ history, match }: Props) {
             <Text>
               본문
             </Text>
-            <Editor
-              editorState={editorState}
-              wrapperClassName="card"
-              editorClassName="card-body"
-              onEditorStateChange={(newState) => {
-                setEditorState(newState);
-                setFormValues({ ...formValues, description: draftToHtml(convertToRaw(newState.getCurrentContent())) });
-              }}
-              toolbar={{
-                options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign', 'history', 'embedded', 'emoji', 'image'],
-                inline: { inDropdown: true },
-                list: { inDropdown: true },
-                textAlign: { inDropdown: true },
-                link: { inDropdown: true },
-                history: { inDropdown: true },
-              }}
+            <TextEditor
+              value={description}
+              formValues={formValues}
+              setFormValues={setFormValues}
             />
           </StyledLabel>
           <StyledLabel htmlFor="image">

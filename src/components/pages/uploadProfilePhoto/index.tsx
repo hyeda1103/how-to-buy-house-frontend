@@ -1,10 +1,10 @@
 import React, {
-  useState, useEffect, useMemo,
+  useState, useMemo,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DropEvent, FileRejection } from 'react-dropzone';
 
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, Redirect } from 'react-router-dom';
 import { RootState } from '^/store';
 import { Button } from '^/components/atoms/basicButton';
 import SingleColumnLayout from '^/components/templates/singleColumnLayout';
@@ -23,11 +23,7 @@ interface Form {
   image: Blob | undefined
 }
 
-interface Props {
-  history: RouteComponentProps['history']
-}
-
-function UploadProfilePhotoPage({ history }: Props) {
+function UploadProfilePhotoPage() {
   const dispatch = useDispatch();
 
   const [formValues, setFormValues] = useState<Form>({
@@ -50,9 +46,6 @@ function UploadProfilePhotoPage({ history }: Props) {
     profilePhoto, loading, error, userAuth, isUpdated,
   } = useSelector((state: RootState) => state.auth);
 
-  // redirect
-  if (isUpdated) history.push(`/profile/${userAuth?._id}`);
-
   const buttonContent = useMemo(() => {
     if (loading) {
       return <Spinner />;
@@ -66,6 +59,11 @@ function UploadProfilePhotoPage({ history }: Props) {
     }
     return null;
   }, [error]);
+
+  // redirect
+  if (isUpdated) {
+    return <Redirect to={`/profile/${userAuth?._id}`} />;
+  }
 
   return (
     <SingleColumnLayout>

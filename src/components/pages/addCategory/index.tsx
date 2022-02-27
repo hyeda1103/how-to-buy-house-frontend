@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, Redirect } from 'react-router-dom';
 
 import { RootState } from '^/store';
 import { createCategoryAction } from '^/store/slices/category';
@@ -16,11 +16,7 @@ import {
   StyledInput,
 } from './styles';
 
-interface Props {
-  history: RouteComponentProps['history']
-}
-
-function AddCategoryPage({ history }: Props): JSX.Element {
+function AddCategoryPage(): JSX.Element {
   const dispatch = useDispatch();
   const [newCategory, setNewCategory] = useState('');
 
@@ -49,7 +45,9 @@ function AddCategoryPage({ history }: Props): JSX.Element {
     return null;
   }, [error]);
 
-  if (isCreated) history.push('/category-list');
+  if (isCreated) {
+    return <Redirect to="/category-list" />;
+  }
 
   return (
     <SingleColumnLayout>

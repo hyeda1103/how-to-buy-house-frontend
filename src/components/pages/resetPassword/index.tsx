@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { RouteComponentProps, Link } from 'react-router-dom';
+import { RouteComponentProps, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -19,7 +19,6 @@ import { Button } from '^/components/atoms/basicButton';
 import SingleColumnLayout from '^/components/templates/singleColumnLayout/index';
 
 interface Props {
-  history: RouteComponentProps['history']
   match: {
     params: {
       token: string
@@ -27,7 +26,7 @@ interface Props {
   }
 }
 
-function ResetPasswordPage({ history, match }: Props) {
+function ResetPasswordPage({ match }: Props) {
   const { token } = match.params;
   console.log(token);
   const dispatch = useDispatch();
@@ -73,7 +72,10 @@ function ResetPasswordPage({ history, match }: Props) {
 
   useEffect(() => {
     setTimeout(() => {
-      if (passwordReset) history.push('/login');
+      if (passwordReset) {
+        return <Redirect to="/login" />;
+      }
+      return null;
     }, 5000);
   }, [passwordReset]);
 

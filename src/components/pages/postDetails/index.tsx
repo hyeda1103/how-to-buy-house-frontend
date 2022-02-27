@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
-import { RouteComponentProps, Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import Dompurify from 'dompurify';
 
 import SingleColumnLayout from '^/components/templates/singleColumnLayout';
 import CommentList from '^/components/organisms/commentList';
@@ -27,16 +27,14 @@ interface Props {
       id: string
     }
   }
-  history: RouteComponentProps['history']
 }
 
-function PostDetailsPage({ match, history }: Props): JSX.Element {
+function PostDetailsPage({ match }: Props): JSX.Element {
   const { id } = match.params;
   const dispatch = useDispatch();
   const {
     postDetails, loading, error, isDeleted,
   } = useSelector((state: RootState) => state.post);
-  if (isDeleted) history.push('/posts');
 
   const {
     userAuth,
@@ -49,6 +47,10 @@ function PostDetailsPage({ match, history }: Props): JSX.Element {
   }, [id, dispatch, commentCreated, commentDeleted]);
 
   const handleDelete = () => dispatch(deletePostAction(postDetails?._id));
+
+  if (isDeleted) {
+    return <Redirect to="/posts" />;
+  }
   return (
     <SingleColumnLayout>
       {postDetails && (
@@ -73,7 +75,10 @@ function PostDetailsPage({ match, history }: Props): JSX.Element {
             </AuthorEmail>
           </div>
         </AuthorInfo>
-        <Description dangerouslySetInnerHTML={{ __html: postDetails.description }} />
+        <Description dangerouslySetInnerHTML={{
+          __html: Dompurify.sanitize(postDetails.description),
+        }}
+        />
       </Container>
       )}
       <AddComment postId={id} disable={!!userAuth} />
