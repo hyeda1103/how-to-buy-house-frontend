@@ -22,7 +22,10 @@ export const StyledLabel = styled.label`
   flex-direction: column;
 
   .ql-editor {
-    height: 50px;
+    height: 100px;
+    border: ${({ theme }) => `1px solid ${theme.palette.common.contrastText}`};
+    border-radius: 4px;
+    font-size: 16px;
   }
 
   .ql-tooltip {

@@ -39,6 +39,10 @@ function AddComment({ postId, disable }: Props) {
       description: formValues.description,
     };
     dispatch(createCommentAction(data));
+    setFormValues({
+      ...formValues,
+      description: '',
+    });
   };
 
   const buttonContent = useMemo(() => {
@@ -67,7 +71,7 @@ function AddComment({ postId, disable }: Props) {
               description: editor.getHTML(),
             })}
             theme="bubble"
-            placeholder="내용을 입력해주세요."
+            placeholder="댓글을 입력해주세요."
           />
         </StyledLabel>
         <SubmitButton type="submit">
