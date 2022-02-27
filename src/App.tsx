@@ -22,7 +22,7 @@ import LoginPage from './components/pages/login';
 import PasswordResetTokenPage from './components/pages/passwordResetToken/index';
 import ResetPasswordPage from './components/pages/resetPassword';
 import AddCategoryPage from './components/pages/addCategory';
-import CategoryListPage from './components/pages/categoryDashboard';
+import CategoryDashboardPage from './components/pages/categoryDashboard';
 import UpdateCategoryPage from './components/pages/updateCategory';
 import CreatePostPage from './components/pages/createPost';
 import PostListPage from './components/pages/postList';
@@ -72,7 +72,7 @@ function App(): JSX.Element {
           <AdminRoute exact path="/update-post/:id" component={UpdatePostPage} />
           <AdminRoute exact path="/add-category" component={AddCategoryPage} />
           <AdminRoute exact path="/update-category/:id" component={UpdateCategoryPage} />
-          <AdminRoute exact path="/category-list" component={CategoryListPage} />
+          <AdminRoute exact path="/category-list" component={CategoryDashboardPage} />
           <AdminRoute exact path="/create-post" component={CreatePostPage} />
         </Switch>
       </ThemeProvider>

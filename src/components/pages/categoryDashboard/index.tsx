@@ -15,7 +15,7 @@ import {
   ProfileImage,
 } from './styles';
 
-function CategoryListPage(): JSX.Element {
+function CategoryDashboardPage(): JSX.Element {
   const dispatch = useDispatch();
 
   const category = useSelector((state: RootState) => state.category);
@@ -83,4 +83,4 @@ function CategoryListPage(): JSX.Element {
   );
 }
 
-export default CategoryListPage;
+export default CategoryDashboardPage;
