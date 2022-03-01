@@ -45,10 +45,10 @@ export default function Profile({ match }: Props) {
 
   const {
     profile,
-    profileLoading,
-    profileError,
-    followed,
-    unFollowed,
+    loadingProfile,
+    errorProfile,
+    follow,
+    unfollow,
     userAuth,
   } = useSelector((state: RootState) => state.auth);
 
@@ -57,7 +57,7 @@ export default function Profile({ match }: Props) {
   // fetch user profile
   useEffect(() => {
     dispatch(userProfileAction(id));
-  }, [id, dispatch, followed, unFollowed]);
+  }, [id, dispatch, follow, unfollow]);
 
   // send mail handle click
   const sendMailNavigate = () => {

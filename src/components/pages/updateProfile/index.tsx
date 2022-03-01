@@ -51,7 +51,7 @@ function UploadProfilePage({ match }: Props) {
   };
 
   const {
-    loading, error, userDetails, isUpdated,
+    loadingUserDetails, errorUserDetails, userDetails, isUpdated,
   } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
@@ -62,18 +62,18 @@ function UploadProfilePage({ match }: Props) {
   }, [userDetails]);
 
   const buttonContent = useMemo(() => {
-    if (loading) {
+    if (loadingUserDetails) {
       return <Spinner />;
     }
     return '업데이트';
-  }, [loading]);
+  }, [loadingUserDetails]);
 
-  const errorMessage = useMemo(() => {
-    if (error) {
-      return error;
+  const errorUserDetailsMessage = useMemo(() => {
+    if (errorUserDetails) {
+      return errorUserDetails;
     }
     return null;
-  }, [error]);
+  }, [errorUserDetails]);
 
   if (isUpdated) {
     return <Redirect to={`/profile/${id}`} />;
@@ -86,7 +86,7 @@ function UploadProfilePage({ match }: Props) {
             프로필 업데이트
           </Text>
         </Title>
-        {errorMessage && errorMessage}
+        {errorUserDetailsMessage && errorUserDetailsMessage}
         <StyledForm onSubmit={submitHandler}>
           <StyledLabel htmlFor="name">
             <Text>

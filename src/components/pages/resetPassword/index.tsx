@@ -53,22 +53,22 @@ function ResetPasswordPage({ match }: Props) {
   };
 
   const {
-    loading, error, passwordReset,
+    loadingPasswordReset, errorPasswordReset, passwordReset,
   } = useSelector((state: RootState) => state.auth);
 
   const buttonContent = useMemo(() => {
-    if (loading) {
+    if (loadingPasswordReset) {
       return <Spinner />;
     }
     return '비밀번호 재설정';
-  }, [loading]);
+  }, [loadingPasswordReset]);
 
-  const errorMessage = useMemo(() => {
-    if (error) {
-      return error;
+  const errorPasswordResetMessage = useMemo(() => {
+    if (errorPasswordReset) {
+      return errorPasswordReset;
     }
     return null;
-  }, [error]);
+  }, [errorPasswordReset]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -93,7 +93,7 @@ function ResetPasswordPage({ match }: Props) {
           5 seconds.
         </h3>
         )}
-        {errorMessage && errorMessage}
+        {errorPasswordResetMessage && errorPasswordResetMessage}
         <StyledForm onSubmit={submitHandler}>
           <StyledLabel htmlFor="password">
             <Text>

@@ -26,9 +26,7 @@ interface Props {
 }
 
 function CommentList({ comments }: Props): JSX.Element {
-  const {
-    loading, error, userAuth,
-  } = useSelector((state: RootState) => state.auth);
+  const { userAuth } = useSelector((state: RootState) => state.auth);
 
   const loginUser = userAuth?._id;
   // dispatch

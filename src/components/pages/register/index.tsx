@@ -52,33 +52,33 @@ function RegisterPage() {
 
   // form validation handler
   const validate = (values: Form) => {
-    const errors: IObject = {};
+    const errorRegisters: IObject = {};
 
     if (!values.name) {
-      errors.name = '이름을 입력해야 합니다';
+      errorRegisters.name = '이름을 입력해야 합니다';
     }
 
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
 
     if (!values.email) {
-      errors.email = '이메일 주소를 입력해야 합니다';
+      errorRegisters.email = '이메일 주소를 입력해야 합니다';
     } else if (!regex.test(values.email)) {
-      errors.email = '올바르지 않은 이메일 주소입니다';
+      errorRegisters.email = '올바르지 않은 이메일 주소입니다';
     }
 
     if (!values.password) {
-      errors.password = '비밀번호를 입력해야 합니다';
+      errorRegisters.password = '비밀번호를 입력해야 합니다';
     } else if (values.password.length < 4) {
-      errors.password = '비밀번호는 적어도 네 글자 이상입니다';
+      errorRegisters.password = '비밀번호는 적어도 네 글자 이상입니다';
     }
 
     if (!values.confirmPassword) {
-      errors.confirmPassword = '비밀번호 확인을 입력해야 합니다';
+      errorRegisters.confirmPassword = '비밀번호 확인을 입력해야 합니다';
     } else if (values.password !== values.confirmPassword) {
-      errors.confirmPassword = '비밀번호와 비밀번호 확인이 일치하지 않습니다';
+      errorRegisters.confirmPassword = '비밀번호와 비밀번호 확인이 일치하지 않습니다';
     }
 
-    return errors;
+    return errorRegisters;
   };
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
@@ -94,22 +94,22 @@ function RegisterPage() {
   }, [formErrors]);
 
   const {
-    loading, error, registered,
+    loadingRegister, errorRegister, registered,
   } = useSelector((state: RootState) => state.auth);
 
   const buttonContent = useMemo(() => {
-    if (loading) {
+    if (loadingRegister) {
       return <Spinner />;
     }
     return '회원가입';
-  }, [loading]);
+  }, [loadingRegister]);
 
   const serverError = useMemo(() => {
-    if (error) {
-      return error;
+    if (errorRegister) {
+      return errorRegister;
     }
     return null;
-  }, [error]);
+  }, [errorRegister]);
 
   if (registered) {
     return <Redirect to="/profile" />;

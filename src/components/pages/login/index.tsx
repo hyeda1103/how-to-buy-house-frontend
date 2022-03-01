@@ -80,22 +80,22 @@ function LoginPage() {
   }, [formErrors]);
 
   const {
-    loading, error, userAuth,
+    loadingLogin, errorLogin, userAuth,
   } = useSelector((state: RootState) => state.auth);
 
   const buttonContent = useMemo(() => {
-    if (loading) {
+    if (loadingLogin) {
       return <Spinner />;
     }
     return '로그인';
-  }, [loading]);
+  }, [loadingLogin]);
 
   const serverError = useMemo(() => {
-    if (error) {
-      return error;
+    if (errorLogin) {
+      return errorLogin;
     }
     return null;
-  }, [error]);
+  }, [errorLogin]);
 
   if (userAuth) {
     return <Redirect to="/" />;

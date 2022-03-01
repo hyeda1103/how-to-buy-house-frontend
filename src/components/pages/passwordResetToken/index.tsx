@@ -69,22 +69,22 @@ function PasswordResetTokenPage() {
   }, [formErrors]);
 
   const {
-    loading, error, passwordToken,
+    loadingPasswordResetToken, errorPasswordResetToken, passwordToken,
   } = useSelector((state: RootState) => state.auth);
 
   const buttonContent = useMemo(() => {
-    if (loading) {
+    if (loadingPasswordResetToken) {
       return <Spinner />;
     }
     return '비밀번호 재설정';
-  }, [loading]);
+  }, [loadingPasswordResetToken]);
 
   const serverError = useMemo(() => {
-    if (error) {
-      return error;
+    if (errorPasswordResetToken) {
+      return errorPasswordResetToken;
     }
     return null;
-  }, [error]);
+  }, [errorPasswordResetToken]);
 
   return (
     <SingleColumnLayout>

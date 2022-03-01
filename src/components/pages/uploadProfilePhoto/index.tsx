@@ -43,22 +43,22 @@ function UploadProfilePhotoPage() {
   };
 
   const {
-    profilePhoto, loading, error, userAuth, isUpdated,
+    loadingUploadProfilePhoto, errorUploadProfilePhoto, userAuth, isUpdated,
   } = useSelector((state: RootState) => state.auth);
 
   const buttonContent = useMemo(() => {
-    if (loading) {
+    if (loadingUploadProfilePhoto) {
       return <Spinner />;
     }
     return '업데이트';
-  }, [loading]);
+  }, [loadingUploadProfilePhoto]);
 
-  const errorMessage = useMemo(() => {
-    if (error) {
-      return error;
+  const errorUploadProfilePhotoMessage = useMemo(() => {
+    if (errorUploadProfilePhoto) {
+      return errorUploadProfilePhoto;
     }
     return null;
-  }, [error]);
+  }, [errorUploadProfilePhoto]);
 
   // redirect
   if (isUpdated) {
@@ -73,7 +73,7 @@ function UploadProfilePhotoPage() {
             프로필 사진 업데이트
           </Text>
         </Title>
-        {errorMessage && errorMessage}
+        {errorUploadProfilePhotoMessage && errorUploadProfilePhotoMessage}
         <StyledForm onSubmit={submitHandler}>
           <StyledLabel htmlFor="image">
             <Text>
