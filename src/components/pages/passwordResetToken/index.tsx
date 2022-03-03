@@ -6,6 +6,7 @@ import {
   StyledForm,
   Title,
   Text,
+  GuideWrapper,
   ErrorWrapper,
 } from './styles';
 import { RootState } from '^/store';
@@ -80,11 +81,11 @@ function PasswordResetTokenPage() {
   }, [loadingPasswordResetToken]);
 
   const serverError = useMemo(() => {
-    if (errorPasswordResetToken) {
+    if (errorPasswordResetToken && !Object.keys(formErrors).length && isSubmitting) {
       return errorPasswordResetToken;
     }
     return null;
-  }, [errorPasswordResetToken]);
+  }, [errorPasswordResetToken, formErrors, isSubmitting]);
 
   return (
     <SingleColumnLayout>
@@ -95,10 +96,9 @@ function PasswordResetTokenPage() {
           </Text>
         </Title>
         {passwordToken && (
-        <h3>
-          Email is successfully sent to your email. Verify it within 10
-          minutes.
-        </h3>
+        <GuideWrapper>
+          입력한 이메일 주소로 비밀번호 재설정을 위한 링크가 발신되었습니다.
+        </GuideWrapper>
         )}
         <StyledForm onSubmit={handleSubmit} noValidate>
           <Input

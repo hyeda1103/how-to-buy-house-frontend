@@ -89,7 +89,7 @@ export default function Profile({ match }: Props) {
         <MainProfile>
           <ProfileImage
             src={profile?.profilePhoto}
-            alt={profile?.firstName}
+            alt={profile?.name}
           />
           <div>
             <InfoLine isOneLine>

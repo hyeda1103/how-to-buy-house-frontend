@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { ReactComponent as Error } from '^/assets/icons/error.svg';
+
 export const StyledLabel = styled.label`
   position: relative;
   width: 100%;
@@ -7,11 +9,15 @@ export const StyledLabel = styled.label`
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  margin: 1.5rem 0;
+  & + & {
+    margin-top: 50.71px;
+  }
 `;
 
 export const Text = styled.span`
-  margin: 0.75rem;
+  font-size: 16px;
+  line-height: 19.2px;
+  font-weight: 500;
 `;
 
 interface StyleProps {
@@ -20,27 +26,25 @@ interface StyleProps {
 
 export const StyledInput = styled.input<StyleProps>`
   width: 100%;
-  padding: 0.75rem 1.25rem;
-  font-size: 16px;
-  background-color: ${({ theme }) => theme.palette.common.main};
-  border-radius: ${({ theme }) => theme.borderRadius};
-  border-color: ${({ theme, error }) => (error
-    ? theme.palette.fail.contrastText
-    : theme.palette.common.contrastText)
+  height: 59px;
+  padding: 0 8px;
+  font-size: 18px;
+  background-color: ${({ theme }) => theme.palette.main};
+  border: none;
+  border-bottom: ${({ theme, error }) => (error
+    ? `2px solid ${theme.palette.fail}`
+    : `1px solid ${theme.palette.border.default}`)
 };
-  border-width: ${({ theme, error }) => (error
-    ? '2px'
-    : '1px')
-};
-  border-style: solid;
   outline: none;
   box-sizing: border-box;
   transition: all 0.15s ease;
-`;
 
-export const ErrorWrapper = styled.p`
-  margin: 0.5rem 0.75rem;
-  color: ${({ theme }) => theme.palette.fail.contrastText};
+  &:focus {
+    border-bottom: ${({ theme, error }) => (error
+    ? `2px solid ${theme.palette.fail}`
+    : `1px solid ${theme.palette.border.focus}`)
+};
+  }
 `;
 
 export const GuideWrapper = styled.div`

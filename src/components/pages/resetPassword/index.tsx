@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { RouteComponentProps, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
   Container,
-  StyledLabel,
   StyledForm,
   Title,
   Text,
-  StyledInput,
+  ErrorWrapper,
 } from './styles';
 import { RootState } from '^/store';
 import {
@@ -17,6 +16,7 @@ import {
 import Spinner from '^/components/atoms/spinner';
 import { Button } from '^/components/atoms/basicButton';
 import SingleColumnLayout from '^/components/templates/singleColumnLayout/index';
+import Input from '^/components/molecules/input';
 
 interface Props {
   match: {
@@ -26,31 +26,62 @@ interface Props {
   }
 }
 
+interface IObject {
+  [key: string]: string
+}
+interface Form {
+  password: string
+}
+
 function ResetPasswordPage({ match }: Props) {
   const { token } = match.params;
-  console.log(token);
   const dispatch = useDispatch();
 
-  const [formValues, setFormValues] = useState({
+  const [formValues, setFormValues] = useState<Form>({
     password: '',
   });
+  const [formErrors, setFormErrors] = useState<IObject>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
     password,
   } = formValues;
 
   const handleChange = (keyName: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsSubmitting(false);
+    setFormErrors({ ...formErrors, [keyName]: '' });
     setFormValues({ ...formValues, [keyName]: e.target.value });
   };
 
-  const submitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
-    const data = {
-      password,
-      token,
-    };
-    dispatch(passwordResetAction(data));
+  // form validation handler
+  const validate = (values: Form) => {
+    const errors: IObject = {};
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+
+    if (!values.password) {
+      errors.password = '비밀번호를 입력해야 합니다';
+    } else if (values.password.length < 4) {
+      errors.password = '비밀번호는 적어도 네 글자 이상입니다';
+    }
+
+    return errors;
   };
+
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+    setFormErrors(validate(formValues));
+    setIsSubmitting(true);
+  };
+
+  useEffect(() => {
+    if (!Object.keys(formErrors).length && isSubmitting) {
+      const data = {
+        password,
+        token,
+      };
+      dispatch(passwordResetAction(data));
+    }
+  }, [formErrors]);
 
   const {
     loadingPasswordReset, errorPasswordReset, passwordReset,
@@ -63,12 +94,12 @@ function ResetPasswordPage({ match }: Props) {
     return '비밀번호 재설정';
   }, [loadingPasswordReset]);
 
-  const errorPasswordResetMessage = useMemo(() => {
-    if (errorPasswordReset) {
+  const serverError = useMemo(() => {
+    if (errorPasswordReset && !Object.keys(formErrors).length && isSubmitting) {
       return errorPasswordReset;
     }
     return null;
-  }, [errorPasswordReset]);
+  }, [errorPasswordReset, formErrors, isSubmitting]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -93,21 +124,18 @@ function ResetPasswordPage({ match }: Props) {
           5 seconds.
         </h3>
         )}
-        {errorPasswordResetMessage && errorPasswordResetMessage}
-        <StyledForm onSubmit={submitHandler}>
-          <StyledLabel htmlFor="password">
-            <Text>
-              새로운 비밀번호
-            </Text>
-            <StyledInput
-              type="password"
-              id="password"
-              placeholder="새로운 비밀번호"
-              value={password}
-              autoComplete="off"
-              onChange={handleChange('password')}
-            />
-          </StyledLabel>
+        <StyledForm onSubmit={handleSubmit} noValidate>
+          <Input
+            id="password"
+            label="비밀번호"
+            type="password"
+            value={password}
+            placeholder="비밀번호를 입력하세요"
+            handleChange={handleChange}
+            formErrors={formErrors}
+            serverError={serverError}
+          />
+          {serverError && <ErrorWrapper>{serverError}</ErrorWrapper>}
           <Button type="submit">
             {buttonContent}
           </Button>

@@ -6,8 +6,8 @@ export const Container = styled.header`
   z-index: 9;
   width: 100%;
   height: 60px;
-  border-bottom: 1px solid ${({ theme }) => theme.palette.common.contrastText};
-  background-color: ${({ theme }) => theme.palette.common.main};
+  border-bottom: 1px solid ${({ theme }) => theme.palette.contrastText};
+  background-color: ${({ theme }) => theme.palette.main};
 `;
 
 export const Inner = styled.div`

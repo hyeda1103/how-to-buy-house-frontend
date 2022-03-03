@@ -1,20 +1,20 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { RouteComponentProps, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
   Container,
-  StyledLabel,
   StyledForm,
   Title,
   Text,
-  StyledInput,
+  ErrorWrapper,
 } from './styles';
 import { RootState } from '^/store';
 import { fetchUserDetailsAction, updateUserAction } from '^/store/slices/user';
 import Spinner from '^/components/atoms/spinner';
 import { Button } from '^/components/atoms/basicButton';
 import SingleColumnLayout from '^/components/templates/singleColumnLayout/index';
+import Input from '^/components/molecules/input';
 
 interface Props {
   match: {
@@ -24,14 +24,25 @@ interface Props {
   }
 }
 
+interface IObject {
+  [key: string]: string
+}
+
+interface Form {
+  name: string
+  email: string
+}
+
 function UploadProfilePage({ match }: Props) {
   const { id } = match.params;
   const dispatch = useDispatch();
 
-  const [formValues, setFormValues] = useState({
+  const [formValues, setFormValues] = useState<Form>({
     name: '',
     email: '',
   });
+  const [formErrors, setFormErrors] = useState<IObject>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
     name, email,
@@ -42,13 +53,41 @@ function UploadProfilePage({ match }: Props) {
   }, [id, dispatch]);
 
   const handleChange = (keyName: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsSubmitting(false);
+    setFormErrors({ ...formErrors, [keyName]: '' });
     setFormValues({ ...formValues, [keyName]: e.target.value });
   };
 
-  const submitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
-    dispatch(updateUserAction(formValues));
+  // form validation handler
+  const validate = (values: Form) => {
+    const errorRegisters: IObject = {};
+
+    if (!values.name) {
+      errorRegisters.name = '이름을 입력해야 합니다';
+    }
+
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+
+    if (!values.email) {
+      errorRegisters.email = '이메일 주소를 입력해야 합니다';
+    } else if (!regex.test(values.email)) {
+      errorRegisters.email = '올바르지 않은 이메일 주소입니다';
+    }
+
+    return errorRegisters;
   };
+
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+    setFormErrors(validate(formValues));
+    setIsSubmitting(true);
+  };
+
+  useEffect(() => {
+    if (!Object.keys(formErrors).length && isSubmitting) {
+      dispatch(updateUserAction(formValues));
+    }
+  }, [formErrors, dispatch, isSubmitting]);
 
   const {
     loadingUserDetails, errorUserDetails, userDetails, isUpdated,
@@ -68,16 +107,17 @@ function UploadProfilePage({ match }: Props) {
     return '업데이트';
   }, [loadingUserDetails]);
 
-  const errorUserDetailsMessage = useMemo(() => {
-    if (errorUserDetails) {
+  const serverError = useMemo(() => {
+    if (errorUserDetails && !Object.keys(formErrors).length && isSubmitting) {
       return errorUserDetails;
     }
     return null;
-  }, [errorUserDetails]);
+  }, [errorUserDetails, formErrors, isSubmitting]);
 
   if (isUpdated) {
     return <Redirect to={`/profile/${id}`} />;
   }
+
   return (
     <SingleColumnLayout>
       <Container>
@@ -86,34 +126,28 @@ function UploadProfilePage({ match }: Props) {
             프로필 업데이트
           </Text>
         </Title>
-        {errorUserDetailsMessage && errorUserDetailsMessage}
-        <StyledForm onSubmit={submitHandler}>
-          <StyledLabel htmlFor="name">
-            <Text>
-              이름
-            </Text>
-            <StyledInput
-              type="name"
-              id="name"
-              placeholder="이름"
-              value={name}
-              autoComplete="off"
-              onChange={handleChange('name')}
-            />
-          </StyledLabel>
-          <StyledLabel htmlFor="email">
-            <Text>
-              이메일
-            </Text>
-            <StyledInput
-              type="email"
-              id="email"
-              placeholder="이메일 주소"
-              value={email}
-              autoComplete="off"
-              onChange={handleChange('email')}
-            />
-          </StyledLabel>
+        <StyledForm onSubmit={handleSubmit} noValidate>
+          <Input
+            id="name"
+            label="이름"
+            type="text"
+            value={name}
+            placeholder="이름을 입력하세요"
+            handleChange={handleChange}
+            formErrors={formErrors}
+            serverError={serverError}
+          />
+          <Input
+            id="email"
+            label="이메일"
+            type="email"
+            value={email}
+            placeholder="이메일 주소를 입력하세요"
+            handleChange={handleChange}
+            formErrors={formErrors}
+            serverError={serverError}
+          />
+          {serverError && <ErrorWrapper>{serverError}</ErrorWrapper>}
           <Button type="submit">
             {buttonContent}
           </Button>

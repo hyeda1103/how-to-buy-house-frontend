@@ -75,7 +75,7 @@ export const Description = styled.div`
 
 export const ErrorWrapper = styled.p`
   text-align: center;
-  color: ${({ theme }) => theme.palette.fail.contrastText};
+  color: ${({ theme }) => theme.palette.fail};
 `;
 
 export const GuideWrapper = styled.div`

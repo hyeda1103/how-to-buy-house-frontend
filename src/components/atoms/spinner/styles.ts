@@ -17,10 +17,10 @@ export const Loader = styled.div`
   height: 1.75rem;
   margin: 0 auto;
   text-indent: -9999em;
-  border-top: ${({ theme }) => `0.2rem solid ${theme.palette.common.contrastText}`};
-  border-right: ${({ theme }) => `0.2rem solid ${theme.palette.common.contrastText}`};
-  border-bottom: ${({ theme }) => `0.2rem solid ${theme.palette.common.contrastText}`};
-  border-left: ${({ theme }) => `0.2rem solid ${theme.palette.common.main}`};
+  border-top: ${({ theme }) => `0.2rem solid ${theme.palette.contrastText}`};
+  border-right: ${({ theme }) => `0.2rem solid ${theme.palette.contrastText}`};
+  border-bottom: ${({ theme }) => `0.2rem solid ${theme.palette.contrastText}`};
+  border-left: ${({ theme }) => `0.2rem solid ${theme.palette.main}`};
   -webkit-transform: translateZ(0);
   -ms-transform: translateZ(0);
   transform: translateZ(0);

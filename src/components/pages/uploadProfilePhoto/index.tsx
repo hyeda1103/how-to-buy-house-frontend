@@ -74,7 +74,7 @@ function UploadProfilePhotoPage() {
           </Text>
         </Title>
         {errorUploadProfilePhotoMessage && errorUploadProfilePhotoMessage}
-        <StyledForm onSubmit={submitHandler}>
+        <StyledForm onSubmit={submitHandler} noValidate>
           <StyledLabel htmlFor="image">
             <Text>
               프로필 사진

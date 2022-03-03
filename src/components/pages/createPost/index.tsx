@@ -22,8 +22,9 @@ import {
   StyledForm,
   Title,
   Text,
-  StyledInput,
+  ErrorWrapper,
 } from './styles';
+import Input from '^/components/molecules/input';
 
 interface Option {
   value: string
@@ -37,10 +38,10 @@ interface Theme {
 const customStyles: StylesConfig<Option, false> = {
   control: (provided, state) => ({
     ...provided,
-    background: `${({ theme }: Theme) => theme.palette.common.main}`,
+    background: `${({ theme }: Theme) => theme.palette.main}`,
     fontSize: '16px',
-    borderColor: `${({ theme }: Theme) => theme.palette.common.contrastText}`,
-    color: `${({ theme }: Theme) => theme.palette.common.contrastText}`,
+    borderColor: `${({ theme }: Theme) => theme.palette.contrastText}`,
+    color: `${({ theme }: Theme) => theme.palette.contrastText}`,
     minHeight: '44px',
     height: '44px',
     boxShadow: state.isFocused ? '0' : '0',
@@ -48,7 +49,7 @@ const customStyles: StylesConfig<Option, false> = {
   // 드롭다운 메뉴
   option: (provided) => ({
     ...provided,
-    color: `${({ theme }: Theme) => theme.palette.common.contrastText}`,
+    color: `${({ theme }: Theme) => theme.palette.contrastText}`,
     fontSize: '16px',
     padding: '12px 20px',
     overflow: 'hidden',
@@ -56,7 +57,7 @@ const customStyles: StylesConfig<Option, false> = {
 
   singleValue: (provided) => ({
     ...provided,
-    color: `${({ theme }: Theme) => theme.palette.common.contrastText}`,
+    color: `${({ theme }: Theme) => theme.palette.contrastText}`,
   }),
 
   valueContainer: (provided) => ({
@@ -68,13 +69,17 @@ const customStyles: StylesConfig<Option, false> = {
   input: (provided) => ({
     ...provided,
     margin: '0px',
-    color: `${({ theme }: Theme) => theme.palette.common.contrastText}`,
+    color: `${({ theme }: Theme) => theme.palette.contrastText}`,
   }),
   indicatorsContainer: (provided) => ({
     ...provided,
     height: '44px',
   }),
 };
+
+interface IObject {
+  [key: string]: string
+}
 
 interface Form {
   title: string
@@ -92,7 +97,10 @@ function CreatePostPage() {
     description: '',
     image: undefined,
   });
+  // category options
   const [options, setOptions] = useState<Array<Option>>();
+  const [formErrors, setFormErrors] = useState<IObject>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
     title, description, image,
@@ -100,7 +108,7 @@ function CreatePostPage() {
 
   useEffect(() => {
     dispatch(fetchCategoriesAction());
-  }, []);
+  }, [dispatch]);
 
   const { isCreated, loading: loadingPost, error: errorPost } = useSelector((state: RootState) => state.post);
 
@@ -114,31 +122,63 @@ function CreatePostPage() {
     setOptions(selectOptions);
   }, [categoryList]);
 
-  const handleChange = (keyName: string) => (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (keyName: string) => (e: ChangeEvent<HTMLInputElement>) => {
+    setIsSubmitting(false);
+    setFormErrors({ ...formErrors, [keyName]: '' });
     setFormValues({ ...formValues, [keyName]: e.target.value });
   };
 
   const handleFileDrop
     : (acceptedFiles: Blob[], fileRejections: FileRejection[], event: DropEvent) => void | undefined = (acceptedFiles) => setFormValues({ ...formValues, image: acceptedFiles[0] });
 
-  const submitHandler: FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
-    dispatch(createPostAction(formValues));
+  // form validation handler
+  const validate = (values: Form) => {
+    const errors: IObject = {};
+
+    if (!values.title) {
+      errors.title = '제목을 입력해야 합니다';
+    }
+
+    if (!values.category) {
+      errors.category = '카테고리를 설정해야 합니다';
+    }
+
+    if (!values.description) {
+      errors.description = '내용을 입력해야 합니다';
+    }
+
+    if (!values.image) {
+      errors.image = '이미지를 설정해야 합니다';
+    }
+
+    return errors;
   };
+
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+    setFormErrors(validate(formValues));
+    setIsSubmitting(true);
+  };
+
+  useEffect(() => {
+    if (!Object.keys(formErrors).length && isSubmitting) {
+      dispatch(createPostAction(formValues));
+    }
+  }, [formErrors, isSubmitting, dispatch]);
 
   const buttonContent = useMemo(() => {
     if (loadingPost) {
       return <Spinner />;
     }
-    return '포스트';
+    return '포스트 등록';
   }, [loadingPost]);
 
-  const errorMessage = useMemo(() => {
-    if (errorPost) {
+  const serverError = useMemo(() => {
+    if (errorPost && !Object.keys(formErrors).length && isSubmitting) {
       return errorPost;
     }
     return null;
-  }, [errorPost]);
+  }, [errorPost, isSubmitting, formErrors]);
 
   // selector props
   const handleSelectChange = (e: any) => setFormValues({
@@ -158,21 +198,17 @@ function CreatePostPage() {
             새로운 포스트
           </Text>
         </Title>
-        {errorMessage && errorMessage}
-        <StyledForm onSubmit={submitHandler}>
-          <StyledLabel htmlFor="title">
-            <Text>
-              제목
-            </Text>
-            <StyledInput
-              type="title"
-              id="title"
-              placeholder="포스트 제목을 입력하세요"
-              value={title}
-              autoComplete="off"
-              onChange={handleChange('title')}
-            />
-          </StyledLabel>
+        <StyledForm onSubmit={handleSubmit} noValidate>
+          <Input
+            id="title"
+            label="제목"
+            type="text"
+            value={title}
+            placeholder="제목을 입력하세요"
+            handleChange={handleChange}
+            formErrors={formErrors}
+            serverError={serverError}
+          />
           <StyledLabel htmlFor="category">
             <Text>
               카테고리
@@ -202,6 +238,7 @@ function CreatePostPage() {
               attachedFileName={(image as File)?.name}
             />
           </StyledLabel>
+          {serverError && <ErrorWrapper>{serverError}</ErrorWrapper>}
           <Button type="submit">
             {buttonContent}
           </Button>

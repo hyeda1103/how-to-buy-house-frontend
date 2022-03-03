@@ -454,7 +454,7 @@ interface UserState {
   // user details
   loadingUserDetails: boolean;
   errorUserDetails: string | undefined;
-  userDetails: any
+  userDetails: T.User
   // block user
   loadingBlockUser: boolean;
   errorBlockUser: string | undefined;
@@ -485,7 +485,7 @@ interface UserState {
   loadingUpdateUser: boolean;
   errorUpdateUser: string | undefined;
   isUpdated: boolean;
-  userUpdated: any
+  userUpdated: T.User;
   // update password
   loadingUpdatePassword: boolean;
   errorUpdatePassword: string | undefined;
@@ -561,7 +561,6 @@ const usersSlice = createSlice({
       state.errorUserDetails = undefined;
     });
     builder.addCase(fetchUserDetailsAction.fulfilled, (state, action) => {
-      console.log(`fetch user details: ${action.payload}`);
       state.loadingUserDetails = false;
       state.userDetails = action?.payload;
       state.errorUserDetails = undefined;

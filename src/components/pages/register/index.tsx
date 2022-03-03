@@ -91,7 +91,7 @@ function RegisterPage() {
     if (!Object.keys(formErrors).length && isSubmitting) {
       dispatch(registerAction(formValues));
     }
-  }, [formErrors]);
+  }, [formErrors, dispatch, isSubmitting]);
 
   const {
     loadingRegister, errorRegister, registered,
@@ -105,11 +105,11 @@ function RegisterPage() {
   }, [loadingRegister]);
 
   const serverError = useMemo(() => {
-    if (errorRegister) {
+    if (errorRegister && !Object.keys(formErrors).length && isSubmitting) {
       return errorRegister;
     }
     return null;
-  }, [errorRegister]);
+  }, [errorRegister, formErrors, isSubmitting]);
 
   if (registered) {
     return <Redirect to="/profile" />;
@@ -127,7 +127,7 @@ function RegisterPage() {
           <Input
             id="name"
             label="이름"
-            type="name"
+            type="text"
             value={name}
             placeholder="이름을 입력하세요"
             handleChange={handleChange}

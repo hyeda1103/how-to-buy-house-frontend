@@ -1,10 +1,10 @@
 import React from 'react';
 
+import ErrorBox from '^/components/molecules/errorBox';
 import {
   StyledLabel,
   Text,
   StyledInput,
-  ErrorWrapper,
 } from './styles';
 
 interface IObject {
@@ -33,14 +33,16 @@ function Input({
       <StyledInput
         id={id}
         type={type}
-        value={value}
+        value={value || ''}
         placeholder={placeholder}
         autoComplete="off"
         onChange={handleChange(id)}
-        error={!!formErrors[type] || !!serverError}
+        error={!!formErrors[id] || !!serverError}
       />
       {formErrors[id] && (
-      <ErrorWrapper>{formErrors[id]}</ErrorWrapper>
+        <ErrorBox>
+          {formErrors[id]}
+        </ErrorBox>
       )}
     </StyledLabel>
   );

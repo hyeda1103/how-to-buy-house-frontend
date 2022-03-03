@@ -11,8 +11,8 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     overflow-x: hidden;
     height: 100%;
-    color: ${({ theme }) => theme.palette.common.contrastText};
-    background: ${({ theme }) => theme.palette.common.main};
+    color: ${({ theme }) => theme.palette.contrastText};
+    background: ${({ theme }) => theme.palette.main};
     font-family: 'Noto Sans KR', sans-serif;
   }
   #root {
@@ -22,7 +22,7 @@ const GlobalStyle = createGlobalStyle`
     height: 100%;
   }
   a {
-    color: ${({ theme }) => theme.palette.common.contrastText};
+    color: ${({ theme }) => theme.palette.contrastText};
     text-decoration: none;
   }
   img {

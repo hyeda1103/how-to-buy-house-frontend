@@ -6,7 +6,7 @@ import {
 } from './styles';
 import Toggle from '^/components/atoms/toggleButton';
 import { RootState } from '^/store';
-import { logoutAction } from '^/store/slices/user';
+import { fetchUserDetailsAction, logoutAction } from '^/store/slices/user';
 
 interface Props {
   toggleTheme: () => void
@@ -14,7 +14,17 @@ interface Props {
 
 function Header({ toggleTheme }: Props) {
   const dispatch = useDispatch();
-  const { userAuth } = useSelector((state: RootState) => state.auth);
+  const [userName, setUserName] = useState('');
+
+  const { userAuth, userUpdated } = useSelector((state: RootState) => state.auth);
+
+  useEffect(() => {
+    if (userUpdated) {
+      setUserName(userUpdated.name);
+    } else if (userAuth) {
+      setUserName(userAuth.name);
+    }
+  }, [userAuth?.name, userUpdated?.name]);
 
   return (
     <Container>
@@ -24,7 +34,7 @@ function Header({ toggleTheme }: Props) {
           {userAuth ? (
             <>
               <NavItem to={`/profile/${userAuth?._id}`}>
-                {userAuth?.name}
+                {userName}
                 님, 반갑습니다
               </NavItem>
               <NavItem to="/posts">모든 포스트</NavItem>

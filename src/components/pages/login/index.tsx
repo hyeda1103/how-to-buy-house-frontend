@@ -4,13 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import {
   Container,
-  StyledLabel,
   StyledForm,
   Title,
-  Text,
-  StyledInput,
-  GuideWrapper,
+  InputWrapper,
+  FindPasswordWrapper,
+  ArrowForward,
   ErrorWrapper,
+  DirectToWrapper,
 } from './styles';
 import { RootState } from '^/store';
 import { loginAction } from '^/store/slices/user';
@@ -18,6 +18,7 @@ import Spinner from '^/components/atoms/spinner';
 import { Button } from '^/components/atoms/basicButton';
 import SingleColumnLayout from '^/components/templates/singleColumnLayout/index';
 import Input from '^/components/molecules/input';
+import ErrorBox from '^/components/molecules/errorBox';
 
 interface IObject {
   [key: string]: string
@@ -91,11 +92,11 @@ function LoginPage() {
   }, [loadingLogin]);
 
   const serverError = useMemo(() => {
-    if (errorLogin) {
+    if (errorLogin && !Object.keys(formErrors).length && isSubmitting) {
       return errorLogin;
     }
     return null;
-  }, [errorLogin]);
+  }, [errorLogin, isSubmitting, formErrors]);
 
   if (userAuth) {
     return <Redirect to="/" />;
@@ -105,50 +106,51 @@ function LoginPage() {
     <SingleColumnLayout>
       <Container>
         <Title>
-          <Text>
-            로그인
-          </Text>
+          로그인하기
         </Title>
         <StyledForm onSubmit={handleSubmit} noValidate>
-          <Input
-            id="email"
-            label="이메일"
-            type="email"
-            value={email}
-            placeholder="이메일 주소를 입력하세요"
-            handleChange={handleChange}
-            formErrors={formErrors}
-            serverError={serverError}
-          />
-          <Input
-            id="password"
-            label="비밀번호"
-            type="password"
-            value={password}
-            placeholder="비밀번호를 입력하세요"
-            handleChange={handleChange}
-            formErrors={formErrors}
-            serverError={serverError}
-          />
-          {serverError && <ErrorWrapper>{serverError}</ErrorWrapper>}
+          <InputWrapper>
+            <Input
+              id="email"
+              label="이메일"
+              type="email"
+              value={email}
+              placeholder="이메일 주소를 입력하세요"
+              handleChange={handleChange}
+              formErrors={formErrors}
+              serverError={serverError}
+            />
+            <Input
+              id="password"
+              label="비밀번호"
+              type="password"
+              value={password}
+              placeholder="비밀번호를 입력하세요"
+              handleChange={handleChange}
+              formErrors={formErrors}
+              serverError={serverError}
+            />
+            {serverError && <ErrorBox>{serverError}</ErrorBox>}
+          </InputWrapper>
           <Button type="submit">
             {buttonContent}
           </Button>
         </StyledForm>
-        <GuideWrapper>
-          <div>
-            <Link
-              to="/password-reset-token"
-            >
-              비밀번호를 잊어버렸어요?
-            </Link>
-          </div>
-          <div>
-            새로 오셨나요?
-            {' '}
-            <Link to="/register">회원가입</Link>
-          </div>
-        </GuideWrapper>
+        <FindPasswordWrapper>
+          <Link
+            to="/password-reset-token"
+          >
+            <span>
+              비밀번호 찾기
+            </span>
+            <ArrowForward />
+          </Link>
+        </FindPasswordWrapper>
+        <DirectToWrapper>
+          새로 오셨나요?
+          {' '}
+          <Link to="/register">회원가입</Link>
+        </DirectToWrapper>
       </Container>
     </SingleColumnLayout>
   );
