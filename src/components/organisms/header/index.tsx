@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import {
   Container, Inner, Logo, NavList, NavItem, NavItemWithNoLink,
@@ -14,17 +15,29 @@ interface Props {
 
 function Header({ toggleTheme }: Props) {
   const dispatch = useDispatch();
-  const { userAuth } = useSelector((state: RootState) => state.auth);
+  const [userName, setUserName] = useState('');
+
+  const { userAuth, userUpdated } = useSelector((state: RootState) => state.auth);
+
+  useEffect(() => {
+    if (userUpdated) {
+      setUserName(userUpdated.name);
+    } else if (userAuth) {
+      setUserName(userAuth.name);
+    }
+  }, [userAuth?.name, userUpdated?.name]);
 
   return (
     <Container>
       <Inner>
-        <Logo to="/">로고</Logo>
+        <Link to="/">
+          <Logo />
+        </Link>
         <NavList>
           {userAuth ? (
             <>
               <NavItem to={`/profile/${userAuth?._id}`}>
-                {userAuth?.name}
+                {userName}
                 님, 반갑습니다
               </NavItem>
               <NavItem to="/posts">모든 포스트</NavItem>

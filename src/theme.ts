@@ -3,17 +3,19 @@ import { DefaultTheme } from 'styled-components';
 export const lightTheme: DefaultTheme = {
   borderRadius: '4px',
   palette: {
-    common: {
-      main: '#fefefe',
-      contrastText: '#333333',
+    main: '#fefefe',
+    contrastText: '#121212',
+    hint: '#727272',
+    primary: '#7B61FF',
+    hover: '#493892',
+    border: {
+      default: '#dedfe6',
+      focus: '#121212',
     },
-    success: {
-      main: '#dddddd',
-      contrastText: '#6cc070',
-    },
-    fail: {
-      main: '#fefefe',
-      contrastText: '#E73339',
+    fail: '#ff5252',
+    success: '#00d455',
+    guide: {
+      background: '#f2f3f5',
     },
   },
 };
@@ -21,17 +23,19 @@ export const lightTheme: DefaultTheme = {
 export const darkTheme: DefaultTheme = {
   borderRadius: '4px',
   palette: {
-    common: {
-      main: '#1C2128',
-      contrastText: '#fefefe',
+    main: '#fefefe',
+    contrastText: '#121212',
+    primary: '#7B61FF',
+    hover: '#493892',
+    hint: '#727272',
+    border: {
+      default: '#dedfe6',
+      focus: '#121212',
     },
-    success: {
-      main: '#6cc070',
-      contrastText: '#dddddd',
-    },
-    fail: {
-      main: '#fefefe',
-      contrastText: '#E73339',
+    fail: '#ff5252',
+    success: '#00d455',
+    guide: {
+      background: '#f2f3f5',
     },
   },
 };

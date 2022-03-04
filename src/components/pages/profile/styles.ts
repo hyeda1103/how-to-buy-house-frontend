@@ -38,7 +38,7 @@ export const Name = styled.p`
 export const VerificationBadge = styled.button`
   padding: 0.25rem 0.75rem;
   border-radius: 0.25rem;
-  border: 1px solid ${({ theme }) => theme.palette.common.contrastText};
+  border: 1px solid ${({ theme }) => theme.palette.contrastText};
 `;
 
 export const ListOfViewers = styled.ul`
@@ -70,7 +70,7 @@ export const UploadButton = styled(Link)`
   font-size: 1rem;
   padding: 0.25rem 0.75rem;
   border-radius: 0.25rem;
-  border: 1px solid ${({ theme }) => theme.palette.common.contrastText};
+  border: 1px solid ${({ theme }) => theme.palette.contrastText};
 
   & + & {
     margin-left: 0.5rem;

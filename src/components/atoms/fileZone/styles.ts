@@ -6,13 +6,13 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 12px 20px;
-  border: 1px dashed ${({ theme }) => theme.palette.common.contrastText};
+  border: 1px dashed ${({ theme }) => theme.palette.contrastText};
   border-radius: ${({ theme }) => theme.borderRadius};
-  background-color: ${({ theme }) => theme.palette.common.main};
+  background-color: ${({ theme }) => theme.palette.main};
   transition: border 0.24s ease-in-out;
   cursor: pointer;
 
   &:hover {
-    background-color: ${({ theme }) => theme.palette.success.main};
+    background-color: ${({ theme }) => theme.palette.border.default};
   }
 `;

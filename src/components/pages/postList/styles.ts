@@ -19,7 +19,7 @@ export const Card = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
-  border: ${({ theme }) => `1px solid ${theme.palette.common.contrastText}`};
+  border: ${({ theme }) => `1px solid ${theme.palette.contrastText}`};
   border-radius: ${({ theme }) => theme.borderRadius};
   overflow: hidden;
 `;

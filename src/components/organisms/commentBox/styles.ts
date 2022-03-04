@@ -23,7 +23,7 @@ export const StyledLabel = styled.label`
 
   .ql-editor {
     height: 100px;
-    border: ${({ theme }) => `1px solid ${theme.palette.common.contrastText}`};
+    border: ${({ theme }) => `1px solid ${theme.palette.contrastText}`};
     border-radius: 4px;
     font-size: 16px;
   }
@@ -41,9 +41,9 @@ export const CommentEditor = styled(ReactQuill)`
   width: 100%;
   padding: 0.75rem 1.25rem;
   font-size: 16px;
-  background-color: ${({ theme }) => theme.palette.common.main};
+  background-color: ${({ theme }) => theme.palette.main};
   border-radius: ${({ theme }) => theme.borderRadius};
-  border: ${({ theme }) => `1px solid ${theme.palette.common.contrastText}`};
+  border: ${({ theme }) => `1px solid ${theme.palette.contrastText}`};
   transition: all 0.15s ease;
   resize: none;
 `;

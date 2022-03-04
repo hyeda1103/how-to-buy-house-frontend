@@ -1,21 +1,32 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
   Container,
-  StyledLabel,
   StyledForm,
   Title,
-  Text,
-  StyledInput,
-  GuideWrapper,
+  DirectToWrapper,
+  InputWrapper,
 } from './styles';
 import { RootState } from '^/store';
 import { registerAction } from '^/store/slices/user';
 import Spinner from '^/components/atoms/spinner';
 import { Button } from '^/components/atoms/basicButton';
 import SingleColumnLayout from '^/components/templates/singleColumnLayout/index';
+import Input from '^/components/molecules/input';
+import ErrorBox from '^/components/molecules/errorBox';
+
+interface IObject {
+  [key: string]: string
+}
+
+interface Form {
+  name: string
+  email: string
+  password: string
+  confirmPassword: string
+}
 
 function RegisterPage() {
   const dispatch = useDispatch();
@@ -26,37 +37,79 @@ function RegisterPage() {
     password: '',
     confirmPassword: '',
   });
+  const [formErrors, setFormErrors] = useState<IObject>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
     name, email, password, confirmPassword,
   } = formValues;
 
   const handleChange = (keyName: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsSubmitting(false);
+    setFormErrors({ ...formErrors, [keyName]: '' });
     setFormValues({ ...formValues, [keyName]: e.target.value });
   };
 
-  const submitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
-    dispatch(registerAction(formValues));
+  // form validation handler
+  const validate = (values: Form) => {
+    const errorRegisters: IObject = {};
+
+    if (!values.name) {
+      errorRegisters.name = '이름을 입력해야 합니다';
+    }
+
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+
+    if (!values.email) {
+      errorRegisters.email = '이메일 주소를 입력해야 합니다';
+    } else if (!regex.test(values.email)) {
+      errorRegisters.email = '올바르지 않은 이메일 주소입니다';
+    }
+
+    if (!values.password) {
+      errorRegisters.password = '비밀번호를 입력해야 합니다';
+    } else if (values.password.length < 4) {
+      errorRegisters.password = '비밀번호는 적어도 네 글자 이상입니다';
+    }
+
+    if (!values.confirmPassword) {
+      errorRegisters.confirmPassword = '비밀번호 확인을 입력해야 합니다';
+    } else if (values.password !== values.confirmPassword) {
+      errorRegisters.confirmPassword = '비밀번호와 비밀번호 확인이 일치하지 않습니다';
+    }
+
+    return errorRegisters;
   };
 
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+    setFormErrors(validate(formValues));
+    setIsSubmitting(true);
+  };
+
+  useEffect(() => {
+    if (!Object.keys(formErrors).length && isSubmitting) {
+      dispatch(registerAction(formValues));
+    }
+  }, [formErrors, dispatch, isSubmitting]);
+
   const {
-    loading, error, registered,
+    loadingRegister, errorRegister, registered,
   } = useSelector((state: RootState) => state.auth);
 
   const buttonContent = useMemo(() => {
-    if (loading) {
+    if (loadingRegister) {
       return <Spinner />;
     }
     return '회원가입';
-  }, [loading]);
+  }, [loadingRegister]);
 
-  const errorMessage = useMemo(() => {
-    if (error) {
-      return error;
+  const serverError = useMemo(() => {
+    if (errorRegister && !Object.keys(formErrors).length && isSubmitting) {
+      return errorRegister;
     }
     return null;
-  }, [error]);
+  }, [errorRegister, formErrors, isSubmitting]);
 
   if (registered) {
     return <Redirect to="/profile" />;
@@ -66,73 +119,61 @@ function RegisterPage() {
     <SingleColumnLayout>
       <Container>
         <Title>
-          <Text>
-            회원가입
-          </Text>
+          가입하기
         </Title>
-        {errorMessage && errorMessage}
-        <StyledForm onSubmit={submitHandler}>
-          <StyledLabel htmlFor="name">
-            <Text>
-              이름
-            </Text>
-            <StyledInput
-              type="name"
+        <StyledForm onSubmit={handleSubmit} noValidate>
+          <InputWrapper>
+            <Input
               id="name"
-              placeholder="이름"
+              label="이름"
+              type="text"
               value={name}
-              autoComplete="off"
-              onChange={handleChange('name')}
+              placeholder="이름을 입력하세요"
+              handleChange={handleChange}
+              formErrors={formErrors}
+              serverError={serverError}
             />
-          </StyledLabel>
-          <StyledLabel htmlFor="email">
-            <Text>
-              이메일
-            </Text>
-            <StyledInput
-              type="email"
+            <Input
               id="email"
-              placeholder="이메일 주소"
+              label="이메일"
+              type="email"
               value={email}
-              autoComplete="off"
-              onChange={handleChange('email')}
+              placeholder="이메일 주소를 입력하세요"
+              handleChange={handleChange}
+              formErrors={formErrors}
+              serverError={serverError}
             />
-          </StyledLabel>
-          <StyledLabel htmlFor="password">
-            <Text>
-              비밀번호
-            </Text>
-            <StyledInput
-              type="password"
+            <Input
               id="password"
-              placeholder="비밀번호"
-              value={password}
-              autoComplete="off"
-              onChange={handleChange('password')}
-            />
-          </StyledLabel>
-          <StyledLabel htmlFor="confirmPassword">
-            <Text>
-              비밀번호 확인
-            </Text>
-            <StyledInput
+              label="비밀번호"
               type="password"
-              id="confirmPassword"
-              placeholder="비밀번호 확인"
-              value={confirmPassword}
-              autoComplete="off"
-              onChange={handleChange('confirmPassword')}
+              value={password}
+              placeholder="비밀번호를 입력하세요"
+              handleChange={handleChange}
+              formErrors={formErrors}
+              serverError={serverError}
             />
-          </StyledLabel>
+            <Input
+              id="confirmPassword"
+              label="비밀번호 확인"
+              type="password"
+              value={confirmPassword}
+              placeholder="비밀번호 확인을 입력하세요"
+              handleChange={handleChange}
+              formErrors={formErrors}
+              serverError={serverError}
+            />
+            {serverError && <ErrorBox>{serverError}</ErrorBox>}
+          </InputWrapper>
           <Button type="submit">
             {buttonContent}
           </Button>
         </StyledForm>
-        <GuideWrapper>
-          계정이 이미 있나요?
+        <DirectToWrapper>
+          새로 오셨나요?
           {' '}
           <Link to="/login">로그인</Link>
-        </GuideWrapper>
+        </DirectToWrapper>
       </Container>
     </SingleColumnLayout>
   );

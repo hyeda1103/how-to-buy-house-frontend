@@ -22,33 +22,13 @@ export const Title = styled.h1`
   margin-bottom: 2rem;
 `;
 
-export const StyledLabel = styled.label`
-  position: relative;
-  width: 100%;
-  border-radius: 3px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  margin: 1.5rem 0;
-`;
-
 export const Text = styled.span`
   margin: 0.75rem;
 `;
 
-export const StyledInput = styled.input`
-  width: 100%;
-  padding: 0.75rem 1.25rem;
-  font-size: 16px;
-  background-color: ${({ theme }) => theme.palette.common.main};
-  border-radius: ${({ theme }) => theme.borderRadius};
-  border: ${({ theme }) => `1px solid ${theme.palette.common.contrastText}`};
-  transition: all 0.15s ease;
-`;
-
 export const ErrorWrapper = styled.p`
-  text-align: center;
-  color: ${({ theme }) => theme.palette.fail.contrastText};
+  margin: 0.5rem 0.75rem;
+  color: ${({ theme }) => theme.palette.fail};
 `;
 
 export const GuideWrapper = styled.div`

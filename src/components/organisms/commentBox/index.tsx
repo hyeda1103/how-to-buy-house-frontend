@@ -54,7 +54,7 @@ function AddComment({ postId, disable }: Props) {
 
   return (
     <Container>
-      <StyledForm onSubmit={submitHandler}>
+      <StyledForm onSubmit={submitHandler} noValidate>
         <StyledLabel htmlFor="description">
           <Text>
             새로운 댓글 작성하기

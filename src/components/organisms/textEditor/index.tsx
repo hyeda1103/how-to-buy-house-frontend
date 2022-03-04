@@ -33,9 +33,6 @@ function TextEditor({ value, formValues, setFormValues }: Props) {
       [{ align: [] }, { color: [] }, { background: [] }], // dropdown with defaults from theme
       ['clean'],
     ],
-    handlers: {
-      image: handleImage,
-    },
   }), []);
   const formats = [
     // 'font',

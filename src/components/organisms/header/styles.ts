@@ -1,13 +1,14 @@
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
+import { ReactComponent as LogoImage } from '^/assets/logo/primary.svg';
 
 export const Container = styled.header`
   position: fixed;
   z-index: 9;
   width: 100%;
   height: 60px;
-  border-bottom: 1px solid ${({ theme }) => theme.palette.common.contrastText};
-  background-color: ${({ theme }) => theme.palette.common.main};
+  border-bottom: 1px solid ${({ theme }) => theme.palette.contrastText};
+  background-color: ${({ theme }) => theme.palette.main};
 `;
 
 export const Inner = styled.div`
@@ -20,8 +21,12 @@ export const Inner = styled.div`
   align-items: center;
 `;
 
-export const Logo = styled(Link)`
-  font-size: 20px;
+export const Logo = styled(LogoImage)`
+  display: inline-block;
+  /* width: 100px; */
+  height: 40px;
+  margin: auto 0;
+  vertical-align: middle;
 `;
 
 export const NavList = styled.div`

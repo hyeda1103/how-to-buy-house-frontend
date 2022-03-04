@@ -5,7 +5,7 @@ import { lightTheme } from '../../../theme';
 
 export const ToggleContainer = styled.button`
   position: relative;
-  background: ${({ theme }) => theme.palette.common.contrastText};
+  background: ${({ theme }) => theme.palette.contrastText};
   width: 24px;
   height: 24px;
   border-radius: 4px;
@@ -30,7 +30,7 @@ export const SunIcon = styled(FaSun)`
   left: 0.25rem;
   margin: auto 0;
   font-size: 16px;
-  color: ${({ theme }) => theme.palette.common.main};
+  color: ${({ theme }) => theme.palette.main};
   opacity: ${({ theme }) => (theme === lightTheme ? '1' : '0')};
   transition: 0.1s ease;
 `;
@@ -42,7 +42,7 @@ export const MoonIcon = styled(FaMoon)`
   right: 0.25rem;
   margin: auto 0;
   font-size: 16px;
-  color: ${({ theme }) => theme.palette.common.main};
+  color: ${({ theme }) => theme.palette.main};
   opacity: ${({ theme }) => (theme === lightTheme ? '0' : '1')};
   transition: 0.1s ease;
 `;
