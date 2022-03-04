@@ -6,9 +6,8 @@ import {
   Container,
   StyledForm,
   Title,
-  Text,
-  GuideWrapper,
-  ErrorWrapper,
+  DirectToWrapper,
+  InputWrapper,
 } from './styles';
 import { RootState } from '^/store';
 import { registerAction } from '^/store/slices/user';
@@ -16,6 +15,7 @@ import Spinner from '^/components/atoms/spinner';
 import { Button } from '^/components/atoms/basicButton';
 import SingleColumnLayout from '^/components/templates/singleColumnLayout/index';
 import Input from '^/components/molecules/input';
+import ErrorBox from '^/components/molecules/errorBox';
 
 interface IObject {
   [key: string]: string
@@ -119,61 +119,61 @@ function RegisterPage() {
     <SingleColumnLayout>
       <Container>
         <Title>
-          <Text>
-            회원가입
-          </Text>
+          가입하기
         </Title>
         <StyledForm onSubmit={handleSubmit} noValidate>
-          <Input
-            id="name"
-            label="이름"
-            type="text"
-            value={name}
-            placeholder="이름을 입력하세요"
-            handleChange={handleChange}
-            formErrors={formErrors}
-            serverError={serverError}
-          />
-          <Input
-            id="email"
-            label="이메일"
-            type="email"
-            value={email}
-            placeholder="이메일 주소를 입력하세요"
-            handleChange={handleChange}
-            formErrors={formErrors}
-            serverError={serverError}
-          />
-          <Input
-            id="password"
-            label="비밀번호"
-            type="password"
-            value={password}
-            placeholder="비밀번호를 입력하세요"
-            handleChange={handleChange}
-            formErrors={formErrors}
-            serverError={serverError}
-          />
-          <Input
-            id="confirmPassword"
-            label="비밀번호 확인"
-            type="password"
-            value={confirmPassword}
-            placeholder="비밀번호 확인을 입력하세요"
-            handleChange={handleChange}
-            formErrors={formErrors}
-            serverError={serverError}
-          />
-          {serverError && <ErrorWrapper>{serverError}</ErrorWrapper>}
+          <InputWrapper>
+            <Input
+              id="name"
+              label="이름"
+              type="text"
+              value={name}
+              placeholder="이름을 입력하세요"
+              handleChange={handleChange}
+              formErrors={formErrors}
+              serverError={serverError}
+            />
+            <Input
+              id="email"
+              label="이메일"
+              type="email"
+              value={email}
+              placeholder="이메일 주소를 입력하세요"
+              handleChange={handleChange}
+              formErrors={formErrors}
+              serverError={serverError}
+            />
+            <Input
+              id="password"
+              label="비밀번호"
+              type="password"
+              value={password}
+              placeholder="비밀번호를 입력하세요"
+              handleChange={handleChange}
+              formErrors={formErrors}
+              serverError={serverError}
+            />
+            <Input
+              id="confirmPassword"
+              label="비밀번호 확인"
+              type="password"
+              value={confirmPassword}
+              placeholder="비밀번호 확인을 입력하세요"
+              handleChange={handleChange}
+              formErrors={formErrors}
+              serverError={serverError}
+            />
+            {serverError && <ErrorBox>{serverError}</ErrorBox>}
+          </InputWrapper>
           <Button type="submit">
             {buttonContent}
           </Button>
         </StyledForm>
-        <GuideWrapper>
-          계정이 이미 있나요?
+        <DirectToWrapper>
+          새로 오셨나요?
           {' '}
           <Link to="/login">로그인</Link>
-        </GuideWrapper>
+        </DirectToWrapper>
       </Container>
     </SingleColumnLayout>
   );

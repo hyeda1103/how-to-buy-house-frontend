@@ -5,6 +5,7 @@ interface IPalette {
   contrastText: string
   hint: string
   primary: string
+  hover: string
   border: {
     default: string
     focus: string

@@ -30,11 +30,6 @@ export const InputWrapper = styled.div`
   margin-bottom: 50.71px;
 `;
 
-export const ErrorWrapper = styled.p`
-  margin: 0.5rem 0.75rem;
-  color: ${({ theme }) => theme.palette.fail};
-`;
-
 export const FindPasswordWrapper = styled.div`
   width: 100%;
   display: flex;

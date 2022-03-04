@@ -9,7 +9,6 @@ import {
   InputWrapper,
   FindPasswordWrapper,
   ArrowForward,
-  ErrorWrapper,
   DirectToWrapper,
 } from './styles';
 import { RootState } from '^/store';

@@ -10,6 +10,7 @@ export const Button = styled.button<IProps>`
   cursor: pointer;
   font-size: 1.25rem;
   border-radius: 4px;
+  transition: background-color .3s ease;
   ${(props) => {
     switch (props.variant) {
       case VARIANT.SUCCESS:
@@ -29,6 +30,10 @@ export const Button = styled.button<IProps>`
           border: none;
           color: ${props.theme.palette.main};
           background-color: ${props.theme.palette.primary};
+
+          &:hover {
+            background-color: ${props.theme.palette.hover};
+          }
         `;
     }
   }}

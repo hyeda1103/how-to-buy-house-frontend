@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import {
   Container, Inner, Logo, NavList, NavItem, NavItemWithNoLink,
 } from './styles';
 import Toggle from '^/components/atoms/toggleButton';
 import { RootState } from '^/store';
-import { fetchUserDetailsAction, logoutAction } from '^/store/slices/user';
+import { logoutAction } from '^/store/slices/user';
 
 interface Props {
   toggleTheme: () => void
@@ -29,7 +30,9 @@ function Header({ toggleTheme }: Props) {
   return (
     <Container>
       <Inner>
-        <Logo to="/">로고</Logo>
+        <Link to="/">
+          <Logo />
+        </Link>
         <NavList>
           {userAuth ? (
             <>
