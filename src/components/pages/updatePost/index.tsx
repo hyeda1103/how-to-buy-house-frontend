@@ -1,5 +1,5 @@
 import React, {
-  useState, useEffect, useMemo, useRef, ChangeEvent,
+  useState, useEffect, useMemo, ChangeEvent,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { StylesConfig } from 'react-select';
@@ -180,7 +180,7 @@ function UpdatePostPage({ match }: Props) {
       };
       dispatch(updatePostAction(data));
     }
-  }, [formErrors, isSubmitting, dispatch]);
+  }, [formErrors, isSubmitting, dispatch, category, formValues, id, image, postDetails?.category, postDetails?.image]);
 
   const buttonContent = useMemo(() => {
     if (loading) {
@@ -194,7 +194,7 @@ function UpdatePostPage({ match }: Props) {
       return error;
     }
     return null;
-  }, [error]);
+  }, [error, formErrors, isSubmitting]);
 
   // selector props
   const handleSelectChange = (e: any) => setCategory(e.label);

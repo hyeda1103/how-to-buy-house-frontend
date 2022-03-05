@@ -77,7 +77,7 @@ function LoginPage() {
     if (!Object.keys(formErrors).length && isSubmitting) {
       dispatch(loginAction(formValues));
     }
-  }, [formErrors]);
+  }, [formErrors, dispatch, formValues, isSubmitting]);
 
   const {
     loadingLogin, errorLogin, userAuth,

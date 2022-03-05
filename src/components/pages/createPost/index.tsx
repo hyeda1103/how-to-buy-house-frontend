@@ -162,9 +162,10 @@ function CreatePostPage() {
 
   useEffect(() => {
     if (!Object.keys(formErrors).length && isSubmitting) {
+      console.log(description);
       dispatch(createPostAction(formValues));
     }
-  }, [formErrors, isSubmitting, dispatch]);
+  }, [formErrors, isSubmitting, dispatch, description, formValues]);
 
   const buttonContent = useMemo(() => {
     if (loadingPost) {

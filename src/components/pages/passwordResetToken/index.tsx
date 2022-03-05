@@ -67,7 +67,7 @@ function PasswordResetTokenPage() {
     if (!Object.keys(formErrors).length && isSubmitting) {
       dispatch(passwordResetTokenAction(email));
     }
-  }, [formErrors]);
+  }, [formErrors, dispatch, email, isSubmitting]);
 
   const {
     loadingPasswordResetToken, errorPasswordResetToken, passwordToken,
