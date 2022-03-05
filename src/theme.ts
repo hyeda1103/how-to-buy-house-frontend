@@ -12,6 +12,13 @@ export const lightTheme: DefaultTheme = {
       default: '#dedfe6',
       focus: '#121212',
     },
+    nav: {
+      item: '#757575',
+    },
+    dropdown: {
+      option: '#757575',
+      hover: '#f2f3f5',
+    },
     fail: '#ff5252',
     success: '#00d455',
     guide: {
@@ -31,6 +38,13 @@ export const darkTheme: DefaultTheme = {
     border: {
       default: '#dedfe6',
       focus: '#121212',
+    },
+    dropdown: {
+      option: '#757575',
+      hover: '#f2f3f5',
+    },
+    nav: {
+      item: '#757575',
     },
     fail: '#ff5252',
     success: '#00d455',

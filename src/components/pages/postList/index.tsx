@@ -13,7 +13,17 @@ import {
   SubGrid,
 } from './styles';
 
-function PostListPage(): JSX.Element {
+interface Props {
+  match: {
+    params: {
+      keyword?: string
+      pageNumber?: number
+    }
+  }
+}
+
+function PostListPage({ match }: Props): JSX.Element {
+  const { keyword } = match.params;
   const [categoryInView, setCategoryInView] = useState<string>('');
   const dispatch = useDispatch();
   const {
@@ -21,8 +31,12 @@ function PostListPage(): JSX.Element {
   } = useSelector((state: RootState) => state.post);
 
   useEffect(() => {
-    dispatch(fetchPostsAction(categoryInView));
-  }, [dispatch, likes, disLikes, categoryInView]);
+    const filterData = {
+      category: categoryInView,
+      keyword,
+    };
+    dispatch(fetchPostsAction(filterData));
+  }, [dispatch, likes, disLikes, categoryInView, keyword]);
 
   const { categoryList, loading: loadingCategory, error: errorCategory } = useSelector((state: RootState) => state.category);
 
@@ -32,7 +46,11 @@ function PostListPage(): JSX.Element {
 
   const handleClick = (categoryName: string) => (e: MouseEvent) => {
     e.preventDefault();
-    dispatch(fetchPostsAction(categoryName));
+    const filterData = {
+      category: categoryInView,
+      keyword,
+    };
+    dispatch(fetchPostsAction(filterData));
     setCategoryInView(categoryName);
   };
 

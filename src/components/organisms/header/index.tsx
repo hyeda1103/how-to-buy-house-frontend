@@ -5,7 +5,7 @@ import {
   Container, Inner, Logo, NavList, NavItem, NavItemWithNoLink, SubLogo, LogoWrapper,
 } from './styles';
 import Toggle from '^/components/atoms/toggleButton';
-import SearchBox from '^/components/atoms/searchBox';
+import SearchBox from '^/components/molecules/searchBox';
 import { RootState } from '^/store';
 import { logoutAction } from '^/store/slices/user';
 
@@ -57,14 +57,14 @@ function Header({ toggleTheme }: Props) {
             </>
           ) : (
             <>
-              <NavItem to="/register">회원가입</NavItem>
+              {/* <NavItem to="/register">회원가입</NavItem> */}
               <NavItem to="/login">로그인</NavItem>
-              <NavItem to="/posts">모든 포스트</NavItem>
+              {/* <NavItem to="/posts">모든 포스트</NavItem> */}
             </>
           )}
-          <NavItemWithNoLink>
+          {/* <NavItemWithNoLink>
             <Toggle themeToggler={toggleTheme} />
-          </NavItemWithNoLink>
+          </NavItemWithNoLink> */}
         </NavList>
       </Inner>
     </Container>

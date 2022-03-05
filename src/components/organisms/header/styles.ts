@@ -13,7 +13,7 @@ export const Container = styled.header`
 
 export const Inner = styled.div`
   position: relative;
-  width: 1440px;
+  width: 1200px;
   height: 100%;
   margin: 0 auto;
   display: flex;
@@ -53,11 +53,12 @@ export const NavList = styled.div`
 
 const Item = css`
   margin: 0 0.5rem;
+  color: ${({ theme }) => theme.palette.nav.item};
 `;
 
 export const NavItem = styled(Link)`
   ${Item}
-  font-size: 14px;
+  font-size: 13px;
 `;
 
 export const NavItemWithNoLink = styled.span`

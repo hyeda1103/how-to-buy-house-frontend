@@ -108,10 +108,14 @@ export const deletePostAction = createAsyncThunk(
 // fetch all posts
 export const fetchPostsAction = createAsyncThunk(
   'post/list',
-  async (category: T.Category['title'], { rejectWithValue, getState, dispatch }) => {
+  async (filterData: {
+    category: T.Post['category'],
+    keyword: string | undefined,
+  }, { rejectWithValue, getState, dispatch }) => {
+    const { category, keyword } = filterData;
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/api/posts?category=${category}`,
+        `${process.env.REACT_APP_BASE_URL}/api/posts?category=${category}&keyword=${keyword}`,
       );
       return data;
     } catch (error) {
@@ -120,6 +124,23 @@ export const fetchPostsAction = createAsyncThunk(
     }
   },
 );
+
+// fetch the posts by keyword
+export const fetchPostsByKeywordAction = createAsyncThunk(
+  'post/keyword',
+  async (keyword: string, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/api/posts?keyword=${keyword}`,
+      );
+      return data;
+    } catch (error) {
+      if (!(error as AxiosError).response) throw error;
+      return rejectWithValue((error as AxiosError)?.response?.data);
+    }
+  },
+);
+
 // fetch Post details
 export const fetchPostDetailsAction = createAsyncThunk(
   'post/detail',
@@ -201,7 +222,7 @@ interface PostState {
   isUpdated: boolean;
   postUpdated: boolean;
   isDeleted: boolean;
-  postList: Array<T.Post>;
+  postList: Array<T.Post> | undefined;
   postDetails: T.Post;
   likes: Array<T.User>;
   disLikes: Array<T.User>;
@@ -276,8 +297,9 @@ const postSlice = createSlice({
       state.error = undefined;
     });
     builder.addCase(fetchPostsAction.rejected, (state, action) => {
+      state.postList = undefined;
       state.loading = false;
-      state.error = (action.payload as any).error || action?.error?.message;
+      state.error = (action.payload as any).error;
     });
 
     // fetch post Details
