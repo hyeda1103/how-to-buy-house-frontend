@@ -6,8 +6,8 @@ export const Container = styled.header`
   position: fixed;
   z-index: 9;
   width: 100%;
-  height: 60px;
-  border-bottom: 1px solid ${({ theme }) => theme.palette.contrastText};
+  height: 88px;
+  border-bottom: 1px solid #979797;
   background-color: ${({ theme }) => theme.palette.main};
 `;
 
@@ -21,12 +21,29 @@ export const Inner = styled.div`
   align-items: center;
 `;
 
+export const LogoWrapper = styled(Link)`
+  display: flex;
+  align-items: center;
+`;
+
 export const Logo = styled(LogoImage)`
   display: inline-block;
-  /* width: 100px; */
-  height: 40px;
+  height: 26px;
   margin: auto 0;
-  vertical-align: middle;
+`;
+
+export const SubLogo = styled.div`
+  margin-left: 24px;  
+  color: ${({ theme }) => theme.palette.hint};
+  p {
+    font-size: 8px;
+    font-weight: 500;
+    line-height: 9.6px;
+
+    &:last-child {
+      margin-top: 3px;
+    }
+  }
 `;
 
 export const NavList = styled.div`

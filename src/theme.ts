@@ -3,7 +3,7 @@ import { DefaultTheme } from 'styled-components';
 export const lightTheme: DefaultTheme = {
   borderRadius: '100px',
   palette: {
-    main: '#fefefe',
+    main: '#ffffff',
     contrastText: '#121212',
     hint: '#727272',
     primary: '#4E75D9',

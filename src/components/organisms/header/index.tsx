@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import {
-  Container, Inner, Logo, NavList, NavItem, NavItemWithNoLink,
+  Container, Inner, Logo, NavList, NavItem, NavItemWithNoLink, SubLogo, LogoWrapper,
 } from './styles';
 import Toggle from '^/components/atoms/toggleButton';
+import SearchBox from '^/components/atoms/searchBox';
 import { RootState } from '^/store';
 import { logoutAction } from '^/store/slices/user';
 
@@ -30,9 +30,14 @@ function Header({ toggleTheme }: Props) {
   return (
     <Container>
       <Inner>
-        <Link to="/">
+        <LogoWrapper to="/">
           <Logo />
-        </Link>
+          <SubLogo>
+            <p>여자 둘이 살 집을 구하는 여정</p>
+            <p>Since 2021</p>
+          </SubLogo>
+        </LogoWrapper>
+        <SearchBox />
         <NavList>
           {userAuth ? (
             <>
