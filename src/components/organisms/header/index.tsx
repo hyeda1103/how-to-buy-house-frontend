@@ -25,7 +25,7 @@ function Header({ toggleTheme }: Props) {
     } else if (userAuth) {
       setUserName(userAuth.name);
     }
-  }, [userAuth?.name, userUpdated?.name]);
+  }, [userAuth, userUpdated]);
 
   return (
     <Container>

@@ -91,7 +91,7 @@ function RegisterPage() {
     if (!Object.keys(formErrors).length && isSubmitting) {
       dispatch(registerAction(formValues));
     }
-  }, [formErrors, dispatch, isSubmitting]);
+  }, [formErrors, dispatch, isSubmitting, formValues]);
 
   const {
     loadingRegister, errorRegister, registered,

@@ -56,7 +56,6 @@ function ResetPasswordPage({ match }: Props) {
   // form validation handler
   const validate = (values: Form) => {
     const errors: IObject = {};
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
 
     if (!values.password) {
       errors.password = '비밀번호를 입력해야 합니다';
@@ -81,7 +80,7 @@ function ResetPasswordPage({ match }: Props) {
       };
       dispatch(passwordResetAction(data));
     }
-  }, [formErrors]);
+  }, [formErrors, dispatch, isSubmitting, password, token]);
 
   const {
     loadingPasswordReset, errorPasswordReset, passwordReset,

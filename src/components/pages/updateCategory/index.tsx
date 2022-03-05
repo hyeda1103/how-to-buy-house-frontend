@@ -72,7 +72,7 @@ function UpdateCategoryPage({ match }: Props): JSX.Element {
     if (!Object.keys(formErrors).length && isSubmitting) {
       dispatch(updateCategoriesAction({ _id: id, title: newCategory }));
     }
-  }, [formErrors]);
+  }, [formErrors, dispatch, id, isSubmitting, newCategory]);
 
   useEffect(() => {
     dispatch(fetchCategoryAction(id));
@@ -87,7 +87,7 @@ function UpdateCategoryPage({ match }: Props): JSX.Element {
       ...formValues,
       newCategory: category?.title,
     });
-  }, [category]);
+  }, [category, formValues]);
 
   const buttonContent = useMemo(() => {
     if (loading) {

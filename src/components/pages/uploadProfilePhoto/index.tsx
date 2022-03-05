@@ -4,7 +4,7 @@ import React, {
 import { useDispatch, useSelector } from 'react-redux';
 import { DropEvent, FileRejection } from 'react-dropzone';
 
-import { RouteComponentProps, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { RootState } from '^/store';
 import { Button } from '^/components/atoms/basicButton';
 import SingleColumnLayout from '^/components/templates/singleColumnLayout';

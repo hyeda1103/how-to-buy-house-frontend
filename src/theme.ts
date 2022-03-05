@@ -1,13 +1,13 @@
 import { DefaultTheme } from 'styled-components';
 
 export const lightTheme: DefaultTheme = {
-  borderRadius: '4px',
+  borderRadius: '100px',
   palette: {
     main: '#fefefe',
     contrastText: '#121212',
     hint: '#727272',
-    primary: '#7B61FF',
-    hover: '#493892',
+    primary: '#4E75D9',
+    hover: '#3C48C9',
     border: {
       default: '#dedfe6',
       focus: '#121212',
@@ -21,7 +21,7 @@ export const lightTheme: DefaultTheme = {
 };
 
 export const darkTheme: DefaultTheme = {
-  borderRadius: '4px',
+  borderRadius: '100px',
   palette: {
     main: '#fefefe',
     contrastText: '#121212',

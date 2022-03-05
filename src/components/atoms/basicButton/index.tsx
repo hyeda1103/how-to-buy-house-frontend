@@ -9,7 +9,6 @@ export const Button = styled.button<IProps>`
   height: 52px;
   cursor: pointer;
   font-size: 1.25rem;
-  border-radius: 4px;
   transition: background-color .3s ease;
   ${(props) => {
     switch (props.variant) {
@@ -30,6 +29,7 @@ export const Button = styled.button<IProps>`
           border: none;
           color: ${props.theme.palette.main};
           background-color: ${props.theme.palette.primary};
+          border-radius: ${props.theme.borderRadius};
 
           &:hover {
             background-color: ${props.theme.palette.hover};

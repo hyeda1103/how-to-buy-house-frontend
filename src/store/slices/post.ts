@@ -193,6 +193,9 @@ export const toggleAddDisLikesToPost = createAsyncThunk(
 interface PostState {
   loading: boolean;
   isCreated: boolean;
+  uploadedFile: T.Post['image'];
+  uploadLoading: boolean;
+  uploadError?: string;
   postCreated: T.Post;
   error?: string;
   isUpdated: boolean;
@@ -227,7 +230,6 @@ const postSlice = createSlice({
       state.loading = false;
       state.error = (action.payload as any).error;
     });
-
     // Update post
     builder.addCase(updatePostAction.pending, (state, action) => {
       state.loading = true;

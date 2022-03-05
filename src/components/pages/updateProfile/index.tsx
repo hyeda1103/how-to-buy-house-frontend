@@ -87,7 +87,7 @@ function UploadProfilePage({ match }: Props) {
     if (!Object.keys(formErrors).length && isSubmitting) {
       dispatch(updateUserAction(formValues));
     }
-  }, [formErrors, dispatch, isSubmitting]);
+  }, [formErrors, dispatch, isSubmitting, formValues]);
 
   const {
     loadingUserDetails, errorUserDetails, userDetails, isUpdated,

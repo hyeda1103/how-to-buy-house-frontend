@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, RouteComponentProps, Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 import { RootState } from '^/store';
 import { deleteCategoriesAction, fetchCategoriesAction } from '^/store/slices/category';

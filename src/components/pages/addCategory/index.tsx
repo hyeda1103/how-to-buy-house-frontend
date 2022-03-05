@@ -68,7 +68,7 @@ function AddCategoryPage(): JSX.Element {
     if (!Object.keys(formErrors).length && isSubmitting) {
       dispatch(createCategoryAction({ title: newCategory }));
     }
-  }, [formErrors]);
+  }, [formErrors, dispatch, isSubmitting, newCategory]);
 
   const buttonContent = useMemo(() => {
     if (loading) {
