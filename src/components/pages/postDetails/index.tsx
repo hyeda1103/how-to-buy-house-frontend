@@ -81,7 +81,7 @@ function PostDetailsPage({ match }: Props): JSX.Element {
         />
       </Container>
       )}
-      <AddComment postId={id} disable={!!userAuth} />
+      <AddComment postId={id} parentComment={null} />
       <CommentList comments={postDetails?.comments} />
     </SingleColumnLayout>
   );

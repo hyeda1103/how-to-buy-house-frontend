@@ -1,4 +1,6 @@
-import React, { useState, useMemo, useRef } from 'react';
+import React, {
+  useState, useMemo, useRef, FormEventHandler,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.bubble.css';
@@ -17,11 +19,14 @@ import Spinner from '^/components/atoms/spinner';
 
 interface Props {
   postId: T.Post['_id']
-  disable: boolean
+  parentComment: T.Comment | null
 }
 
-function AddComment({ postId, disable }: Props) {
+function AddComment({ postId, parentComment }: Props) {
   const dispatch = useDispatch();
+  const { userAuth } = useSelector((state: RootState) => state.auth);
+
+  const loginUser = userAuth?._id;
   const QuillRef = useRef<ReactQuill>();
 
   // select data from store
@@ -32,12 +37,16 @@ function AddComment({ postId, disable }: Props) {
 
   const { description } = formValues;
 
-  const submitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    const data = {
+    const data: T.CommentCreate = {
       postId,
-      description: formValues.description,
+      description,
+      parentId: parentComment?._id ? parentComment._id : null,
+      depth: parentComment?.depth ? parentComment.depth + 1 : 1,
     };
+    console.log(data);
+
     dispatch(createCommentAction(data));
     setFormValues({
       ...formValues,
@@ -54,10 +63,10 @@ function AddComment({ postId, disable }: Props) {
 
   return (
     <Container>
-      <StyledForm onSubmit={submitHandler} noValidate>
+      <StyledForm onSubmit={handleSubmit} noValidate>
         <StyledLabel htmlFor="description">
           <Text>
-            새로운 댓글 작성하기
+            {parentComment?._id ? '대댓글 작성하기' : '새로운 댓글 작성하기'}
           </Text>
           <ReactQuill
             ref={(element) => {
@@ -74,7 +83,10 @@ function AddComment({ postId, disable }: Props) {
             placeholder="댓글을 입력해주세요."
           />
         </StyledLabel>
-        <SubmitButton type="submit">
+        <SubmitButton
+          type="submit"
+          disabled={!loginUser}
+        >
           {buttonContent}
         </SubmitButton>
       </StyledForm>
