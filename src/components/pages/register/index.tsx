@@ -3,7 +3,6 @@ import { Link, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
-  Container,
   StyledForm,
   Title,
   DirectToWrapper,
@@ -14,8 +13,9 @@ import { registerAction } from '^/store/slices/user';
 import Spinner from '^/components/atoms/spinner';
 import { Button } from '^/components/atoms/basicButton';
 import SingleColumnLayout from '^/components/templates/singleColumnLayout/index';
-import Input from '^/components/molecules/input';
+import InputWithLabel from '^/components/molecules/inputWithLabel';
 import ErrorBox from '^/components/molecules/errorBox';
+import AuthForm from '^/components/templates/authForm';
 
 interface IObject {
   [key: string]: string
@@ -115,66 +115,78 @@ function RegisterPage() {
     return <Redirect to="/profile" />;
   }
 
+  const title = (
+    <Title>
+      가입하기
+    </Title>
+  );
+
+  const form = (
+    <StyledForm onSubmit={handleSubmit} noValidate>
+      <InputWrapper>
+        <InputWithLabel
+          id="name"
+          label="이름"
+          type="text"
+          value={name}
+          placeholder="이름을 입력하세요"
+          handleChange={handleChange}
+          formErrors={formErrors}
+          serverError={serverError}
+        />
+        <InputWithLabel
+          id="email"
+          label="이메일"
+          type="email"
+          value={email}
+          placeholder="이메일 주소를 입력하세요"
+          handleChange={handleChange}
+          formErrors={formErrors}
+          serverError={serverError}
+        />
+        <InputWithLabel
+          id="password"
+          label="비밀번호"
+          type="password"
+          value={password}
+          placeholder="비밀번호를 입력하세요"
+          handleChange={handleChange}
+          formErrors={formErrors}
+          serverError={serverError}
+        />
+        <InputWithLabel
+          id="confirmPassword"
+          label="비밀번호 확인"
+          type="password"
+          value={confirmPassword}
+          placeholder="비밀번호 확인을 입력하세요"
+          handleChange={handleChange}
+          formErrors={formErrors}
+          serverError={serverError}
+        />
+        {serverError && <ErrorBox>{serverError}</ErrorBox>}
+      </InputWrapper>
+      <Button type="submit">
+        {buttonContent}
+      </Button>
+    </StyledForm>
+  );
+
+  const directTo = (
+    <DirectToWrapper>
+      새로 오셨나요?
+      {' '}
+      <Link to="/login">로그인</Link>
+    </DirectToWrapper>
+  );
+
   return (
     <SingleColumnLayout>
-      <Container>
-        <Title>
-          가입하기
-        </Title>
-        <StyledForm onSubmit={handleSubmit} noValidate>
-          <InputWrapper>
-            <Input
-              id="name"
-              label="이름"
-              type="text"
-              value={name}
-              placeholder="이름을 입력하세요"
-              handleChange={handleChange}
-              formErrors={formErrors}
-              serverError={serverError}
-            />
-            <Input
-              id="email"
-              label="이메일"
-              type="email"
-              value={email}
-              placeholder="이메일 주소를 입력하세요"
-              handleChange={handleChange}
-              formErrors={formErrors}
-              serverError={serverError}
-            />
-            <Input
-              id="password"
-              label="비밀번호"
-              type="password"
-              value={password}
-              placeholder="비밀번호를 입력하세요"
-              handleChange={handleChange}
-              formErrors={formErrors}
-              serverError={serverError}
-            />
-            <Input
-              id="confirmPassword"
-              label="비밀번호 확인"
-              type="password"
-              value={confirmPassword}
-              placeholder="비밀번호 확인을 입력하세요"
-              handleChange={handleChange}
-              formErrors={formErrors}
-              serverError={serverError}
-            />
-            {serverError && <ErrorBox>{serverError}</ErrorBox>}
-          </InputWrapper>
-          <Button type="submit">
-            {buttonContent}
-          </Button>
-        </StyledForm>
-        <DirectToWrapper>
-          새로 오셨나요?
-          {' '}
-          <Link to="/login">로그인</Link>
-        </DirectToWrapper>
-      </Container>
+      <AuthForm
+        title={title}
+        form={form}
+        directTo={directTo}
+      />
     </SingleColumnLayout>
   );
 }

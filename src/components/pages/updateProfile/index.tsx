@@ -14,7 +14,7 @@ import { fetchUserDetailsAction, updateUserAction } from '^/store/slices/user';
 import Spinner from '^/components/atoms/spinner';
 import { Button } from '^/components/atoms/basicButton';
 import SingleColumnLayout from '^/components/templates/singleColumnLayout/index';
-import Input from '^/components/molecules/input';
+import InputWithLabel from '^/components/molecules/inputWithLabel';
 
 interface Props {
   match: {
@@ -127,7 +127,7 @@ function UploadProfilePage({ match }: Props) {
           </Text>
         </Title>
         <StyledForm onSubmit={handleSubmit} noValidate>
-          <Input
+          <InputWithLabel
             id="name"
             label="이름"
             type="text"
@@ -137,7 +137,7 @@ function UploadProfilePage({ match }: Props) {
             formErrors={formErrors}
             serverError={serverError}
           />
-          <Input
+          <InputWithLabel
             id="email"
             label="이메일"
             type="email"

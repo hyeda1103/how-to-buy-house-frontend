@@ -7,7 +7,7 @@ import { Redirect } from 'react-router-dom';
 import { RootState } from '^/store';
 import { createCategoryAction } from '^/store/slices/category';
 import SingleColumnLayout from '^/components/templates/singleColumnLayout';
-import Input from '^/components/molecules/input';
+import InputWithLabel from '^/components/molecules/inputWithLabel';
 import { Button } from '^/components/atoms/basicButton';
 import Spinner from '^/components/atoms/spinner';
 import {
@@ -97,7 +97,7 @@ function AddCategoryPage(): JSX.Element {
           </Text>
         </Title>
         <StyledForm onSubmit={handleSubmit} noValidate>
-          <Input
+          <InputWithLabel
             id="category"
             label="카테고리"
             type="text"

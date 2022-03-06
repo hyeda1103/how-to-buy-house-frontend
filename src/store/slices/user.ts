@@ -258,7 +258,7 @@ export const fetchUserDetailsAction = createAsyncThunk(
 // fetch all users
 export const fetchUsersAction = createAsyncThunk(
   'user/list',
-  async (id: T.User['_id'], { rejectWithValue, getState, dispatch }) => {
+  async (id, { rejectWithValue, getState, dispatch }) => {
     // get user token
     const user = (getState() as any)?.auth;
     const { userAuth } = user;
@@ -293,7 +293,7 @@ export const blockUserAction = createAsyncThunk(
     };
     try {
       const { data } = await axios.put(
-        `${process.env.REACT_APP_BASE_URL}/api/users/block-user/${id}`,
+        `${process.env.REACT_APP_BASE_URL}/api/users/block/${id}`,
         {},
         config,
       );
@@ -320,7 +320,7 @@ export const unBlockUserAction = createAsyncThunk(
     };
     try {
       const { data } = await axios.put(
-        `${process.env.REACT_APP_BASE_URL}/api/users/unblock-user/${id}`,
+        `${process.env.REACT_APP_BASE_URL}/api/users/unblock/${id}`,
         {},
         config,
       );

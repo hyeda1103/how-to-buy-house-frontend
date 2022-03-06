@@ -1,3 +1,5 @@
+import { Post } from '.';
+
 export interface User {
   _id: string
   name: string
@@ -16,6 +18,8 @@ export interface User {
   createdAt: string
   updatedAt: string
   token?: string
+  posts?: Post[]
+  isBlocked: boolean;
 }
 
 export interface UserRegister {

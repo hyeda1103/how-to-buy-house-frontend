@@ -19,11 +19,6 @@ export const Title = styled.h1`
   font-size: 32px;
   font-weight: 700;
   line-height: 38.4px;
-  margin-bottom: 37px;
-`;
-
-export const Text = styled.span`
-  margin: 0.75rem;
 `;
 
 export const InputWrapper = styled.div`
@@ -56,10 +51,9 @@ export const ArrowForward = styled(ArrowForwardIcon)`
   height: 14px;
 `;
 
-export const DirectToWrapper = styled.div`
+export const DirectTo = styled.div`
   background-color: ${({ theme }) => theme.palette.guide.background};
   text-align: center;
-  padding: 7px auto;
 
   a {
     margin-left: 5px;

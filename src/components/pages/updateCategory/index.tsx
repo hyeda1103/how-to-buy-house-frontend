@@ -11,7 +11,7 @@ import {
   ErrorWrapper,
 } from './styles';
 import SingleColumnLayout from '^/components/templates/singleColumnLayout';
-import Input from '^/components/molecules/input';
+import InputWithLabel from '^/components/molecules/inputWithLabel';
 import { Button } from '^/components/atoms/basicButton';
 import Spinner from '^/components/atoms/spinner';
 import { fetchCategoryAction, updateCategoriesAction } from '^/store/slices/category';
@@ -112,7 +112,7 @@ function UpdateCategoryPage({ match }: Props): JSX.Element {
           </Text>
         </Title>
         <StyledForm onSubmit={handleSubmit} noValidate>
-          <Input
+          <InputWithLabel
             id="newCategory"
             label="카테고리"
             type="text"
