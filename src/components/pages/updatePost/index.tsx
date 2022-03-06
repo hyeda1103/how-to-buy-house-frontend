@@ -27,7 +27,7 @@ import TextEditor from '^/components/organisms/textEditor';
 import Input from '^/components/molecules/input';
 
 interface Option {
-  value: string
+  value: string | null
   label: string
 }
 

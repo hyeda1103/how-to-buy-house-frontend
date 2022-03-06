@@ -9,6 +9,7 @@ interface Props {
 }
 
 function CategoryItem({ category, handleClick }: Props) {
+  const categoryTitle = category.title ? category.title : '모든 포스트';
   return (
     /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
     /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -16,7 +17,7 @@ function CategoryItem({ category, handleClick }: Props) {
       key={category._id}
       onClick={handleClick(category.title)}
     >
-      {category.title ? category.title : '모든 포스트'}
+      {categoryTitle}
     </Container>
   );
 }

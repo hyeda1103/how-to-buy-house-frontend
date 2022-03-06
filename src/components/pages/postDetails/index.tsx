@@ -75,7 +75,6 @@ function PostDetailsPage({ match }: Props): JSX.Element {
             </AuthorEmail>
           </div>
         </AuthorInfo>
-        <p>{postDetails.description}</p>
         <Description dangerouslySetInnerHTML={{
           __html: Dompurify.sanitize(postDetails.description),
         }}

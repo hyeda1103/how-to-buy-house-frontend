@@ -10,6 +10,13 @@ interface IPalette {
     default: string
     focus: string
   },
+  nav: {
+    item: string
+  },
+  dropdown: {
+    option: string,
+    hover: string,
+  },
   guide: {
     background: string
   },
