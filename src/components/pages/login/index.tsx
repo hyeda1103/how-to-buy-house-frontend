@@ -3,21 +3,20 @@ import { Link, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
-  Container,
   StyledForm,
   Title,
   InputWrapper,
-  FindPasswordWrapper,
   ArrowForward,
-  DirectToWrapper,
+  DirectTo,
 } from './styles';
 import { RootState } from '^/store';
 import { loginAction } from '^/store/slices/user';
 import Spinner from '^/components/atoms/spinner';
 import { Button } from '^/components/atoms/basicButton';
 import SingleColumnLayout from '^/components/templates/singleColumnLayout/index';
-import Input from '^/components/molecules/input';
+import InputWithLabel from '^/components/molecules/inputWithLabel';
 import ErrorBox from '^/components/molecules/errorBox';
+import AuthForm from '^/components/templates/authForm';
 
 interface IObject {
   [key: string]: string
@@ -101,56 +100,70 @@ function LoginPage() {
     return <Redirect to="/" />;
   }
 
+  const title = (
+    <Title>
+      로그인하기
+    </Title>
+  );
+
+  const form = (
+    <StyledForm onSubmit={handleSubmit} noValidate>
+      <InputWrapper>
+        <InputWithLabel
+          id="email"
+          label="이메일"
+          type="email"
+          value={email}
+          placeholder="이메일 주소를 입력하세요"
+          handleChange={handleChange}
+          formErrors={formErrors}
+          serverError={serverError}
+        />
+        <InputWithLabel
+          id="password"
+          label="비밀번호"
+          type="password"
+          value={password}
+          placeholder="비밀번호를 입력하세요"
+          handleChange={handleChange}
+          formErrors={formErrors}
+          serverError={serverError}
+        />
+        {serverError && <ErrorBox>{serverError}</ErrorBox>}
+      </InputWrapper>
+      <Button type="submit">
+        {buttonContent}
+      </Button>
+    </StyledForm>
+  );
+
+  const findPassword = (
+    <Link
+      to="/password-reset-token"
+    >
+      <span>
+        비밀번호 찾기
+      </span>
+      <ArrowForward />
+    </Link>
+  );
+
+  const directTo = (
+    <DirectTo>
+      새로 오셨나요?
+      {' '}
+      <Link to="/register">회원가입</Link>
+    </DirectTo>
+  );
+
   return (
     <SingleColumnLayout>
-      <Container>
-        <Title>
-          로그인하기
-        </Title>
-        <StyledForm onSubmit={handleSubmit} noValidate>
-          <InputWrapper>
-            <Input
-              id="email"
-              label="이메일"
-              type="email"
-              value={email}
-              placeholder="이메일 주소를 입력하세요"
-              handleChange={handleChange}
-              formErrors={formErrors}
-              serverError={serverError}
-            />
-            <Input
-              id="password"
-              label="비밀번호"
-              type="password"
-              value={password}
-              placeholder="비밀번호를 입력하세요"
-              handleChange={handleChange}
-              formErrors={formErrors}
-              serverError={serverError}
-            />
-            {serverError && <ErrorBox>{serverError}</ErrorBox>}
-          </InputWrapper>
-          <Button type="submit">
-            {buttonContent}
-          </Button>
-        </StyledForm>
-        <FindPasswordWrapper>
-          <Link
-            to="/password-reset-token"
-          >
-            <span>
-              비밀번호 찾기
-            </span>
-            <ArrowForward />
-          </Link>
-        </FindPasswordWrapper>
-        <DirectToWrapper>
-          새로 오셨나요?
-          {' '}
-          <Link to="/register">회원가입</Link>
-        </DirectToWrapper>
-      </Container>
+      <AuthForm
+        title={title}
+        form={form}
+        findPassword={findPassword}
+        directTo={directTo}
+      />
     </SingleColumnLayout>
   );
 }

@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
-  Container,
+  InputWrapper,
   StyledForm,
   Title,
-  Text,
-  ErrorWrapper,
+  GuideWrapper,
 } from './styles';
 import { RootState } from '^/store';
 import {
@@ -16,7 +15,9 @@ import {
 import Spinner from '^/components/atoms/spinner';
 import { Button } from '^/components/atoms/basicButton';
 import SingleColumnLayout from '^/components/templates/singleColumnLayout/index';
-import Input from '^/components/molecules/input';
+import InputWithLabel from '^/components/molecules/inputWithLabel';
+import ErrorBox from '^/components/molecules/errorBox';
+import AuthForm from '^/components/templates/authForm';
 
 interface Props {
   match: {
@@ -100,46 +101,48 @@ function ResetPasswordPage({ match }: Props) {
     return null;
   }, [errorPasswordReset, formErrors, isSubmitting]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      if (passwordReset) {
-        return <Redirect to="/login" />;
-      }
-      return null;
-    }, 5000);
-  }, [passwordReset]);
+  const title = (
+    <Title>
+      비밀번호 재설정
+    </Title>
+  );
+
+  const guide = passwordReset && (
+  <GuideWrapper>
+    비밀번호가 성공적으로 재설정되었습니다.
+    {' '}
+    <Link to="/login">로그인</Link>
+  </GuideWrapper>
+  );
+
+  const form = (
+    <StyledForm onSubmit={handleSubmit} noValidate>
+      <InputWrapper>
+        <InputWithLabel
+          id="password"
+          label="비밀번호"
+          type="password"
+          value={password}
+          placeholder="비밀번호를 입력하세요"
+          handleChange={handleChange}
+          formErrors={formErrors}
+          serverError={serverError}
+        />
+        {serverError && <ErrorBox>{serverError}</ErrorBox>}
+      </InputWrapper>
+      <Button type="submit">
+        {buttonContent}
+      </Button>
+    </StyledForm>
+  );
 
   return (
     <SingleColumnLayout>
-      <Container>
-        <Title>
-          <Text>
-            비밀번호 재설정
-          </Text>
-        </Title>
-        {passwordReset && (
-        <h3>
-          Password Reset Successfully. You will be redirected to login with
-          5 seconds.
-        </h3>
-        )}
-        <StyledForm onSubmit={handleSubmit} noValidate>
-          <Input
-            id="password"
-            label="비밀번호"
-            type="password"
-            value={password}
-            placeholder="비밀번호를 입력하세요"
-            handleChange={handleChange}
-            formErrors={formErrors}
-            serverError={serverError}
-          />
-          {serverError && <ErrorWrapper>{serverError}</ErrorWrapper>}
-          <Button type="submit">
-            {buttonContent}
-          </Button>
-        </StyledForm>
-      </Container>
+      <AuthForm
+        title={title}
+        guide={guide}
+        form={form}
+      />
     </SingleColumnLayout>
   );
 }
