@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import queryString from 'query-string';
 
 import { RootState } from '^/store';
 import { fetchCategoriesAction } from '^/store/slices/category';
@@ -8,9 +10,7 @@ import SingleColumnLayout from '^/components/templates/singleColumnLayout';
 import PostCard from '^/components/organisms/postCard';
 import CategoryList from '^/components/organisms/categoryList';
 import {
-  Grid,
-  MainGrid,
-  SubGrid,
+  Container,
 } from './styles';
 
 interface Props {
@@ -22,9 +22,10 @@ interface Props {
   }
 }
 
-function PostListPage({ match }: Props): JSX.Element {
-  const { keyword } = match.params;
-  const [categoryInView, setCategoryInView] = useState<string>('');
+function SearchResultPage({ match }: Props): JSX.Element {
+  const { search } = useLocation();
+  const { keyword, category } = queryString.parse(search);
+
   const dispatch = useDispatch();
   const {
     postList, loading, error, likes, disLikes,
@@ -32,48 +33,30 @@ function PostListPage({ match }: Props): JSX.Element {
 
   useEffect(() => {
     const filterData = {
-      category: categoryInView,
-      keyword,
+      category: typeof category === 'string' ? category : '',
+      keyword: typeof keyword === 'string' ? keyword : '',
     };
     dispatch(fetchPostsAction(filterData));
-  }, [dispatch, likes, disLikes, categoryInView, keyword]);
-
-  const { categoryList, loading: loadingCategory, error: errorCategory } = useSelector((state: RootState) => state.category);
-
-  useEffect(() => {
-    dispatch(fetchCategoriesAction());
-  }, [dispatch]);
-
-  const handleClick = (categoryName: string) => (e: MouseEvent) => {
-    e.preventDefault();
-    const filterData = {
-      category: categoryInView,
-      keyword,
-    };
-    dispatch(fetchPostsAction(filterData));
-    setCategoryInView(categoryName);
-  };
+  }, [dispatch, likes, disLikes, keyword, category]);
 
   return (
     <SingleColumnLayout>
-      <Grid>
-        <SubGrid>
-          <CategoryList
-            categoryList={categoryList}
-            handleClick={handleClick}
-          />
-        </SubGrid>
-        <MainGrid>
-          {postList && postList.map((post) => (
+      <div>
+        {error && (
+          <p>{error}</p>
+        )}
+      </div>
+      <Container>
+        {postList?.length && (
+          postList.map((post) => (
             <PostCard
               key={post._id}
               post={post}
             />
-          ))}
-        </MainGrid>
-      </Grid>
+          )))}
+      </Container>
     </SingleColumnLayout>
   );
 }
 
-export default PostListPage;
+export default SearchResultPage;

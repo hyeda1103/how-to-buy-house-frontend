@@ -22,7 +22,6 @@ import LoginPage from './components/pages/login';
 import PasswordResetTokenPage from './components/pages/passwordResetToken/index';
 import ResetPasswordPage from './components/pages/resetPassword';
 import AddCategoryPage from './components/pages/addCategory';
-import SearchResultPage from './components/pages/searchResult/index';
 import CategoryDashboardPage from './components/pages/categoryDashboard';
 import UpdateCategoryPage from './components/pages/updateCategory';
 import CreatePostPage from './components/pages/createPost';
@@ -47,7 +46,7 @@ function App(): JSX.Element {
         <GlobalStyle />
         <Header toggleTheme={updateTheme} />
         <Switch>
-          <Route exact path="/" component={HomePage} />
+          <Route exact path="/" component={PostListPage} />
           <PrivateRoute exact path="/profile/:id" component={ProfilePage} />
           <PrivateRoute
             exact
@@ -68,7 +67,7 @@ function App(): JSX.Element {
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/password-reset-token" component={PasswordResetTokenPage} />
           <Route exact path="/reset-password/:token" component={ResetPasswordPage} />
-          <Route path="/search" component={SearchResultPage} />
+          <Route path="/search" component={PostListPage} />
           <Route exact path="/posts" component={PostListPage} />
           <Route exact path="/posts/:id" component={PostDetailsPage} />
           <AdminRoute exact path="/update-post/:id" component={UpdatePostPage} />
