@@ -20,8 +20,11 @@ import UploadProfilePhotoPage from './components/pages/uploadProfilePhoto';
 import RegisterPage from './components/pages/register';
 import LoginPage from './components/pages/login';
 import UserListPage from './components/pages/userList';
+import PasswordResetTokenPage from './components/pages/passwordResetToken/index';
+import ResetPasswordPage from './components/pages/resetPassword';
 import AddCategoryPage from './components/pages/addCategory';
-import CategoryListPage from './components/pages/categoryList';
+import SearchResultPage from './components/pages/searchResult/index';
+import CategoryDashboardPage from './components/pages/categoryDashboard';
 import UpdateCategoryPage from './components/pages/updateCategory';
 import CreatePostPage from './components/pages/createPost';
 import PostListPage from './components/pages/postList';
@@ -64,12 +67,15 @@ function App(): JSX.Element {
           />
           <Route exact path="/register" component={RegisterPage} />
           <Route exact path="/login" component={LoginPage} />
+          <Route exact path="/password-reset-token" component={PasswordResetTokenPage} />
+          <Route exact path="/reset-password/:token" component={ResetPasswordPage} />
+          <Route path="/search" component={SearchResultPage} />
           <Route exact path="/posts" component={PostListPage} />
           <Route exact path="/posts/:id" component={PostDetailsPage} />
           <AdminRoute exact path="/users" component={UserListPage} />
           <AdminRoute exact path="/add-category" component={AddCategoryPage} />
           <AdminRoute exact path="/update-category/:id" component={UpdateCategoryPage} />
-          <AdminRoute exact path="/category-list" component={CategoryListPage} />
+          <AdminRoute exact path="/category-list" component={CategoryDashboardPage} />
           <AdminRoute exact path="/create-post" component={CreatePostPage} />
           <AdminRoute exact path="/update-post/:id" component={UpdatePostPage} />
         </Switch>

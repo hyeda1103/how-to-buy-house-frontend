@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Dompurify from 'dompurify';
 
 import { toggleAddLikesToPost, toggleAddDisLikesToPost } from '^/store/slices/post';
 import DateFormatter from '^/utils/dateFormatter';
@@ -67,7 +68,11 @@ function PostCard({ post }: Props) {
             <PostedDate>
               <DateFormatter date={post?.createdAt} />
             </PostedDate>
-            <Description>{post?.description}</Description>
+            <Description dangerouslySetInnerHTML={{
+              __html: Dompurify.sanitize(post?.description),
+            }}
+            />
+
           </PostDetails>
         </Link>
         {/* User Avatar */}

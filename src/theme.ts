@@ -1,37 +1,55 @@
 import { DefaultTheme } from 'styled-components';
 
 export const lightTheme: DefaultTheme = {
-  borderRadius: '4px',
+  borderRadius: '100px',
   palette: {
-    common: {
-      main: '#fefefe',
-      contrastText: '#333333',
+    main: '#ffffff',
+    contrastText: '#121212',
+    hint: '#727272',
+    primary: '#4E75D9',
+    hover: '#3C48C9',
+    border: {
+      default: '#dedfe6',
+      focus: '#121212',
     },
-    success: {
-      main: '#dddddd',
-      contrastText: '#6cc070',
+    nav: {
+      item: '#757575',
     },
-    fail: {
-      main: '#fefefe',
-      contrastText: '#E73339',
+    dropdown: {
+      option: '#757575',
+      hover: '#f2f3f5',
+    },
+    fail: '#ff5252',
+    success: '#00d455',
+    guide: {
+      background: '#f2f3f5',
     },
   },
 };
 
 export const darkTheme: DefaultTheme = {
-  borderRadius: '4px',
+  borderRadius: '100px',
   palette: {
-    common: {
-      main: '#1C2128',
-      contrastText: '#fefefe',
+    main: '#fefefe',
+    contrastText: '#121212',
+    primary: '#7B61FF',
+    hover: '#493892',
+    hint: '#727272',
+    border: {
+      default: '#dedfe6',
+      focus: '#121212',
     },
-    success: {
-      main: '#6cc070',
-      contrastText: '#dddddd',
+    dropdown: {
+      option: '#757575',
+      hover: '#f2f3f5',
     },
-    fail: {
-      main: '#fefefe',
-      contrastText: '#E73339',
+    nav: {
+      item: '#757575',
+    },
+    fail: '#ff5252',
+    success: '#00d455',
+    guide: {
+      background: '#f2f3f5',
     },
   },
 };

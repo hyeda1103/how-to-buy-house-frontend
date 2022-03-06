@@ -7,8 +7,8 @@ export const Container = styled.div`
 
 export const Inner = styled.main`
   position: relative;
-  width: 1440px;
+  width: 1200px;
   height: 100%;
   margin: 0 auto;
-  padding: 10rem 0;
+  padding: 203px 0;
 `;

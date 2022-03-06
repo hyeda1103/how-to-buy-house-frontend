@@ -10,7 +10,7 @@ export const Container = styled.div`
 ;`;
 
 export const StyledForm = styled.form`
-  width: 480px;
+  width: 960px;
 `;
 
 export const Title = styled.h1`
@@ -36,31 +36,9 @@ export const Text = styled.span`
   margin: 0.75rem;
 `;
 
-export const StyledInput = styled.input`
-  width: 100%;
-  padding: 0.75rem 1.25rem;
-  font-size: 16px;
-  background-color: ${({ theme }) => theme.palette.common.main};
-  border-radius: ${({ theme }) => theme.borderRadius};
-  border: ${({ theme }) => `1px solid ${theme.palette.common.contrastText}`};
-  transition: all 0.15s ease;
-`;
-
-export const StyledTextArea = styled.textarea`
-  width: 100%;
-  padding: 0.75rem 1.25rem;
-  font-size: 16px;
-  background-color: ${({ theme }) => theme.palette.common.main};
-  border-radius: ${({ theme }) => theme.borderRadius};
-  border: ${({ theme }) => `1px solid ${theme.palette.common.contrastText}`};
-  transition: all 0.15s ease;
-  resize: none;
-  font-family: 'Noto Sans KR', sans-serif;
-`;
-
 export const ErrorWrapper = styled.p`
-  text-align: center;
-  color: ${({ theme }) => theme.palette.fail.contrastText};
+  margin: 0.5rem 0.75rem;
+  color: ${({ theme }) => theme.palette.fail};
 `;
 
 export const GuideWrapper = styled.div`

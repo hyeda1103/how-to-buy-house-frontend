@@ -45,10 +45,10 @@ export default function Profile({ match }: Props) {
 
   const {
     profile,
-    profileLoading,
-    profileError,
-    followed,
-    unFollowed,
+    loadingProfile,
+    errorProfile,
+    follow,
+    unfollow,
     userAuth,
   } = useSelector((state: RootState) => state.auth);
 
@@ -57,7 +57,7 @@ export default function Profile({ match }: Props) {
   // fetch user profile
   useEffect(() => {
     dispatch(userProfileAction(id));
-  }, [id, dispatch, followed, unFollowed]);
+  }, [id, dispatch, follow, unfollow]);
 
   // send mail handle click
   const sendMailNavigate = () => {
@@ -89,7 +89,7 @@ export default function Profile({ match }: Props) {
         <MainProfile>
           <ProfileImage
             src={profile?.profilePhoto}
-            alt={profile?.firstName}
+            alt={profile?.name}
           />
           <div>
             <InfoLine isOneLine>
@@ -134,11 +134,11 @@ export default function Profile({ match }: Props) {
               </p>
             </InfoLine>
             <InfoLine>
-              <h1>
+              <p>
                 나의 프로필을 조회한 사람들:
                 {' '}
                 {profile?.viewedBy?.length}
-              </h1>
+              </p>
               {/* Who view my post */}
               <ListOfViewers>
                 {profile?.viewedBy?.length ? (
@@ -149,9 +149,9 @@ export default function Profile({ match }: Props) {
                           src={user?.profilePhoto}
                           alt={user?.name}
                         />
-                        <h3>
+                        <p>
                           {user?.name}
-                        </h3>
+                        </p>
                       </ViewProfileWrapper>
                     </ViewerProfile>
                   ))
@@ -204,11 +204,11 @@ export default function Profile({ match }: Props) {
         <div>
           {/* All my Post */}
           <div>
-            <h1>
-              My Post -
+            <h3>
               {' '}
               {profile?.posts?.length}
-            </h1>
+              개의 포스트 작성
+            </h3>
             {/* Loop here */}
             {profile?.posts?.length <= 0 ? (
               <h2>No Post Found</h2>

@@ -19,7 +19,7 @@ export const Card = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
-  border: ${({ theme }) => `1px solid ${theme.palette.common.contrastText}`};
+  border: ${({ theme }) => `1px solid ${theme.palette.contrastText}`};
   border-radius: ${({ theme }) => theme.borderRadius};
   overflow: hidden;
 `;
@@ -96,21 +96,4 @@ export const PostedDate = styled.time`
 
 export const Description = styled.p`
   margin-bottom: 1rem;
-`;
-
-export const CategoryWrapper = styled.div`
-`;
-
-export const CategoryList = styled.ul`
-  list-style: none;
-`;
-
-export const CategoryItem = styled.li`
-  cursor: pointer;
-  padding: 6px 10px;
-  border: 1px solid ${({ theme }) => theme.palette.common.contrastText};
-
-  & + & {
-    margin-top: 1rem;
-  }
 `;

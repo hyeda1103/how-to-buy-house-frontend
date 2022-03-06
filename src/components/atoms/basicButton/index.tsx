@@ -6,30 +6,34 @@ import { VARIANT, IProps, SIZE } from './types';
 export const Button = styled.button<IProps>`
   display: inline-block;
   width: 100%;
-  height: 56px;
-  margin: 2rem 0;
+  height: 52px;
   cursor: pointer;
   font-size: 1.25rem;
-  border-radius: 4px;
+  transition: background-color .3s ease;
   ${(props) => {
     switch (props.variant) {
       case VARIANT.SUCCESS:
         return `
-          border: 1px solid ${props.theme.palette.success.contrastText};
-          color: ${props.theme.palette.success.contrastText};
-          background-color: ${props.theme.palette.success.main};
+          border: 1px solid ${props.theme.palette.success};
+          color: ${props.theme.palette.success};
+          background-color: ${props.theme.palette.border.default};
         `;
       case VARIANT.FAIL:
         return `
-          border: 1px solid ${props.theme.palette.fail.contrastText};
-          color: ${props.theme.palette.fail.contrastText};
-          background-color: ${props.theme.palette.fail.main};
+          border: 1px solid ${props.theme.palette.fail};
+          color: ${props.theme.palette.fail};
+          background-color: ${props.theme.palette.border.default};
         `;
       default:
         return `
-          border: 1px solid ${props.theme.palette.common.contrastText};
-          color: ${props.theme.palette.common.main};
-          background-color: ${props.theme.palette.common.contrastText};
+          border: none;
+          color: ${props.theme.palette.main};
+          background-color: ${props.theme.palette.primary};
+          border-radius: ${props.theme.borderRadius};
+
+          &:hover {
+            background-color: ${props.theme.palette.hover};
+          }
         `;
     }
   }}
@@ -42,18 +46,18 @@ export const CircleButton = styled.button`
   cursor: pointer;
   font-size: 0.75rem;
   font-weight: 700;
-  border: 1px solid ${({ theme }) => theme.palette.common.contrastText};
-  color: ${({ theme }) => theme.palette.common.contrastText};
-  background-color: ${({ theme }) => theme.palette.common.main};
+  border: 1px solid ${({ theme }) => theme.palette.contrastText};
+  color: ${({ theme }) => theme.palette.contrastText};
+  background-color: ${({ theme }) => theme.palette.main};
   margin: 0 0.25rem;
 `;
 
 export const ButtonWithLink = styled(Link)<IProps>`
   display: inline-block;
   border-radius: ${({ theme }) => theme.borderRadius};
-  background-color: ${({ theme }) => theme.palette.common.main};
-  color: ${({ theme }) => theme.palette.common.contrastText};
-  border: 1px solid ${({ theme }) => theme.palette.common.contrastText};
+  background-color: ${({ theme }) => theme.palette.main};
+  color: ${({ theme }) => theme.palette.contrastText};
+  border: 1px solid ${({ theme }) => theme.palette.contrastText};
   font-weight: 700;
   margin: 0 0.25rem;
   ${(props) => {

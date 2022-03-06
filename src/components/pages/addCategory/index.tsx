@@ -1,39 +1,74 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, {
+  useState, useEffect, useMemo, FormEventHandler, ChangeEvent,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RouteComponentProps } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 import { RootState } from '^/store';
 import { createCategoryAction } from '^/store/slices/category';
 import SingleColumnLayout from '^/components/templates/singleColumnLayout';
+import InputWithLabel from '^/components/molecules/inputWithLabel';
 import { Button } from '^/components/atoms/basicButton';
 import Spinner from '^/components/atoms/spinner';
 import {
   Container,
-  StyledLabel,
   StyledForm,
   Title,
   Text,
-  StyledInput,
+  ErrorWrapper,
 } from './styles';
 
-interface Props {
-  history: RouteComponentProps['history']
+interface IObject {
+  [key: string]: string
+}
+interface Form {
+  newCategory: string
 }
 
-function AddCategoryPage({ history }: Props): JSX.Element {
+function AddCategoryPage(): JSX.Element {
   const dispatch = useDispatch();
-  const [newCategory, setNewCategory] = useState('');
+  const [formValues, setFormValues] = useState<Form>({
+    newCategory: '',
+  });
+  const [formErrors, setFormErrors] = useState<IObject>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => setNewCategory(e.target.value);
+  const {
+    newCategory,
+  } = formValues;
 
-  const submitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
-    dispatch(createCategoryAction({ title: newCategory }));
+  const handleChange = (keyName: string) => (e: ChangeEvent<HTMLInputElement>) => {
+    setIsSubmitting(false);
+    setFormErrors({ ...formErrors, [keyName]: '' });
+    setFormValues({ ...formValues, [keyName]: e.target.value });
   };
 
   const {
-    loading, error, category, isCreated,
+    loading, error, isCreated,
   } = useSelector((state: RootState) => state.category);
+
+  // form validation handler
+  const validate = (values: Form) => {
+    const errors: IObject = {};
+
+    if (!values.newCategory) {
+      errors.category = '카테고리를 입력해야 합니다';
+    }
+
+    return errors;
+  };
+
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+    setFormErrors(validate(formValues));
+    setIsSubmitting(true);
+  };
+
+  useEffect(() => {
+    if (!Object.keys(formErrors).length && isSubmitting) {
+      dispatch(createCategoryAction({ title: newCategory }));
+    }
+  }, [formErrors, dispatch, isSubmitting, newCategory]);
 
   const buttonContent = useMemo(() => {
     if (loading) {
@@ -42,14 +77,16 @@ function AddCategoryPage({ history }: Props): JSX.Element {
     return '추가';
   }, [loading]);
 
-  const errorMessage = useMemo(() => {
-    if (error) {
+  const serverError = useMemo(() => {
+    if (error && !Object.keys(formErrors).length && isSubmitting) {
       return error;
     }
     return null;
-  }, [error]);
+  }, [error, isSubmitting, formErrors]);
 
-  if (isCreated) history.push('/category-list');
+  if (isCreated) {
+    return <Redirect to="/category-list" />;
+  }
 
   return (
     <SingleColumnLayout>
@@ -59,18 +96,18 @@ function AddCategoryPage({ history }: Props): JSX.Element {
             카테고리 더하기
           </Text>
         </Title>
-        {errorMessage && errorMessage}
-        <StyledForm onSubmit={submitHandler}>
-          <StyledLabel htmlFor="category">
-            <StyledInput
-              type="category"
-              id="category"
-              placeholder="새로운 카테고리"
-              value={newCategory}
-              autoComplete="off"
-              onChange={handleChange}
-            />
-          </StyledLabel>
+        <StyledForm onSubmit={handleSubmit} noValidate>
+          <InputWithLabel
+            id="category"
+            label="카테고리"
+            type="text"
+            value={newCategory}
+            placeholder="새로운 카테고리를 입력하세요"
+            handleChange={handleChange}
+            formErrors={formErrors}
+            serverError={serverError}
+          />
+          {serverError && <ErrorWrapper>{serverError}</ErrorWrapper>}
           <Button type="submit">
             {buttonContent}
           </Button>

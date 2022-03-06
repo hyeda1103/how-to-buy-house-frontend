@@ -1,10 +1,10 @@
 import React, {
-  useState, useEffect, useMemo,
+  useState, useMemo,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DropEvent, FileRejection } from 'react-dropzone';
 
-import { RouteComponentProps } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { RootState } from '^/store';
 import { Button } from '^/components/atoms/basicButton';
 import SingleColumnLayout from '^/components/templates/singleColumnLayout';
@@ -23,11 +23,7 @@ interface Form {
   image: Blob | undefined
 }
 
-interface Props {
-  history: RouteComponentProps['history']
-}
-
-function UploadProfilePhotoPage({ history }: Props) {
+function UploadProfilePhotoPage() {
   const dispatch = useDispatch();
 
   const [formValues, setFormValues] = useState<Form>({
@@ -47,25 +43,27 @@ function UploadProfilePhotoPage({ history }: Props) {
   };
 
   const {
-    profilePhoto, loading, error, userAuth, isUpdated,
+    loadingUploadProfilePhoto, errorUploadProfilePhoto, userAuth, isUpdated,
   } = useSelector((state: RootState) => state.auth);
 
-  // redirect
-  if (isUpdated) history.push(`/profile/${userAuth?._id}`);
-
   const buttonContent = useMemo(() => {
-    if (loading) {
+    if (loadingUploadProfilePhoto) {
       return <Spinner />;
     }
     return '업데이트';
-  }, [loading]);
+  }, [loadingUploadProfilePhoto]);
 
-  const errorMessage = useMemo(() => {
-    if (error) {
-      return error;
+  const errorUploadProfilePhotoMessage = useMemo(() => {
+    if (errorUploadProfilePhoto) {
+      return errorUploadProfilePhoto;
     }
     return null;
-  }, [error]);
+  }, [errorUploadProfilePhoto]);
+
+  // redirect
+  if (isUpdated) {
+    return <Redirect to={`/profile/${userAuth?._id}`} />;
+  }
 
   return (
     <SingleColumnLayout>
@@ -75,8 +73,8 @@ function UploadProfilePhotoPage({ history }: Props) {
             프로필 사진 업데이트
           </Text>
         </Title>
-        {errorMessage && errorMessage}
-        <StyledForm onSubmit={submitHandler}>
+        {errorUploadProfilePhotoMessage && errorUploadProfilePhotoMessage}
+        <StyledForm onSubmit={submitHandler} noValidate>
           <StyledLabel htmlFor="image">
             <Text>
               프로필 사진

@@ -1,12 +1,12 @@
 import React, {
-  useState, useEffect, useMemo, useCallback,
+  useState, useEffect, useMemo, ChangeEvent, FormEventHandler,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { StylesConfig } from 'react-select';
 import { DefaultTheme } from 'styled-components';
 import { DropEvent, FileRejection } from 'react-dropzone';
+import { Redirect } from 'react-router-dom';
 
-import { RouteComponentProps } from 'react-router-dom';
 import { RootState } from '^/store';
 import { createPostAction } from '^/store/slices/post';
 import FileZone from '^/components/atoms/fileZone';
@@ -15,18 +15,19 @@ import SingleColumnLayout from '^/components/templates/singleColumnLayout';
 import Spinner from '^/components/atoms/spinner';
 import Dropdown from '^/components/atoms/dropDown';
 import { fetchCategoriesAction } from '^/store/slices/category';
+import TextEditor from '^/components/organisms/textEditor';
 import {
   Container,
   StyledLabel,
   StyledForm,
   Title,
   Text,
-  StyledInput,
-  StyledTextArea,
+  ErrorWrapper,
 } from './styles';
+import InputWithLabel from '^/components/molecules/inputWithLabel';
 
 interface Option {
-  value: string
+  value: string | null
   label: string
 }
 
@@ -37,10 +38,10 @@ interface Theme {
 const customStyles: StylesConfig<Option, false> = {
   control: (provided, state) => ({
     ...provided,
-    background: `${({ theme }: Theme) => theme.palette.common.main}`,
+    background: `${({ theme }: Theme) => theme.palette.main}`,
     fontSize: '16px',
-    borderColor: `${({ theme }: Theme) => theme.palette.common.contrastText}`,
-    color: `${({ theme }: Theme) => theme.palette.common.contrastText}`,
+    borderColor: `${({ theme }: Theme) => theme.palette.contrastText}`,
+    color: `${({ theme }: Theme) => theme.palette.contrastText}`,
     minHeight: '44px',
     height: '44px',
     boxShadow: state.isFocused ? '0' : '0',
@@ -48,7 +49,7 @@ const customStyles: StylesConfig<Option, false> = {
   // 드롭다운 메뉴
   option: (provided) => ({
     ...provided,
-    color: `${({ theme }: Theme) => theme.palette.common.contrastText}`,
+    color: `${({ theme }: Theme) => theme.palette.contrastText}`,
     fontSize: '16px',
     padding: '12px 20px',
     overflow: 'hidden',
@@ -56,7 +57,7 @@ const customStyles: StylesConfig<Option, false> = {
 
   singleValue: (provided) => ({
     ...provided,
-    color: `${({ theme }: Theme) => theme.palette.common.contrastText}`,
+    color: `${({ theme }: Theme) => theme.palette.contrastText}`,
   }),
 
   valueContainer: (provided) => ({
@@ -68,13 +69,17 @@ const customStyles: StylesConfig<Option, false> = {
   input: (provided) => ({
     ...provided,
     margin: '0px',
-    color: `${({ theme }: Theme) => theme.palette.common.contrastText}`,
+    color: `${({ theme }: Theme) => theme.palette.contrastText}`,
   }),
   indicatorsContainer: (provided) => ({
     ...provided,
     height: '44px',
   }),
 };
+
+interface IObject {
+  [key: string]: string
+}
 
 interface Form {
   title: string
@@ -83,11 +88,7 @@ interface Form {
   image: Blob | undefined
 }
 
-interface Props {
-  history: RouteComponentProps['history']
-}
-
-function CreatePostPage({ history }: Props) {
+function CreatePostPage() {
   const dispatch = useDispatch();
 
   const [formValues, setFormValues] = useState<Form>({
@@ -96,7 +97,10 @@ function CreatePostPage({ history }: Props) {
     description: '',
     image: undefined,
   });
+  // category options
   const [options, setOptions] = useState<Array<Option>>();
+  const [formErrors, setFormErrors] = useState<IObject>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
     title, description, image,
@@ -104,18 +108,11 @@ function CreatePostPage({ history }: Props) {
 
   useEffect(() => {
     dispatch(fetchCategoriesAction());
-  }, []);
+  }, [dispatch]);
 
   const { isCreated, loading: loadingPost, error: errorPost } = useSelector((state: RootState) => state.post);
-  if (isCreated) history.push('/posts');
 
   const { categoryList, loading: loadingCategoryList, error: errorCategoryList } = useSelector((state: RootState) => state.category);
-  const placeholder = useMemo(() => {
-    if (loadingCategoryList) {
-      return '로딩 중...';
-    }
-    return '카테고리를 선택하세요';
-  }, [loadingCategoryList]);
 
   useEffect(() => {
     const selectOptions = categoryList?.map((category) => ({
@@ -125,37 +122,74 @@ function CreatePostPage({ history }: Props) {
     setOptions(selectOptions);
   }, [categoryList]);
 
-  const handleChange = (keyName: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (keyName: string) => (e: ChangeEvent<HTMLInputElement>) => {
+    setIsSubmitting(false);
+    setFormErrors({ ...formErrors, [keyName]: '' });
     setFormValues({ ...formValues, [keyName]: e.target.value });
   };
 
   const handleFileDrop
     : (acceptedFiles: Blob[], fileRejections: FileRejection[], event: DropEvent) => void | undefined = (acceptedFiles) => setFormValues({ ...formValues, image: acceptedFiles[0] });
 
-  const submitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
-    dispatch(createPostAction(formValues));
+  // form validation handler
+  const validate = (values: Form) => {
+    const errors: IObject = {};
+
+    if (!values.title) {
+      errors.title = '제목을 입력해야 합니다';
+    }
+
+    if (!values.category) {
+      errors.category = '카테고리를 설정해야 합니다';
+    }
+
+    if (!values.description) {
+      errors.description = '내용을 입력해야 합니다';
+    }
+
+    if (!values.image) {
+      errors.image = '이미지를 설정해야 합니다';
+    }
+
+    return errors;
   };
+
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+    setFormErrors(validate(formValues));
+    setIsSubmitting(true);
+  };
+
+  useEffect(() => {
+    if (!Object.keys(formErrors).length && isSubmitting) {
+      console.log(description);
+      dispatch(createPostAction(formValues));
+    }
+  }, [formErrors, isSubmitting, dispatch, description, formValues]);
 
   const buttonContent = useMemo(() => {
     if (loadingPost) {
       return <Spinner />;
     }
-    return '포스트';
+    return '포스트 등록';
   }, [loadingPost]);
 
-  const errorMessage = useMemo(() => {
-    if (errorPost) {
+  const serverError = useMemo(() => {
+    if (errorPost && !Object.keys(formErrors).length && isSubmitting) {
       return errorPost;
     }
     return null;
-  }, [errorPost]);
+  }, [errorPost, isSubmitting, formErrors]);
 
   // selector props
   const handleSelectChange = (e: any) => setFormValues({
     ...formValues,
     category: e.label,
   });
+
+  if (isCreated) {
+    return <Redirect to="/posts" />;
+  }
 
   return (
     <SingleColumnLayout>
@@ -165,21 +199,17 @@ function CreatePostPage({ history }: Props) {
             새로운 포스트
           </Text>
         </Title>
-        {errorMessage && errorMessage}
-        <StyledForm onSubmit={submitHandler}>
-          <StyledLabel htmlFor="title">
-            <Text>
-              제목
-            </Text>
-            <StyledInput
-              type="title"
-              id="title"
-              placeholder="포스트 제목을 입력하세요"
-              value={title}
-              autoComplete="off"
-              onChange={handleChange('title')}
-            />
-          </StyledLabel>
+        <StyledForm onSubmit={handleSubmit} noValidate>
+          <InputWithLabel
+            id="title"
+            label="제목"
+            type="text"
+            value={title}
+            placeholder="제목을 입력하세요"
+            handleChange={handleChange}
+            formErrors={formErrors}
+            serverError={serverError}
+          />
           <StyledLabel htmlFor="category">
             <Text>
               카테고리
@@ -197,13 +227,7 @@ function CreatePostPage({ history }: Props) {
             <Text>
               본문
             </Text>
-            <StyledTextArea
-              id="description"
-              placeholder="포스트 본문을 입력하세요"
-              value={description}
-              autoComplete="off"
-              onChange={handleChange('description')}
-            />
+            <TextEditor value={description} formValues={formValues} setFormValues={setFormValues} />
           </StyledLabel>
           <StyledLabel htmlFor="image">
             <Text>
@@ -215,6 +239,7 @@ function CreatePostPage({ history }: Props) {
               attachedFileName={(image as File)?.name}
             />
           </StyledLabel>
+          {serverError && <ErrorWrapper>{serverError}</ErrorWrapper>}
           <Button type="submit">
             {buttonContent}
           </Button>

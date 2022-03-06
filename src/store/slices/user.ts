@@ -128,10 +128,10 @@ export const followUserAction = createAsyncThunk(
   },
 );
 
-// unFollow
+// unfollow
 export const unfollowUserAction = createAsyncThunk(
   'user/unfollow',
-  async (unFollowId: T.User['_id'], { rejectWithValue, getState, dispatch }) => {
+  async (unfollowId: T.User['_id'], { rejectWithValue, getState, dispatch }) => {
     // get user token
     const user = (getState() as any)?.auth;
     const { userAuth } = user;
@@ -145,7 +145,7 @@ export const unfollowUserAction = createAsyncThunk(
     try {
       const { data } = await axios.put(
         `${process.env.REACT_APP_BASE_URL}/api/users/unfollow`,
-        { unFollowId },
+        { unfollowId },
         config,
       );
       return data;
@@ -355,7 +355,6 @@ interface UserProfile {
 export const uploadProfilePhototAction = createAsyncThunk(
   'user/profile-photo',
   async (userImg: UserProfile, { rejectWithValue, getState, dispatch }) => {
-    console.log(userImg);
     // get user token
     const user = (getState() as any)?.auth;
     const { userAuth } = user;
@@ -396,7 +395,7 @@ export const passwordResetTokenAction = createAsyncThunk(
     // http call
     try {
       const { data } = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/api/users/forget-password-token`,
+        `${process.env.REACT_APP_BASE_URL}/api/users/generate-forgot-password-token`,
         { email },
         config,
       );
@@ -413,7 +412,7 @@ export const passwordResetTokenAction = createAsyncThunk(
 // Password reset
 export const passwordResetAction = createAsyncThunk(
   'password/reset',
-  async (user: Partial<T.User>, { rejectWithValue, getState, dispatch }) => {
+  async (newPassword: { password: string, token: string }, { rejectWithValue, getState, dispatch }) => {
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -423,7 +422,7 @@ export const passwordResetAction = createAsyncThunk(
     try {
       const { data } = await axios.put(
         `${process.env.REACT_APP_BASE_URL}/api/users/reset-password`,
-        { password: user?.password, token: user?.token },
+        newPassword,
         config,
       );
       return data;
@@ -438,28 +437,67 @@ export const passwordResetAction = createAsyncThunk(
 
 // slices
 interface UserState {
-  loading: boolean;
+  // common
   userAuth?: T.User;
+  // register
+  loadingRegister: boolean;
+  errorRegister: string | undefined;
   registered: T.UserRegister
+  // password reset token
+  loadingPasswordResetToken: boolean;
+  errorPasswordResetToken: string | undefined;
   passwordToken: string
+  // password reset
+  loadingPasswordReset: boolean;
+  errorPasswordReset: string | undefined;
   passwordReset: any
-  userDetails: any
+  // user details
+  loadingUserDetails: boolean;
+  errorUserDetails: string | undefined;
+  userDetails: T.User
+  // block user
+  loadingBlockUser: boolean;
+  errorBlockUser: string | undefined;
   block: any
+  // unblock user
+  loadingUnblockUser: boolean;
+  errorUnblockUser: string | undefined;
   unblock: any
-  followed: any
-  unFollowed: any
-  unfollowLoading: boolean
-  unFollowedError?: any
+  // all users
+  loadingAllUsers: boolean;
+  errorAllUsers: string | undefined;
   usersList: Array<T.User>
-  error?: string
-  profileLoading: boolean
-  profileError?: string
-  isUpdated: boolean
-  userUpdated: any
+  // user follow & unfollow
+  loadingFollow: boolean;
+  errorFollow: string | undefined;
+  loadingUnfollow: boolean;
+  errorUnfollow: string | undefined;
+  follow: any
+  unfollow: any
+  // login
+  loadingLogin: boolean;
+  errorLogin: string | undefined
+  // profile
+  loadingProfile: boolean;
+  errorProfile: string | undefined;
+  profile: any
+  // update profile
+  loadingUpdateUser: boolean;
+  errorUpdateUser: string | undefined;
+  isUpdated: boolean;
+  userUpdated: T.User;
+  // update password
+  loadingUpdatePassword: boolean;
+  errorUpdatePassword: string | undefined;
   isPasswordUpdated: boolean
   passwordUpdated: any
+  // upload profile photo
+  loadingUploadProfilePhoto: boolean;
+  errorUploadProfilePhoto: string | undefined;
   profilePhoto: any
-  profile: any
+  // logout
+  loadingLogout: boolean;
+  errorLogout: string | undefined;
 }
 
 // get user from local storage and place into store
@@ -476,236 +514,229 @@ const usersSlice = createSlice({
   extraReducers: (builder) => {
     // register
     builder.addCase(registerAction.pending, (state, action) => {
-      state.loading = true;
-      state.error = undefined;
+      state.loadingRegister = true;
+      state.errorRegister = undefined;
     });
     builder.addCase(registerAction.fulfilled, (state, action) => {
-      state.loading = false;
+      state.loadingRegister = false;
       state.registered = action.payload;
-      state.error = undefined;
+      state.errorRegister = undefined;
     });
     builder.addCase(registerAction.rejected, (state, action) => {
-      state.loading = false;
-      state.error = (action.payload as any).error;
+      state.loadingRegister = false;
+      state.errorRegister = (action.payload as any).error;
     });
     // Password reset token generator
     builder.addCase(passwordResetTokenAction.pending, (state, action) => {
-      state.loading = true;
-      state.error = undefined;
+      state.loadingPasswordResetToken = true;
+      state.errorPasswordResetToken = undefined;
     });
     builder.addCase(passwordResetTokenAction.fulfilled, (state, action) => {
-      state.loading = false;
+      state.loadingPasswordResetToken = false;
       state.passwordToken = action?.payload;
-      state.error = undefined;
+      state.errorPasswordResetToken = undefined;
     });
     builder.addCase(passwordResetTokenAction.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action?.error?.message;
+      state.loadingPasswordResetToken = false;
+      state.errorPasswordResetToken = (action.payload as any).error;
     });
-
     // Password reset
     builder.addCase(passwordResetAction.pending, (state, action) => {
-      state.loading = true;
-      state.error = undefined;
+      state.loadingPasswordReset = true;
+      state.errorPasswordReset = undefined;
     });
     builder.addCase(passwordResetAction.fulfilled, (state, action) => {
-      state.loading = false;
+      console.log(`passwordReset: ${action.payload}`);
+      state.loadingPasswordReset = false;
       state.passwordReset = action?.payload;
-      state.error = undefined;
+      state.errorPasswordReset = undefined;
     });
     builder.addCase(passwordResetAction.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action?.error?.message;
+      state.loadingPasswordReset = false;
+      state.errorPasswordReset = (action.payload as any).error;
     });
-
     // user details
     builder.addCase(fetchUserDetailsAction.pending, (state, action) => {
-      state.loading = true;
-      state.error = undefined;
+      state.loadingUserDetails = true;
+      state.errorUserDetails = undefined;
     });
     builder.addCase(fetchUserDetailsAction.fulfilled, (state, action) => {
-      state.loading = false;
+      state.loadingUserDetails = false;
       state.userDetails = action?.payload;
-      state.error = undefined;
+      state.errorUserDetails = undefined;
     });
     builder.addCase(fetchUserDetailsAction.rejected, (state, action) => {
-      console.log(action.payload);
-      state.loading = false;
-      state.error = action?.error?.message;
+      state.loadingUserDetails = false;
+      state.errorUserDetails = (action.payload as any).error;
     });
-
     // Block user
     builder.addCase(blockUserAction.pending, (state, action) => {
-      state.loading = true;
-      state.error = undefined;
+      state.loadingBlockUser = true;
+      state.errorBlockUser = undefined;
     });
     builder.addCase(blockUserAction.fulfilled, (state, action) => {
-      state.loading = false;
+      state.loadingBlockUser = false;
       state.block = action?.payload;
-      state.error = undefined;
+      state.errorBlockUser = undefined;
     });
     builder.addCase(blockUserAction.rejected, (state, action) => {
       console.log(action.payload);
-      state.loading = false;
-      state.error = action?.error?.message;
+      state.loadingBlockUser = false;
+      state.errorBlockUser = action?.error?.message;
     });
     // unBlock user
     builder.addCase(unBlockUserAction.pending, (state, action) => {
-      state.loading = true;
-      state.error = undefined;
+      state.loadingUnblockUser = true;
+      state.errorUnblockUser = undefined;
     });
     builder.addCase(unBlockUserAction.fulfilled, (state, action) => {
-      state.loading = false;
+      state.loadingUnblockUser = false;
       state.unblock = action?.payload;
-      state.error = undefined;
+      state.errorUnblockUser = undefined;
     });
     builder.addCase(unBlockUserAction.rejected, (state, action) => {
       console.log(action.payload);
-      state.loading = false;
-      state.error = action?.error?.message;
+      state.loadingUnblockUser = false;
+      state.errorUnblockUser = action?.error?.message;
     });
     // All Users
     builder.addCase(fetchUsersAction.pending, (state, action) => {
-      state.loading = true;
-      state.error = undefined;
+      state.loadingAllUsers = true;
+      state.errorAllUsers = undefined;
     });
     builder.addCase(fetchUsersAction.fulfilled, (state, action) => {
-      state.loading = false;
+      state.loadingAllUsers = false;
       state.usersList = action?.payload;
-      state.error = undefined;
+      state.errorAllUsers = undefined;
     });
     builder.addCase(fetchUsersAction.rejected, (state, action) => {
       console.log(action.payload);
-      state.loading = false;
-      state.error = action?.error?.message;
+      state.loadingAllUsers = false;
+      state.errorAllUsers = action?.error?.message;
     });
-
     // user Follow
     builder.addCase(followUserAction.pending, (state, action) => {
-      state.loading = true;
-      state.error = undefined;
+      state.loadingFollow = true;
+      state.errorFollow = undefined;
     });
     builder.addCase(followUserAction.fulfilled, (state, action) => {
-      state.loading = false;
-      state.followed = action?.payload;
-      state.unFollowed = undefined;
-      state.error = undefined;
+      state.loadingFollow = false;
+      state.follow = action?.payload;
+      state.unfollow = undefined;
+      state.errorFollow = undefined;
     });
     builder.addCase(followUserAction.rejected, (state, action) => {
-      state.loading = false;
-      state.unFollowed = undefined;
-      state.error = action?.error?.message;
+      state.loadingFollow = false;
+      state.unfollow = undefined;
+      state.errorFollow = action?.error?.message;
     });
-
-    // user unFollow
+    // user unfollow
     builder.addCase(unfollowUserAction.pending, (state, action) => {
-      state.unfollowLoading = true;
-      state.unFollowedError = undefined;
+      state.loadingUnfollow = true;
+      state.errorUnfollow = undefined;
     });
     builder.addCase(unfollowUserAction.fulfilled, (state, action) => {
-      state.unfollowLoading = false;
-      state.unFollowed = action?.payload;
-      state.followed = undefined;
-      state.unFollowedError = undefined;
+      state.loadingUnfollow = false;
+      state.unfollow = action?.payload;
+      state.follow = undefined;
+      state.errorUnfollow = undefined;
     });
     builder.addCase(unfollowUserAction.rejected, (state, action) => {
-      state.unfollowLoading = false;
-      state.unFollowedError = action?.error?.message;
+      state.loadingUnfollow = false;
+      state.errorUnfollow = action?.error?.message;
     });
     // login
     builder.addCase(loginAction.pending, (state, action) => {
-      state.loading = true;
-      state.error = undefined;
+      state.loadingLogin = true;
+      state.errorLogin = undefined;
     });
     builder.addCase(loginAction.fulfilled, (state, action) => {
       state.userAuth = action?.payload;
-      state.loading = false;
-      state.error = undefined;
+      state.loadingLogin = false;
+      state.errorLogin = undefined;
     });
     builder.addCase(loginAction.rejected, (state, action) => {
-      state.loading = false;
-      state.error = (action.payload as any).error || (action.payload as any).message;
+      state.loadingLogin = false;
+      state.errorLogin = (action.payload as any).error;
     });
     // Profile
     builder.addCase(userProfileAction.pending, (state, action) => {
-      state.profileLoading = true;
-      state.profileError = undefined;
+      state.loadingProfile = true;
+      state.errorProfile = undefined;
     });
     builder.addCase(userProfileAction.fulfilled, (state, action) => {
       state.profile = action?.payload;
-      state.profileLoading = false;
-      state.profileError = undefined;
+      state.loadingProfile = false;
+      state.errorProfile = undefined;
     });
     builder.addCase(userProfileAction.rejected, (state, action) => {
-      state.profileError = action?.error?.message;
-      state.profileLoading = false;
+      state.loadingProfile = false;
+      state.errorProfile = action?.error?.message;
     });
-
-    // update
+    // update profile
     builder.addCase(updateUserAction.pending, (state, action) => {
-      state.loading = true;
-      state.error = undefined;
+      state.loadingUpdateUser = true;
+      state.errorUpdateUser = undefined;
     });
     builder.addCase(resetUserAction, (state, action) => {
       state.isUpdated = true;
     });
     builder.addCase(updateUserAction.fulfilled, (state, action) => {
-      state.loading = false;
+      state.loadingUpdateUser = false;
       state.userUpdated = action?.payload;
       state.isUpdated = false;
-      state.error = undefined;
+      state.errorUpdateUser = undefined;
     });
     builder.addCase(updateUserAction.rejected, (state, action) => {
-      console.log(action.payload);
-      state.loading = false;
-      state.error = action?.error?.message;
+      state.loadingUpdateUser = false;
+      state.errorUpdateUser = action?.error?.message;
     });
     // update password
     builder.addCase(updatePasswordAction.pending, (state, action) => {
-      state.loading = true;
-      state.error = undefined;
+      state.loadingUpdatePassword = true;
+      state.errorUpdatePassword = undefined;
     });
     builder.addCase(resetPasswordAction, (state, action) => {
       state.isPasswordUpdated = true;
     });
     builder.addCase(updatePasswordAction.fulfilled, (state, action) => {
-      state.loading = false;
+      state.loadingUpdatePassword = false;
       state.passwordUpdated = action?.payload;
       state.isPasswordUpdated = false;
-      state.error = undefined;
+      state.errorUpdatePassword = undefined;
     });
     builder.addCase(updatePasswordAction.rejected, (state, action) => {
       console.log(action.payload);
-      state.loading = false;
-      state.error = action?.error?.message;
+      state.loadingUpdatePassword = false;
+      state.errorUpdatePassword = action?.error?.message;
     });
-
     // Upload Profile photo
     builder.addCase(uploadProfilePhototAction.pending, (state, action) => {
-      state.loading = true;
-      state.error = undefined;
+      state.loadingUploadProfilePhoto = true;
+      state.errorUploadProfilePhoto = undefined;
     });
     builder.addCase(uploadProfilePhototAction.fulfilled, (state, action) => {
+      console.log(`profile photo: ${action.payload}`);
+      state.loadingUploadProfilePhoto = false;
+      state.errorUploadProfilePhoto = undefined;
       state.profilePhoto = action?.payload;
-      state.loading = false;
-      state.error = undefined;
     });
     builder.addCase(uploadProfilePhototAction.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action?.error?.message;
+      state.loadingUploadProfilePhoto = false;
+      state.errorUploadProfilePhoto = action?.error?.message;
     });
     // logout
     builder.addCase(logoutAction.pending, (state, action) => {
-      state.loading = false;
+      state.loadingLogout = false;
     });
     builder.addCase(logoutAction.fulfilled, (state, action) => {
       state.userAuth = undefined;
-      state.loading = false;
-      state.error = undefined;
+      state.loadingLogout = false;
+      state.errorLogout = undefined;
     });
     builder.addCase(logoutAction.rejected, (state, action) => {
-      state.loading = false;
-      state.error = (action.payload as any).error || (action.payload as any).message;
+      state.loadingLogout = false;
+      state.errorLogout = (action.payload as any).error || (action.payload as any).message;
     });
   },
 });

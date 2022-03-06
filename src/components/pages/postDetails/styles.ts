@@ -69,15 +69,13 @@ export const AuthorEmail = styled.p`
   font-size: 1rem;
 `;
 
-export const Description = styled.p`
-  font-size: 1.25rem;
-  line-height: 1.5;
+export const Description = styled.div`
   margin-bottom: 2rem;
 `;
 
 export const ErrorWrapper = styled.p`
   text-align: center;
-  color: ${({ theme }) => theme.palette.fail.contrastText};
+  color: ${({ theme }) => theme.palette.fail};
 `;
 
 export const GuideWrapper = styled.div`

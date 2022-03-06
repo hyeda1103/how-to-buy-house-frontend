@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 export const Container = styled.main`
@@ -29,7 +29,7 @@ export const InfoLine = styled.div<StyleProps>`
   }
 `;
 
-export const Name = styled.h3`
+export const Name = styled.p`
   font-size: 1.25rem;
   font-weight: 700;
   margin-right: 1rem;
@@ -38,7 +38,7 @@ export const Name = styled.h3`
 export const VerificationBadge = styled.button`
   padding: 0.25rem 0.75rem;
   border-radius: 0.25rem;
-  border: 1px solid ${({ theme }) => theme.palette.common.contrastText};
+  border: 1px solid ${({ theme }) => theme.palette.contrastText};
 `;
 
 export const ListOfViewers = styled.ul`
@@ -46,6 +46,7 @@ export const ListOfViewers = styled.ul`
 
 export const ViewerProfile = styled.li`
   float: left;
+  list-style: none;
   & + & {
     margin-left: 0.5rem;
   }
@@ -69,7 +70,7 @@ export const UploadButton = styled(Link)`
   font-size: 1rem;
   padding: 0.25rem 0.75rem;
   border-radius: 0.25rem;
-  border: 1px solid ${({ theme }) => theme.palette.common.contrastText};
+  border: 1px solid ${({ theme }) => theme.palette.contrastText};
 
   & + & {
     margin-left: 0.5rem;
