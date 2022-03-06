@@ -22,7 +22,7 @@ interface Props {
   serverError: string | null
 }
 
-function Input({
+function InputWithLabel({
   id, label, type, value, placeholder, handleChange, formErrors, serverError,
 }: Props) {
   return (
@@ -48,4 +48,4 @@ function Input({
   );
 }
 
-export default Input;
+export default InputWithLabel;

@@ -24,7 +24,7 @@ import {
 import { fetchCategoriesAction } from '^/store/slices/category';
 import FileZone from '^/components/atoms/fileZone';
 import TextEditor from '^/components/organisms/textEditor';
-import Input from '^/components/molecules/input';
+import InputWithLabel from '^/components/molecules/inputWithLabel';
 
 interface Option {
   value: string | null
@@ -212,7 +212,7 @@ function UpdatePostPage({ match }: Props) {
           </Text>
         </Title>
         <StyledForm onSubmit={handleSubmit} noValidate>
-          <Input
+          <InputWithLabel
             id="title"
             label="제목"
             type="text"

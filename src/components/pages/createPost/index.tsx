@@ -24,7 +24,7 @@ import {
   Text,
   ErrorWrapper,
 } from './styles';
-import Input from '^/components/molecules/input';
+import InputWithLabel from '^/components/molecules/inputWithLabel';
 
 interface Option {
   value: string | null
@@ -200,7 +200,7 @@ function CreatePostPage() {
           </Text>
         </Title>
         <StyledForm onSubmit={handleSubmit} noValidate>
-          <Input
+          <InputWithLabel
             id="title"
             label="제목"
             type="text"

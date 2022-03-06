@@ -2,11 +2,9 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
-  Container,
   StyledForm,
   Title,
-  Text,
-  GuideWrapper,
+  InputWrapper,
   ErrorWrapper,
 } from './styles';
 import { RootState } from '^/store';
@@ -16,7 +14,8 @@ import {
 import Spinner from '^/components/atoms/spinner';
 import { Button } from '^/components/atoms/basicButton';
 import SingleColumnLayout from '^/components/templates/singleColumnLayout/index';
-import Input from '^/components/molecules/input';
+import InputWithLabel from '^/components/molecules/inputWithLabel';
+import AuthForm from '^/components/templates/authForm';
 
 interface IObject {
   [key: string]: string
@@ -87,36 +86,46 @@ function PasswordResetTokenPage() {
     return null;
   }, [errorPasswordResetToken, formErrors, isSubmitting]);
 
+  const title = (
+    <Title>
+      비밀번호 재설정
+    </Title>
+  );
+
+  const guide = passwordToken && (
+    <p>
+      입력한 이메일 주소로 비밀번호 재설정을 위한 링크가 발신되었습니다
+    </p>
+  );
+
+  const form = (
+    <StyledForm onSubmit={handleSubmit} noValidate>
+      <InputWrapper>
+        <InputWithLabel
+          id="email"
+          label="이메일"
+          type="email"
+          value={email}
+          placeholder="이메일 주소를 입력하세요"
+          handleChange={handleChange}
+          formErrors={formErrors}
+          serverError={serverError}
+        />
+        {serverError && <ErrorWrapper>{serverError}</ErrorWrapper>}
+      </InputWrapper>
+      <Button type="submit">
+        {buttonContent}
+      </Button>
+    </StyledForm>
+  );
+
   return (
     <SingleColumnLayout>
-      <Container>
-        <Title>
-          <Text>
-            비밀번호 재설정
-          </Text>
-        </Title>
-        {passwordToken && (
-        <GuideWrapper>
-          입력한 이메일 주소로 비밀번호 재설정을 위한 링크가 발신되었습니다.
-        </GuideWrapper>
-        )}
-        <StyledForm onSubmit={handleSubmit} noValidate>
-          <Input
-            id="email"
-            label="이메일"
-            type="email"
-            value={email}
-            placeholder="이메일 주소를 입력하세요"
-            handleChange={handleChange}
-            formErrors={formErrors}
-            serverError={serverError}
-          />
-          {serverError && <ErrorWrapper>{serverError}</ErrorWrapper>}
-          <Button type="submit">
-            {buttonContent}
-          </Button>
-        </StyledForm>
-      </Container>
+      <AuthForm
+        title={title}
+        guide={guide}
+        form={form}
+      />
     </SingleColumnLayout>
   );
 }
