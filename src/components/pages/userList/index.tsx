@@ -9,7 +9,7 @@ import { fetchUsersAction } from '^/store/slices/user';
 function UserListPage() {
   const dispatch = useDispatch();
   const {
-    usersList, error, loading, block, unblock,
+    usersList, errorAllUsers, loadingAllUsers, block, unblock,
   } = useSelector((state: RootState) => state.auth);
   useEffect(() => {
     dispatch(fetchUsersAction());

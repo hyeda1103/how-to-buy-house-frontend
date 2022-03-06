@@ -35,6 +35,7 @@ function CategoryDashboardPage(): JSX.Element {
 
   return (
     <SingleColumnLayout>
+      <Link to="/add-category">새로운 카테고리 생성</Link>
       <Dashboard>
         <DashboardHeader>
           <div>

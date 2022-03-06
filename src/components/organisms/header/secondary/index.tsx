@@ -24,8 +24,8 @@ function HeaderSecondary() {
       <Inner>
         <NavList>
           <NavItem to="/create-post">글쓰기</NavItem>
-          <NavItem to="/add-category">카테고리 더하기</NavItem>
-          <NavItem to="/category-list">카테고리 리스트</NavItem>
+          <NavItem to="/category-list">카테고리 관리</NavItem>
+          <NavItem to="/users">사용자 관리</NavItem>
         </NavList>
       </Inner>
     </Container>
