@@ -7,6 +7,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding: 43px 0;
 ;`;
 
 export const TitleWrapper = styled.div`
