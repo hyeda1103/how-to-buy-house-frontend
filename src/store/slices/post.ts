@@ -266,7 +266,7 @@ const postSlice = createSlice({
     });
     builder.addCase(updatePostAction.rejected, (state, action) => {
       state.loading = false;
-      state.error = (action.payload as any).error || action?.error?.message;
+      state.error = (action.payload as any).error;
     });
 
     // Delete post
@@ -284,7 +284,7 @@ const postSlice = createSlice({
     });
     builder.addCase(deletePostAction.rejected, (state, action) => {
       state.loading = false;
-      state.error = (action.payload as any).error || action?.error?.message;
+      state.error = (action.payload as any).error;
     });
 
     // fetch posts
@@ -313,7 +313,7 @@ const postSlice = createSlice({
     });
     builder.addCase(fetchPostDetailsAction.rejected, (state, action) => {
       state.loading = false;
-      state.error = (action.payload as any).error || action?.error?.message;
+      state.error = (action.payload as any).error;
     });
     // Likes
     builder.addCase(toggleAddLikesToPost.pending, (state, action) => {
@@ -326,7 +326,7 @@ const postSlice = createSlice({
     });
     builder.addCase(toggleAddLikesToPost.rejected, (state, action) => {
       state.loading = false;
-      state.error = (action.payload as any).error || action?.error?.message;
+      state.error = (action.payload as any).error;
     });
     // disLikes
     builder.addCase(toggleAddDisLikesToPost.pending, (state, action) => {
@@ -339,7 +339,7 @@ const postSlice = createSlice({
     });
     builder.addCase(toggleAddDisLikesToPost.rejected, (state, action) => {
       state.loading = false;
-      state.error = (action.payload as any).error || action?.error?.message;
+      state.error = (action.payload as any).error;
     });
   },
 });
