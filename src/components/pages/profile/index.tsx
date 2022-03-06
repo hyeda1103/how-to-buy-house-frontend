@@ -178,7 +178,7 @@ export default function Profile({ match }: Props) {
             </InfoLine>
             {!isLoginUser && (
             <div>
-              {profile?.isFollowing ? (
+              {profile?.followers.includes(userAuth?._id) ? (
                 <button
                   type="button"
                   onClick={() => dispatch(unfollowUserAction(id))}
