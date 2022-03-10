@@ -3,7 +3,7 @@ import ReactQuill from 'react-quill';
 
 export const Container = styled.div`
   position: relative;
-  width: 960px;
+  width: 100%;
   display: flex;
   align-items: center;
   margin: 2rem auto;

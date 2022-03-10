@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import UserListItem from '^/components/organisms/userListItem';
 
 import SingleColumnLayout from '^/components/templates/singleColumnLayout/index';
+import UserListItem from '^/components/organisms/userListItem';
 import { RootState } from '^/store';
 import { fetchUsersAction } from '^/store/slices/user';
 
