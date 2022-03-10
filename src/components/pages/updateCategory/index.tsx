@@ -4,11 +4,9 @@ import React, {
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
-  Container,
+  InputWrapper,
   StyledForm,
   Title,
-  Text,
-  ErrorWrapper,
 } from './styles';
 import SingleColumnLayout from '^/components/templates/singleColumnLayout';
 import InputWithLabel from '^/components/molecules/inputWithLabel';
@@ -16,6 +14,8 @@ import { Button } from '^/components/atoms/basicButton';
 import Spinner from '^/components/atoms/spinner';
 import { fetchCategoryAction, updateCategoriesAction } from '^/store/slices/category';
 import { RootState } from '^/store';
+import ErrorBox from '^/components/molecules/errorBox';
+import AuthForm from '^/components/templates/authForm';
 
 interface Props {
   match: {
@@ -35,11 +35,26 @@ interface Form {
 function UpdateCategoryPage({ match }: Props): JSX.Element {
   const { id } = match.params;
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchCategoryAction(id));
+  }, [dispatch, id]);
+
+  const {
+    loading, error, category,
+  } = useSelector((state: RootState) => state.category);
+
   const [formValues, setFormValues] = useState<Form>({
     newCategory: '',
   });
   const [formErrors, setFormErrors] = useState<IObject>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    setFormValues({
+      newCategory: category?.title || '',
+    });
+  }, [category]);
 
   const {
     newCategory,
@@ -74,21 +89,6 @@ function UpdateCategoryPage({ match }: Props): JSX.Element {
     }
   }, [formErrors, dispatch, id, isSubmitting, newCategory]);
 
-  useEffect(() => {
-    dispatch(fetchCategoryAction(id));
-  }, [dispatch, id]);
-
-  const {
-    loading, error, category,
-  } = useSelector((state: RootState) => state.category);
-
-  useEffect(() => {
-    setFormValues({
-      ...formValues,
-      newCategory: category?.title,
-    });
-  }, [category, formValues]);
-
   const buttonContent = useMemo(() => {
     if (loading) {
       return <Spinner />;
@@ -103,31 +103,39 @@ function UpdateCategoryPage({ match }: Props): JSX.Element {
     return null;
   }, [error, isSubmitting, formErrors]);
 
+  const title = (
+    <Title>
+      카테고리 업데이트
+    </Title>
+  );
+
+  const form = (
+    <StyledForm onSubmit={handleSubmit} noValidate>
+      <InputWrapper>
+        <InputWithLabel
+          id="newCategory"
+          label="카테고리"
+          type="text"
+          value={newCategory}
+          placeholder="새로운 카테고리를 입력하세요"
+          handleChange={handleChange}
+          formErrors={formErrors}
+          serverError={serverError}
+        />
+        {serverError && <ErrorBox>{serverError}</ErrorBox>}
+      </InputWrapper>
+      <Button type="submit">
+        {buttonContent}
+      </Button>
+    </StyledForm>
+  );
+
   return (
     <SingleColumnLayout>
-      <Container>
-        <Title>
-          <Text>
-            카테고리 업데이트
-          </Text>
-        </Title>
-        <StyledForm onSubmit={handleSubmit} noValidate>
-          <InputWithLabel
-            id="newCategory"
-            label="카테고리"
-            type="text"
-            value={newCategory}
-            placeholder="새로운 카테고리를 입력하세요"
-            handleChange={handleChange}
-            formErrors={formErrors}
-            serverError={serverError}
-          />
-          {serverError && <ErrorWrapper>{serverError}</ErrorWrapper>}
-          <Button type="submit">
-            {buttonContent}
-          </Button>
-        </StyledForm>
-      </Container>
+      <AuthForm
+        title={title}
+        form={form}
+      />
     </SingleColumnLayout>
   );
 }

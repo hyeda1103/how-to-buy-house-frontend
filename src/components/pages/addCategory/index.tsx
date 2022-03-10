@@ -10,12 +10,12 @@ import SingleColumnLayout from '^/components/templates/singleColumnLayout';
 import InputWithLabel from '^/components/molecules/inputWithLabel';
 import { Button } from '^/components/atoms/basicButton';
 import Spinner from '^/components/atoms/spinner';
+import AuthForm from '^/components/templates/authForm';
+import ErrorBox from '^/components/molecules/errorBox';
 import {
-  Container,
+  InputWrapper,
   StyledForm,
   Title,
-  Text,
-  ErrorWrapper,
 } from './styles';
 
 interface IObject {
@@ -52,7 +52,7 @@ function AddCategoryPage(): JSX.Element {
     const errors: IObject = {};
 
     if (!values.newCategory) {
-      errors.category = '카테고리를 입력해야 합니다';
+      errors.newCategory = '카테고리를 입력해야 합니다';
     }
 
     return errors;
@@ -88,31 +88,39 @@ function AddCategoryPage(): JSX.Element {
     return <Redirect to="/category-list" />;
   }
 
+  const title = (
+    <Title>
+      카테고리 더하기
+    </Title>
+  );
+
+  const form = (
+    <StyledForm onSubmit={handleSubmit} noValidate>
+      <InputWrapper>
+        <InputWithLabel
+          id="newCategory"
+          label="카테고리"
+          type="text"
+          value={newCategory}
+          placeholder="새로운 카테고리를 입력하세요"
+          handleChange={handleChange}
+          formErrors={formErrors}
+          serverError={serverError}
+        />
+        {serverError && <ErrorBox>{serverError}</ErrorBox>}
+      </InputWrapper>
+      <Button type="submit">
+        {buttonContent}
+      </Button>
+    </StyledForm>
+  );
+
   return (
     <SingleColumnLayout>
-      <Container>
-        <Title>
-          <Text>
-            카테고리 더하기
-          </Text>
-        </Title>
-        <StyledForm onSubmit={handleSubmit} noValidate>
-          <InputWithLabel
-            id="category"
-            label="카테고리"
-            type="text"
-            value={newCategory}
-            placeholder="새로운 카테고리를 입력하세요"
-            handleChange={handleChange}
-            formErrors={formErrors}
-            serverError={serverError}
-          />
-          {serverError && <ErrorWrapper>{serverError}</ErrorWrapper>}
-          <Button type="submit">
-            {buttonContent}
-          </Button>
-        </StyledForm>
-      </Container>
+      <AuthForm
+        title={title}
+        form={form}
+      />
     </SingleColumnLayout>
   );
 }

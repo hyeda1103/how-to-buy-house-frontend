@@ -2,31 +2,24 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   position: relative;
-  width: 100%;
+  width: 364px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  padding: 43px 0;
 ;`;
 
 export const StyledForm = styled.form`
-  width: 480px;
+  width: 100%;
 `;
 
 export const Title = styled.h1`
-  font-size: 3rem;
+  font-size: 32px;
   font-weight: 700;
-  line-height: 65px;
-  letter-spacing: 1.6px;
-  text-align: center;
-  margin-bottom: 2rem;
+  line-height: 38.4px;
 `;
 
-export const Text = styled.span`
-  margin: 0.75rem;
-`;
-
-export const ErrorWrapper = styled.p`
-  margin: 0.5rem 0.75rem;
-  color: ${({ theme }) => theme.palette.fail};
+export const InputWrapper = styled.div`
+  margin-bottom: 50.71px;
 `;

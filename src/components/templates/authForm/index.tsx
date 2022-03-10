@@ -40,9 +40,11 @@ function AuthForm({
         {findPassword}
       </FindPasswordWrapper>
       )}
+      {directTo && (
       <DirectToWrapper>
         {directTo}
       </DirectToWrapper>
+      )}
     </Container>
   );
 }

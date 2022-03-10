@@ -19,6 +19,7 @@ import {
   Description,
   ReactMoment,
   ButtonWrapper,
+  Button,
   ReplyIcon,
   CancelIcon,
 } from './styles';
@@ -66,15 +67,17 @@ function CommentItem({
           {comment?.createdAt}
         </ReactMoment>
       </MentionWrapper>
+      {comment?.depth <= 3 && (
       <ButtonWrapper>
-        <button
+        <Button
           type="button"
-          disabled={comment?.depth > 3 || !loginUser}
+          disabled={!loginUser}
           onClick={() => setIsReplying(!isReplying)}
         >
-          {isReplying ? '취소' : '리플'}
-        </button>
+          {isReplying ? <CancelIcon /> : <ReplyIcon />}
+        </Button>
       </ButtonWrapper>
+      )}
       {isReplying && (
         <CommentBox
           postId={comment?.post}
