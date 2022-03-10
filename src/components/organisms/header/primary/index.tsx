@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import {
-  Container, Inner, Logo, NavList, NavItem, NavItemWithNoLink, SubLogo, LogoWrapper,
+  Container, Inner, Logo, NavList, NavItem, NavItemWithNoLink, LogoWrapper,
 } from './styles';
 import Toggle from '^/components/atoms/toggleButton';
 import SearchBox from '^/components/molecules/searchBox';
@@ -32,10 +32,6 @@ function HeaderPrimary({ toggleTheme }: Props) {
       <Inner>
         <LogoWrapper to="/">
           <Logo />
-          <SubLogo>
-            <p>여자 둘이 살 집을 구하는 여정</p>
-            <p>Since 2021</p>
-          </SubLogo>
         </LogoWrapper>
         <SearchBox />
         <NavList>

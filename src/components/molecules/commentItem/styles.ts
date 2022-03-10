@@ -30,9 +30,6 @@ const Icon = css`
   font-size: 1rem;
   cursor: pointer;
   margin-left: 0.5rem;
-
-  & + & {
-  }
 `;
 
 export const DeleteIcon = styled(IoTrash)`
@@ -72,12 +69,24 @@ export const ReactMoment = styled(Moment)`
   margin-left: auto;
 `;
 
-export const ButtonWrapper = styled.div``;
+export const ButtonWrapper = styled.div`
+  margin: 1.5rem 0 0 135px;
+`;
+
+export const Button = styled.button`
+  background-color: ${({ theme }) => theme.palette.main};
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 export const ReplyIcon = styled(VscDiffAdded)`
-  ${Icon}
+  font-size: 1.25rem;
+  cursor: pointer;
 `;
 
 export const CancelIcon = styled(VscDiffRemoved)`
-  ${Icon}
+  font-size: 1.25rem;
+  cursor: pointer;
 `;
