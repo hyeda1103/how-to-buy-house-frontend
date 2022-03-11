@@ -1,5 +1,4 @@
-import styled, { css } from 'styled-components';
-import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import { ReactComponent as LogoImage } from '^/assets/logo/primary.svg';
 
 export const Container = styled.header`
@@ -13,56 +12,36 @@ export const Container = styled.header`
 
 export const Inner = styled.div`
   position: relative;
-  width: 1200px;
+  width: 1440px;
   height: 100%;
   margin: 0 auto;
+  padding: 24px 62px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 `;
 
-export const LogoWrapper = styled(Link)`
-  display: flex;
-  align-items: center;
-`;
-
 export const Logo = styled(LogoImage)`
   display: inline-block;
-  height: 26px;
+  height: 40px;
   margin: auto 0;
 `;
 
-export const SubLogo = styled.div`
-  margin-left: 24px;  
-  color: ${({ theme }) => theme.palette.hint};
-  p {
-    font-size: 8px;
-    font-weight: 500;
-    line-height: 9.6px;
-
-    &:last-child {
-      margin-top: 3px;
-    }
-  }
+export const Wrapper = styled.div`
+  display: flex;
+  width: 618px;
+  justify-content: space-between;
 `;
 
-export const NavList = styled.div`
+export const NavList = styled.ul`
   display: flex;
   align-items: center;
 `;
 
-const Item = css`
-  margin: 0 0.5rem;
+export const NavItem = styled.li`
   color: ${({ theme }) => theme.palette.nav.item};
-`;
-
-export const NavItem = styled(Link)`
-  ${Item}
   font-size: 13px;
-`;
-
-export const NavItemWithNoLink = styled.span`
-  ${Item}
-  font-size: 14px;
+  font-weight: 700;
+  list-style: none;
   cursor: pointer;
 `;

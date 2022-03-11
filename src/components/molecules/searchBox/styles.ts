@@ -2,22 +2,23 @@ import styled from 'styled-components';
 
 export const SearchWrapper = styled.div`
   display: flex;
-  gap: 130px;
   align-items: center;
+  gap: 53px;
 `;
 
 export const Form = styled.form`
   position: relative;
+  height: 38px;
 `;
 
 export const SearchInput = styled.input`
   position: relative;
   border: none;
   border-bottom: 2px solid #757575;
-  width: 560px;
-  height: 35px;
+  width: 380px;
+  height: 100%;
   outline: none;
-  padding: 0 1px;
+  padding: 0 24px 0 1px;
   font-size: 13px;
   line-height: 15.23px;
 
@@ -38,8 +39,9 @@ export const SearchInput = styled.input`
 export const SearchIcon = styled.img`
   position: absolute;
   display: inline-block;
-  right: 1px;
-  bottom: 8.39px;
-  width: 18.22px;
-  height: 18.22px;
+  height: 18px;
+  width: 18px;
+  top: 50%;
+  margin-top: -9px;
+  right: 2px;
 `;

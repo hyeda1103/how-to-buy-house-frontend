@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 
-import {
-  Container, Inner, Logo, NavList, NavItem, NavItemWithNoLink, SubLogo, LogoWrapper,
-} from './styles';
 import Toggle from '^/components/atoms/toggleButton';
 import SearchBox from '^/components/molecules/searchBox';
 import { RootState } from '^/store';
 import { logoutAction } from '^/store/slices/user';
-import HeaderPrimary from './primary';
-import HeaderSecondary from './secondary';
+import ProfileDropdown from '^/components/molecules/profileDropDown';
+import {
+  Container, Inner, Logo, NavList, NavItem, Wrapper,
+} from './styles';
 
 interface Props {
   toggleTheme: () => void
@@ -29,11 +29,50 @@ function Header({ toggleTheme }: Props) {
     }
   }, [userAuth, userUpdated]);
 
+  const options = [{
+    label: 'logout',
+    value: 'logout',
+    action: () => dispatch(logoutAction()),
+  }];
+
   return (
-    <>
-      <HeaderPrimary toggleTheme={toggleTheme} />
-      {userAuth?.isAdmin && <HeaderSecondary />}
-    </>
+    <Container>
+      <Inner>
+        <Link to="/">
+          <Logo />
+        </Link>
+        <Wrapper>
+          <SearchBox />
+          <NavList>
+            {userAuth ? (
+              <>
+                <ProfileDropdown
+                  defaultValue={userName}
+                />
+                {/* <Link to={`/profile/${userAuth?._id}`}>
+                  <NavItem>
+                    {userName}
+                    님
+                  </NavItem>
+                </Link>
+                <NavItem onClick={() => dispatch(logoutAction())}>
+                  로그아웃
+                </NavItem> */}
+              </>
+            ) : (
+              <Link to="/login">
+                <NavItem>
+                  로그인
+                </NavItem>
+              </Link>
+            )}
+            {/* <NavItem>
+              <Toggle themeToggler={toggleTheme} />
+            </NavItem> */}
+          </NavList>
+        </Wrapper>
+      </Inner>
+    </Container>
   );
 }
 

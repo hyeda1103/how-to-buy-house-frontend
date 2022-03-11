@@ -2,6 +2,7 @@ import React, { ComponentType } from 'react';
 import ReactSelect, {
   components, ActionMeta, SingleValue, StylesConfig, DropdownIndicatorProps, MenuListProps, GroupBase, Options,
 } from 'react-select';
+import { ReactComponent as CaretUpIcon } from '^/assets/icons/caretUp.svg';
 import { ReactComponent as CaretDownIcon } from '^/assets/icons/caretDown.svg';
 
 interface Option {
@@ -17,9 +18,10 @@ interface Props {
 }
 
 function DropdownIndicator(props: DropdownIndicatorProps<Option, false, GroupBase<Option>>) {
+  const { isFocused } = props;
   return (
     <components.DropdownIndicator {...props}>
-      <CaretDownIcon />
+      {isFocused ? <CaretUpIcon /> : <CaretDownIcon />}
     </components.DropdownIndicator>
   );
 }
@@ -33,6 +35,7 @@ function Dropdown({
   return (
     <ReactSelect
       options={options}
+      defaultValue={options[0]}
       onChange={handleChange}
       noOptionsMessage={() => 'No Options'}
       placeholder={placeholder}
