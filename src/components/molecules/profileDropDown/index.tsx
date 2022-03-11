@@ -1,7 +1,8 @@
 import React, {
   useRef, useState,
 } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
 import {
   DropDownContainer, DropDownHeader, DropDownList, DropDownListContainer, ListItem,
 } from './styles';
@@ -9,12 +10,8 @@ import { ReactComponent as CaretUp } from '^/assets/icons/caretUp.svg';
 import { ReactComponent as CaretDown } from '^/assets/icons/caretDown.svg';
 import useOutsideClick from '^/hooks/useOutsideClick';
 import { logoutAction } from '^/store/slices/user';
-
-interface Option {
-  value: string
-  label: string
-  action: () => void
-}
+import { RootState } from '^/store';
+import { ReactComponent as ArrowRight } from '^/assets/icons/arrowRight.svg';
 
 interface Props {
   defaultValue?: string
@@ -23,27 +20,20 @@ interface Props {
 function Dropdown({ defaultValue }: Props) {
   const dispatch = useDispatch();
   const ref = useRef(null);
+  const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
   const toggling = () => setIsOpen(!isOpen);
 
-  const options = [{
-    value: 'logout',
-    label: '로그아웃',
-    action: () => dispatch(logoutAction()),
-  }];
-  const handleClick = (label: string) => () => {
-    setIsOpen(!isOpen);
-  };
+  const { userAuth } = useSelector((state: RootState) => state.auth);
 
-  useOutsideClick(ref, () => {
-    if (isOpen) setIsOpen(!isOpen);
-  });
+  useOutsideClick(ref, () => setIsOpen(!isOpen));
 
   return (
     <DropDownContainer>
-      <DropDownHeader isOpen={isOpen} onClick={toggling}>
-        <p>
-          {defaultValue}
+      <DropDownHeader id="dropdown-header" isOpen={isOpen} onClick={toggling}>
+        <img src={userAuth?.profilePhoto} alt={userAuth?.name} />
+        <p id="dropdown-default">
+          {userAuth?.name}
         </p>
         {isOpen
           ? <CaretUp />
@@ -52,11 +42,29 @@ function Dropdown({ defaultValue }: Props) {
       {isOpen && (
       <DropDownListContainer ref={ref}>
         <DropDownList>
-          {options && Object.values(options).map((option) => (
-            <ListItem onClick={option.action} key={option.value}>
-              {option.label}
-            </ListItem>
-          ))}
+          <ListItem onClick={() => {
+            history.push(`/profile/${userAuth?._id}`);
+            setIsOpen(!isOpen);
+          }}
+          >
+            <img src={userAuth?.profilePhoto} alt={userAuth?.name} />
+            <div>
+              <p>
+                {userAuth?.name}
+              </p>
+              <Link to={`/profile/${userAuth?._id}`}>
+                <p>마이페이지</p>
+                <ArrowRight />
+              </Link>
+            </div>
+          </ListItem>
+          <ListItem onClick={() => {
+            dispatch(logoutAction());
+            setIsOpen(!isOpen);
+          }}
+          >
+            로그아웃
+          </ListItem>
         </DropDownList>
       </DropDownListContainer>
       )}

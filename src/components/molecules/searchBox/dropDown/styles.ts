@@ -3,7 +3,6 @@ import styled from 'styled-components';
 export const DropDownContainer = styled.div`
   margin: 0 auto;
   z-index: 999;
-  width: 96px;
 `;
 
 export const DropDownHeader = styled.div<{ isOpen: boolean }>`

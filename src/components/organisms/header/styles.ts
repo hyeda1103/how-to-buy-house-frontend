@@ -29,7 +29,7 @@ export const Logo = styled(LogoImage)`
 
 export const Wrapper = styled.div`
   display: flex;
-  width: 618px;
+  width: 645px;
   justify-content: space-between;
 `;
 

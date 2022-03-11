@@ -8,8 +8,8 @@ function useOutsideClick(
 ) {
   useEffect(() => {
     const listener = (e: any) => {
-      console.log((e.target as HTMLElement).id);
-      if (!ref.current || ref.current.contains(e.target) || e.currentTarget.id?.indexOf('dropdown')) {
+      if ((e.target as HTMLElement).id.startsWith('dropdown')) return;
+      if (!ref.current || ref.current.contains(e.target)) {
         return;
       }
       handler(e);
