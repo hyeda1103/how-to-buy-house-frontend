@@ -13,16 +13,7 @@ import {
   Container,
 } from './styles';
 
-interface Props {
-  match: {
-    params: {
-      keyword?: string
-      pageNumber?: number
-    }
-  }
-}
-
-function SearchResultPage({ match }: Props): JSX.Element {
+function SearchResultPage(): JSX.Element {
   const { search } = useLocation();
   const { keyword, category } = queryString.parse(search);
 

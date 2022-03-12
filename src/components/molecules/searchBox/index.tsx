@@ -1,13 +1,11 @@
 import React, {
-  ChangeEvent, FormEventHandler, useState, useEffect, useCallback,
+  ChangeEvent, FormEventHandler, useState, useEffect, useCallback, ChangeEventHandler,
 } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { StylesConfig } from 'react-select';
-import { DefaultTheme } from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 
 import SearchIconImage from '^/assets/icons/searchIcon.svg';
-import Dropdown from '^/components/atoms/dropDown';
 import { Category } from '^/types';
 import { RootState } from '^/store';
 import { fetchCategoriesAction } from '^/store/slices/category';
@@ -17,103 +15,15 @@ import {
   SearchInput,
   SearchIcon,
 } from './styles';
+import DropDown from './dropDown';
 
 interface Props {
   history: RouteComponentProps['history']
 }
 interface Option {
-  value: string | null
+  value: string
   label: string
 }
-
-const customStyles: StylesConfig<Option, false> = {
-  control: (provided, state) => ({
-    ...provided,
-    background: '#ffffff',
-    fontSize: '13px',
-    border: 'none',
-    color: '#737575',
-    minHeight: '24px',
-    height: '24px',
-    boxShadow: state.isFocused ? '0' : '0',
-    cursor: 'pointer',
-  }),
-  // 선택 옵션
-  option: (provided, state) => ({
-    ...provided,
-    display: 'inline',
-    padding: '1px 5px',
-    margin: '2px',
-    borderRadius: '5px',
-    backgroundColor: '#4D75D9',
-    color: '#ffffff',
-    fontSize: '13px',
-    cursor: 'pointer',
-
-    '&:hover': {
-      backgroundColor: '#3C48C9',
-      color: '#ffffff',
-    },
-  }),
-  input: (provided) => ({
-    ...provided,
-    height: '24px',
-    width: 'auto',
-    margin: 0,
-    padding: 0,
-  }),
-  valueContainer: (provided) => ({
-    ...provided,
-    height: '24px',
-    width: 'auto',
-    margin: 0,
-    padding: 0,
-  }),
-  // 선택한 값
-  singleValue: (provided) => ({
-    ...provided,
-    color: '#737575',
-  }),
-  indicatorsContainer: (provided) => ({
-    ...provided,
-    height: '24px',
-  }),
-  indicatorSeparator: (provided) => ({
-    ...provided,
-    height: '0',
-  }),
-  menuPortal: (provided) => ({
-    ...provided,
-    zIndex: 999,
-    padding: 0,
-
-  }),
-  menuList: (provided) => ({
-    ...provided,
-    position: 'fixed',
-    padding: '8px',
-    width: '240px',
-    maxHeight: '120px',
-    display: 'inline',
-    backgroundColor: '#ffffff',
-    borderRadius: '5px',
-    boxShadow: '1px 1px 5px #888888',
-
-    '::-webkit-scrollbar': {
-      width: '4px',
-      height: '0px',
-    },
-    '::-webkit-scrollbar-track': {
-      background: '#f1f1f1',
-    },
-    '::-webkit-scrollbar-thumb': {
-      background: '#888',
-    },
-    '::-webkit-scrollbar-thumb:hover': {
-      background: '#555',
-    },
-  }),
-};
 
 function SearchBox({ history }: Props) {
   const dispatch = useDispatch();
@@ -142,13 +52,14 @@ function SearchBox({ history }: Props) {
     setOptions(selectOptions);
   }, [categoryList]);
 
-  const handleSelectChange = useCallback((e) => {
-    setCategory(e.label);
-    history.push(`/search?keyword=${keyword}&category=${e.label}`);
-  }, [keyword]);
-
   return (
     <SearchWrapper>
+      {options && (
+        <DropDown
+          options={options}
+          defaultValue="카테고리"
+        />
+      )}
       <Form onSubmit={handleSubmit}>
         <SearchInput
           type="text"
@@ -157,14 +68,6 @@ function SearchBox({ history }: Props) {
         />
         <SearchIcon src={SearchIconImage} alt="search_icon" />
       </Form>
-      {options && (
-        <Dropdown
-          options={options}
-          handleChange={handleSelectChange}
-          placeholder="카테고리"
-          customStyles={customStyles}
-        />
-      )}
     </SearchWrapper>
   );
 }

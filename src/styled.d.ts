@@ -14,8 +14,10 @@ interface IPalette {
     item: string
   },
   dropdown: {
+    value: string,
     option: string,
     hover: string,
+    focus: string,
   },
   guide: {
     background: string
