@@ -68,11 +68,6 @@ function PostCard({ post }: Props) {
             <PostedDate>
               <DateFormatter date={post?.createdAt} />
             </PostedDate>
-            <Description dangerouslySetInnerHTML={{
-              __html: Dompurify.sanitize(post?.description),
-            }}
-            />
-
           </PostDetails>
         </Link>
         {/* User Avatar */}
