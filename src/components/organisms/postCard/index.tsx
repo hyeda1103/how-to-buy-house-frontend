@@ -1,7 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import Dompurify from 'dompurify';
 
 import { toggleAddLikesToPost, toggleAddDisLikesToPost } from '^/store/slices/post';
 import DateFormatter from '^/utils/dateFormatter';
@@ -15,10 +14,7 @@ import {
   ThumbsUpIcon,
   ThumbsDownIcon,
   EyeIcon,
-  AuthorInfoWrapper,
-  ProfilePhoto,
   Title,
-  Description,
   PostedDate,
   PostDetails,
 } from './styles';
@@ -39,6 +35,10 @@ function PostCard({ post }: Props) {
       <InfoWrapper>
         {/* Likes, views disLikes */}
         <StatsWrapper>
+          
+            <Title>
+              {post?.title}
+            </Title>
           {/* Likes */}
           <StatItem>
             {/* Togle like  */}
@@ -49,40 +49,13 @@ function PostCard({ post }: Props) {
           </StatItem>
           {/* Dislike */}
           <StatItem>
-            <ThumbsDownIcon
-              onClick={() => dispatch(toggleAddDisLikesToPost(post?._id))}
-            />
-            {post?.disLikes?.length}
-          </StatItem>
-          {/* Views */}
-          <StatItem>
             <EyeIcon />
             {post?.viewCounts}
           </StatItem>
         </StatsWrapper>
         <Link to={`/posts/${post?._id}`}>
           <PostDetails>
-            <Title>
-              {post?.title}
-            </Title>
-            <PostedDate>
-              <DateFormatter date={post?.createdAt} />
-            </PostedDate>
           </PostDetails>
-        </Link>
-        {/* User Avatar */}
-        <Link
-          to={`/profile/${post?.user?._id}`}
-        >
-          <AuthorInfoWrapper>
-            <ProfilePhoto
-              src={post?.user?.profilePhoto}
-              alt={post?.user?.name}
-            />
-            <p>
-              {post?.user?.name}
-            </p>
-          </AuthorInfoWrapper>
         </Link>
       </InfoWrapper>
     </Card>

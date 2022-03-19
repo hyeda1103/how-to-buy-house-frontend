@@ -3,7 +3,7 @@ import { IoThumbsUp, IoThumbsDown, IoEye } from 'react-icons/io5';
 
 export const Grid = styled.div`
   display: grid;
-  grid-template-columns: 1fr 5fr ;
+  grid-template-columns: 1fr 5fr;
   gap: 1rem;
 `;
 
@@ -19,9 +19,6 @@ export const Card = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
-  border: ${({ theme }) => `1px solid ${theme.palette.contrastText}`};
-  border-radius: 4px;
-  overflow: hidden;
 `;
 
 export const Thumbnail = styled.img`
@@ -32,14 +29,12 @@ export const Thumbnail = styled.img`
 
 export const InfoWrapper = styled.div`
   display: flex;
-  flex-direction: column;
   gap: 1rem;
-  padding: 12px 20px;
+  padding: 16px 0;
 `;
 
 export const StatsWrapper = styled.div`
   display: flex;
-  gap: 1rem;
   justify-content: space-between;
 `;
 
@@ -84,41 +79,11 @@ export const PostDetails = styled.div`
 `;
 
 export const Title = styled.h3`
-  font-size: 1.25rem;
-  margin-bottom: 0.5rem;
+  font-size: 14px;
 `;
 
 export const PostedDate = styled.time`
   display: flex;
   justify-content: flex-end;
   margin-bottom: 0.5rem;
-`;
-
-export const Description = styled.div`
-  word-break: break-word;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  line-height: 1.5; /* fallback */
-  max-height: 1.5; /* fallback */
-  -webkit-line-clamp: 3; /* number of lines to show */
-  -webkit-box-orient: vertical;
-  margin-bottom: 1rem;
-`;
-
-export const CategoryWrapper = styled.div`
-`;
-
-export const CategoryList = styled.ul`
-  list-style: none;
-`;
-
-export const CategoryItem = styled.li`
-  cursor: pointer;
-  padding: 6px 10px;
-  border: 1px solid ${({ theme }) => theme.palette.contrastText};
-
-  & + & {
-    margin-top: 1rem;
-  }
 `;
