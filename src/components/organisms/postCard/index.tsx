@@ -1,27 +1,20 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import Dompurify from 'dompurify';
 
-import { toggleAddLikesToPost, toggleAddDisLikesToPost } from '^/store/slices/post';
-import DateFormatter from '^/utils/dateFormatter';
+import { toggleAddLikesToPost } from '^/store/slices/post';
 import * as T from '^/types';
+import { ReactComponent as HeartIcon } from '^/assets/icons/heart.svg';
+import { ReactComponent as ViewIcon } from '^/assets/icons/view.svg';
 import {
   Card,
   InfoWrapper,
   StatsWrapper,
   StatItem,
   Thumbnail,
-  ThumbsUpIcon,
-  ThumbsDownIcon,
-  EyeIcon,
-  AuthorInfoWrapper,
-  ProfilePhoto,
   Title,
-  Description,
-  PostedDate,
-  PostDetails,
 } from './styles';
+import CountFormatter from '^/utils/countFormatter';
 
 interface Props {
   post: T.Post
@@ -30,62 +23,38 @@ interface Props {
 function PostCard({ post }: Props) {
   const dispatch = useDispatch();
   return (
-    <Card key={post?._id}>
-      {/* Post image */}
-      <Thumbnail
-        src={post?.image}
-        alt={post?.title}
-      />
-      <InfoWrapper>
-        {/* Likes, views disLikes */}
-        <StatsWrapper>
-          {/* Likes */}
-          <StatItem>
-            {/* Togle like  */}
-            <ThumbsUpIcon
-              onClick={() => dispatch(toggleAddLikesToPost(post?._id))}
-            />
-            {post?.likes?.length}
-          </StatItem>
-          {/* Dislike */}
-          <StatItem>
-            <ThumbsDownIcon
-              onClick={() => dispatch(toggleAddDisLikesToPost(post?._id))}
-            />
-            {post?.disLikes?.length}
-          </StatItem>
-          {/* Views */}
-          <StatItem>
-            <EyeIcon />
-            {post?.viewCounts}
-          </StatItem>
-        </StatsWrapper>
-        <Link to={`/posts/${post?._id}`}>
-          <PostDetails>
-            <Title>
-              {post?.title}
-            </Title>
-            <PostedDate>
-              <DateFormatter date={post?.createdAt} />
-            </PostedDate>
-          </PostDetails>
-        </Link>
-        {/* User Avatar */}
-        <Link
-          to={`/profile/${post?.user?._id}`}
-        >
-          <AuthorInfoWrapper>
-            <ProfilePhoto
-              src={post?.user?.profilePhoto}
-              alt={post?.user?.name}
-            />
-            <p>
-              {post?.user?.name}
-            </p>
-          </AuthorInfoWrapper>
-        </Link>
-      </InfoWrapper>
-    </Card>
+    <Link to={`/posts/${post?._id}`}>
+      <Card key={post?._id}>
+        {/* Post image */}
+        <Thumbnail
+          src={post?.image}
+          alt={post?.title}
+        />
+        <InfoWrapper>
+          <Title>
+            {post?.title}
+          </Title>
+          {/* Likes, views disLikes */}
+          <StatsWrapper>
+            {/* Likes */}
+            {post?.likes && (
+              <StatItem>
+                {/* Togle like  */}
+                <HeartIcon onClick={() => dispatch(toggleAddLikesToPost(post?._id))} />
+                <CountFormatter count={post?.likes.length} />
+              </StatItem>
+            )}
+            {/* Dislike */}
+            {post?.viewCounts && (
+              <StatItem>
+                <ViewIcon />
+                <CountFormatter count={post?.viewCounts} />
+              </StatItem>
+            )}
+          </StatsWrapper>
+        </InfoWrapper>
+      </Card>
+    </Link>
   );
 }
 

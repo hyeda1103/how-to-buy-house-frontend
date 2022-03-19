@@ -1,27 +1,9 @@
-import styled, { css } from 'styled-components';
-import { IoThumbsUp, IoThumbsDown, IoEye } from 'react-icons/io5';
-
-export const Grid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 5fr ;
-  gap: 1rem;
-`;
-
-export const MainGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-`;
-
-export const SubGrid = styled.div``;
+import styled from 'styled-components';
 
 export const Card = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
-  border: ${({ theme }) => `1px solid ${theme.palette.contrastText}`};
-  border-radius: 4px;
-  overflow: hidden;
 `;
 
 export const Thumbnail = styled.img`
@@ -32,93 +14,40 @@ export const Thumbnail = styled.img`
 
 export const InfoWrapper = styled.div`
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   gap: 1rem;
-  padding: 12px 20px;
+  padding: 17px 0;
 `;
 
 export const StatsWrapper = styled.div`
   display: flex;
-  gap: 1rem;
   justify-content: space-between;
 `;
 
 export const StatItem = styled.div`
   display: flex;
-  gap: 0.5rem;
-`;
-
-const Icon = css`
-  cursor: pointer;
-`;
-
-export const ThumbsUpIcon = styled(IoThumbsUp)`
-  ${Icon}
-`;
-
-export const ThumbsDownIcon = styled(IoThumbsDown)`
-  ${Icon}
-`;
-
-export const EyeIcon = styled(IoEye)``;
-
-export const AuthorInfoWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  gap: .5rem;
+  margin-right: 5px;
   align-items: center;
-  margin-bottom: .5rem;
-`;
+  gap: 1px;
 
-export const ProfilePhoto = styled.img`
-  position: relative;
-  object-fit: contain;
-  width: 1.75rem;
-  height: 1.75rem;
-  border-radius: 50%;
-  overflow: hidden;
-`;
+  &:last-child {
+    margin-right: 0;
+  }
 
-export const PostDetails = styled.div`
-  margin: 1rem 0;
+  svg {
+    fill: ${({ theme }) => theme.palette.contrastText}
+  }
+
+  p {
+    font-size: 11px;
+    font-weight: 700;
+  }
 `;
 
 export const Title = styled.h3`
-  font-size: 1.25rem;
-  margin-bottom: 0.5rem;
-`;
-
-export const PostedDate = styled.time`
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 0.5rem;
-`;
-
-export const Description = styled.div`
-  word-break: break-word;
+  font-size: 14px;
+  width: 115px;
+  white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  line-height: 1.5; /* fallback */
-  max-height: 1.5; /* fallback */
-  -webkit-line-clamp: 3; /* number of lines to show */
-  -webkit-box-orient: vertical;
-  margin-bottom: 1rem;
-`;
-
-export const CategoryWrapper = styled.div`
-`;
-
-export const CategoryList = styled.ul`
-  list-style: none;
-`;
-
-export const CategoryItem = styled.li`
-  cursor: pointer;
-  padding: 6px 10px;
-  border: 1px solid ${({ theme }) => theme.palette.contrastText};
-
-  & + & {
-    margin-top: 1rem;
-  }
+  text-overflow: ellipsis;  /* 말줄임 적용 */
 `;

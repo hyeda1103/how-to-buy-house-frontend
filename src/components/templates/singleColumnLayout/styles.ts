@@ -10,5 +10,5 @@ export const Inner = styled.main`
   width: 960px;
   height: 100%;
   margin: 0 auto;
-  padding: 203px 0;
+  padding: 176px 0;
 `;
