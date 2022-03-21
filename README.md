@@ -4,10 +4,10 @@
 <br />
 <div align="center">
   <a href="https://github.com/hyeda1103/how-to-buy-house-frontend">
-    <img src="src/assets/logo/secondary.svg" alt="primary-logo" width="auto" height="80">
+    <img src="src/assets/logo/primary.svg" alt="primary-logo" width="auto" height="80">
   </a>
 
-  <h3 align="center">Blog App to document our journey to buy house</h3>
+  <h3 align="center">Blog App to document our journey to buy a house👩🏻‍🤝‍👩🏻</h3>
 </div>
 
 
