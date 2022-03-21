@@ -2,9 +2,9 @@
 
 <!-- PROJECT LOGO -->
 <br />
-<div align="center">
+<div align="center">Cancel changes
   <a href="https://github.com/hyeda1103/how-to-buy-house-frontend">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="src/assets/logo/primary.svg" alt="primary-logo" width="auto" height="80">
   </a>
 
   <h3 align="center">Best-README-Template</h3>
