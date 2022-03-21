@@ -103,8 +103,7 @@ Blog App to document our journey to buy a house🌹
 - [ ] Add Additional Templates w/ Examples
 - [ ] Add "components" document to easily copy & paste sections of the readme
 - [ ] Multi-language Support
-    - [ ] Chinese
-    - [ ] Spanish
+    - [ ] English
 
 See the [open issues](https://github.com/hyeda1103/how-to-buy-house-frontend/issues) for a full list of proposed features (and known issues).
 
