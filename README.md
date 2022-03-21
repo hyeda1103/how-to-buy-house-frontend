@@ -34,7 +34,6 @@
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
@@ -56,7 +55,7 @@ Of course, no one template will serve all projects since your needs may be diffe
 
 Use the `BLANK_README.md` to get started.
 
-<p align="right">(<a href="#top">⬆</a>)</p>
+<p align="right"><a href="#top">⬆</a></p>
 
 
 
@@ -69,7 +68,7 @@ This section should list any major frameworks/libraries used to bootstrap your p
 * [styled-components](https://styled-components.com/)
 * [react-quill](https://www.npmjs.com/package/react-quill)
 
-<p align="right">(<a href="#top">⬆</a>)</p>
+<p align="right"><a href="#top">⬆</a></p>
 
 
 
@@ -98,7 +97,7 @@ _Below is an example of how you can instruct your audience on installing and set
    ```
 
 
-<p align="right">(<a href="#top">⬆</a>)</p>
+<p align="right"><a href="#top">⬆</a></p>
 
 
 
@@ -109,7 +108,7 @@ Use this space to show useful examples of how a project can be used. Additional 
 
 _For more examples, please refer to the [Documentation](https://example.com)_
 
-<p align="right">(<a href="#top">⬆</a>)</p>
+<p align="right"><a href="#top">⬆</a></p>
 
 
 
@@ -127,7 +126,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
 
 
-<p align="right">(<a href="#top">⬆</a>)</p>
+<p align="right"><a href="#top">⬆</a></p>
 
 
 
@@ -146,7 +145,7 @@ Don't forget to give the project a star! Thanks again!
 5. Open a Pull Request
 
 
-<p align="right">(<a href="#top">⬆</a>)</p>
+<p align="right"><a href="#top">⬆</a></p>
 
 
 
@@ -156,7 +155,7 @@ Don't forget to give the project a star! Thanks again!
 Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 
-<p align="right">(<a href="#top">⬆</a>)</p>
+<p align="right"><a href="#top">⬆</a></p>
 
 
 
