@@ -144,10 +144,11 @@ Distributed under the MIT License.
 <!-- CONTACT -->
 ## Contact
 
+#### Members
 - Dahye Ko, Web Developer dalgona92@gmail.com
 - Yeaheun Jo, UIUX Designer - sky97eun@gmail.com
 
-Project Link
+#### Project Link
 - [https://github.com/hyeda1103/how-to-buy-house-frontend](https://github.com/hyeda1103/how-to-buy-house-frontend)
 - [https://github.com/hyeda1103/how-to-buy-house-backend](https://github.com/hyeda1103/how-to-buy-house-backend)
 
