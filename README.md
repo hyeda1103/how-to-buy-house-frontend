@@ -85,7 +85,7 @@ Blog App to document our journey to buy a house🌹
 
 <!-- USAGE EXAMPLES -->
 ## Main Features
-- Users can comment on the posts 
+- Users can leave comments on the posts 
   - Add, Edit and Delete their own comments
   - The depth of nesting comments is 3 (parent & two childeren)
 - Admin can manage the list of categories, posts and users as belows:
