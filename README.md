@@ -84,7 +84,8 @@
 ## Main Features
 - Users can add, edit and delete their own comments
 - The depth of nesting comments is 3 (parent & two childeren)
-- 
+- Admin can manage the list of categories, posts and users as belows:
+  - Block or UnBlock the user
 
 <p align="right"><a href="#top">⬆</a></p>
 
