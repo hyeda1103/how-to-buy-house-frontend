@@ -81,10 +81,10 @@
 
 
 <!-- USAGE EXAMPLES -->
-## Usage
-
-1. rich-text-editor
-2. nested-comments
+## Main Features
+- Users can add, edit and delete their own comments
+- The depth of nesting comments is 3 (parent & two childeren)
+- 
 
 <p align="right"><a href="#top">⬆</a></p>
 
