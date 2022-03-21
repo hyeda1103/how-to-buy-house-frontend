@@ -107,7 +107,10 @@ See the [open issues](https://github.com/hyeda1103/how-to-buy-house-frontend/iss
 
 <p align="right"><a href="#top">⬆</a></p>
 
-
+<!-- REFERENCES -->
+## Reference
+1. [nested comments](https://github.com/sunny0910/nested-comments)
+2. [React Text Editor Quill Editor Tutorial React JS Editor [1/2] Build a Blog](https://www.youtube.com/watch?v=AgreDlNaUn4)
 
 <!-- CONTRIBUTING -->
 ## Contributing
@@ -131,7 +134,7 @@ Don't forget to give the project a star! Thanks again!
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Distributed under the MIT License.
 
 
 <p align="right"><a href="#top">⬆</a></p>
