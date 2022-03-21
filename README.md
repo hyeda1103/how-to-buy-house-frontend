@@ -164,6 +164,8 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 Dahye Ko - dalgona92@gmail.com
 
-Project Link: [https://github.com/hyeda1103/how-to-buy-house-frontend](https://github.com/hyeda1103/how-to-buy-house-frontend)
+Project Link
+- [https://github.com/hyeda1103/how-to-buy-house-frontend](https://github.com/hyeda1103/how-to-buy-house-frontend)
+- [https://github.com/hyeda1103/how-to-buy-house-backend](https://github.com/hyeda1103/how-to-buy-house-backend)
 
-<p align="right">(<a href="#top">⬆</a>)</p>
+<p align="right"><a href="#top">⬆</a></p>
