@@ -145,6 +145,7 @@ Distributed under the MIT License.
 ## Contact
 
 Dahye Ko, Web Developer - dalgona92@gmail.com
+
 Yeaheun Joh, UIUX Designer - sky97eun@gmail.com
 
 Project Link
