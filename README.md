@@ -2,12 +2,12 @@
 
 <!-- PROJECT LOGO -->
 <br />
-<div align="center">Cancel changes
+<div align="center">
   <a href="https://github.com/hyeda1103/how-to-buy-house-frontend">
-    <img src="src/assets/logo/primary.svg" alt="primary-logo" width="auto" height="80">
+    <img src="src/assets/logo/secodary.svg" alt="primary-logo" width="auto" height="80">
   </a>
 
-  <h3 align="center">Best-README-Template</h3>
+  <h3 align="center">우리가 살 집을 찾는 여정을 기록하는 블로그</h3>
 
   <p align="center">
     An awesome README template to jumpstart your projects!
