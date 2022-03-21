@@ -4,23 +4,10 @@
 <br />
 <div align="center">
   <a href="https://github.com/hyeda1103/how-to-buy-house-frontend">
-    <img src="src/assets/logo/secodary.svg" alt="primary-logo" width="auto" height="80">
+    <img src="src/assets/logo/secondary.svg" alt="primary-logo" width="auto" height="80">
   </a>
 
-  <h3 align="center">우리가 살 집을 찾는 여정을 기록하는 블로그</h3>
-
-  <p align="center">
-    An awesome README template to jumpstart your projects!
-    <br />
-    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
-    ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Request Feature</a>
-  </p>
+  <h3 align="center">Blog App to document our journey to buy house</h3>
 </div>
 
 
