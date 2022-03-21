@@ -42,6 +42,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
+Blog App to document our journey to buy a house🌹
 
 <p align="right"><a href="#top">⬆</a></p>
 
