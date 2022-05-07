@@ -9,6 +9,7 @@ import { fetchPostsAction } from '^/store/slices/post';
 import SingleColumnLayout from '^/components/templates/singleColumnLayout';
 import PostCard from '^/components/organisms/postCard';
 import CategoryList from '^/components/organisms/categoryList';
+import NoResult from '^/components/organisms/noResult';
 import {
   Container,
 } from './styles';
@@ -34,7 +35,7 @@ function SearchResultPage(): JSX.Element {
     <SingleColumnLayout>
       <div>
         {error && (
-          <p>{error}</p>
+          <NoResult />
         )}
       </div>
       <Container>
