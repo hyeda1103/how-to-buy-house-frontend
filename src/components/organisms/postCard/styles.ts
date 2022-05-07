@@ -24,18 +24,24 @@ export const StatsWrapper = styled.div`
   justify-content: space-between;
 `;
 
-export const StatItem = styled.div`
+interface StyleProps {
+  disabled?: boolean
+  isLiked?: boolean
+}
+
+export const StatItem = styled.div<StyleProps>`
   display: flex;
   margin-right: 5px;
   align-items: center;
   gap: 1px;
+  cursor: ${({ disabled }) => (disabled ? 'default' : 'pointer')};
 
   &:last-child {
     margin-right: 0;
   }
 
   svg {
-    fill: ${({ theme }) => theme.palette.contrastText}
+    fill: ${({ theme, isLiked }) => (isLiked ? theme.palette.primary : theme.palette.contrastText)}
   }
 
   p {

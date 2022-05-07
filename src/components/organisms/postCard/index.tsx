@@ -1,5 +1,5 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { toggleAddLikesToPost } from '^/store/slices/post';
@@ -15,6 +15,7 @@ import {
   Title,
 } from './styles';
 import CountFormatter from '^/utils/countFormatter';
+import { RootState } from '^/store';
 
 interface Props {
   post: T.Post
@@ -22,39 +23,46 @@ interface Props {
 
 function PostCard({ post }: Props) {
   const dispatch = useDispatch();
+  const { userAuth } = useSelector((state: RootState) => state.auth);
+  const [isLiked, setIsLiked] = useState<boolean>(false);
+  const handleClick = () => {
+    dispatch(toggleAddLikesToPost(post?._id));
+    console.log(post?.likes);
+  };
+
   return (
-    <Link to={`/posts/${post?._id}`}>
-      <Card key={post?._id}>
+    <Card key={post?._id}>
+      <Link to={`/posts/${post?._id}`}>
         {/* Post image */}
         <Thumbnail
           src={post?.image}
           alt={post?.title}
         />
-        <InfoWrapper>
-          <Title>
-            {post?.title}
-          </Title>
-          {/* Likes, views disLikes */}
-          <StatsWrapper>
-            {/* Likes */}
-            {post?.likes && (
-              <StatItem>
-                {/* Togle like  */}
-                <HeartIcon onClick={() => dispatch(toggleAddLikesToPost(post?._id))} />
-                <CountFormatter count={post?.likes.length} />
-              </StatItem>
-            )}
-            {/* Dislike */}
-            {post?.viewCounts && (
-              <StatItem>
-                <ViewIcon />
-                <CountFormatter count={post?.viewCounts} />
-              </StatItem>
-            )}
-          </StatsWrapper>
-        </InfoWrapper>
-      </Card>
-    </Link>
+      </Link>
+      <InfoWrapper>
+        <Title>
+          {post?.title}
+        </Title>
+        {/* Likes, views disLikes */}
+        <StatsWrapper>
+          {/* Likes */}
+          {post?.likes && (
+            <StatItem disabled={!userAuth} isLiked={isLiked}>
+              {/* Togle like  */}
+              <HeartIcon onClick={handleClick} />
+              <CountFormatter count={post?.likes.length} />
+            </StatItem>
+          )}
+          {/* Dislike */}
+          {post?.viewCounts && (
+            <StatItem>
+              <ViewIcon />
+              <CountFormatter count={post?.viewCounts} />
+            </StatItem>
+          )}
+        </StatsWrapper>
+      </InfoWrapper>
+    </Card>
   );
 }
 
